@@ -29,9 +29,7 @@ class BootLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(semanticsLabel: context.l10n.loading),
-    );
+    return LoadingView(semanticsLabel: context.l10n.loading);
   }
 }
 
@@ -46,63 +44,25 @@ class BootError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final message = error is AppFailure
-        ? failureMessage(error as AppFailure, context.l10n)
-        : context.l10n.errorGeneric;
-    return _CenteredColumn(
-      children: [
-        Icon(
-          Icons.cloud_off,
-          size: AppSizes.iconL,
-          color: context.colors.textMuted,
-        ),
-        const SizedBox(height: AppSpacing.m),
-        Text(message, textAlign: TextAlign.center),
-        const SizedBox(height: AppSpacing.l),
-        FilledButton(onPressed: onRetry, child: Text(context.l10n.retry)),
-      ],
+    final failure = error is AppFailure ? error as AppFailure : null;
+    return ErrorView(
+      icon: failure is NetworkFailure ? Icons.cloud_off : Icons.error_outline,
+      message: failure == null
+          ? context.l10n.errorGeneric
+          : failureMessage(failure, context.l10n),
+      action: ViewAction(label: context.l10n.retry, onPressed: onRetry),
     );
   }
 }
 
 /// A bad launch (missing or mismatched TENANT). This is a developer mistake,
-/// so the message comes from the environment check, not from ARB.
+/// so the message comes from the environment check, not from ARB, and there
+/// is nothing to retry.
 class StartupError extends StatelessWidget {
   const StartupError({required this.message, super.key});
 
   final String message;
 
   @override
-  Widget build(BuildContext context) {
-    return _CenteredColumn(
-      children: [
-        Icon(
-          Icons.error_outline,
-          size: AppSizes.iconL,
-          color: Theme.of(context).colorScheme.error,
-        ),
-        const SizedBox(height: AppSpacing.m),
-        Text(message, textAlign: TextAlign.center),
-      ],
-    );
-  }
-}
-
-class _CenteredColumn extends StatelessWidget {
-  const _CenteredColumn({required this.children});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppSizes.maxContentWidth),
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.l),
-          child: Column(mainAxisSize: MainAxisSize.min, children: children),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ErrorView(message: message);
 }
