@@ -1,0 +1,32 @@
+# Private working notes, not part of the submission
+/handoff/
+CLAUDE.md
+START_HERE.md
+
+# Dart / Flutter
+.dart_tool/
+.packages
+build/
+coverage/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+*.iml
+.idea/
+.vscode/
+
+# Android
+local.properties
+.gradle/
+key.properties
+*.jks
+*.keystore
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+**/GeneratedPluginRegistrant.*
+
+# OS
+.DS_Store
+Thumbs.db
