@@ -1,37 +1,13 @@
-import 'dart:typed_data';
-
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Records what would have gone over the wire. No network in tests.
-class _RecordingAdapter implements HttpClientAdapter {
-  final requests = <RequestOptions>[];
-
-  @override
-  Future<ResponseBody> fetch(
-    RequestOptions options,
-    Stream<Uint8List>? requestStream,
-    Future<void>? cancelFuture,
-  ) async {
-    requests.add(options);
-    return ResponseBody.fromString(
-      '{}',
-      200,
-      headers: {
-        Headers.contentTypeHeader: [Headers.jsonContentType],
-      },
-    );
-  }
-
-  @override
-  void close({bool force = false}) {}
-}
+import '../support/fake_http_adapter.dart';
 
 void main() {
   test('the tenant header is added to every request', () async {
-    final adapter = _RecordingAdapter();
+    final adapter = FakeHttpAdapter();
     final dio = Dio()
       ..httpClientAdapter = adapter
       ..interceptors.add(TenantInterceptor('acme'));
@@ -46,7 +22,7 @@ void main() {
   });
 
   test('the interceptor overwrites a tenant header set by a caller', () async {
-    final adapter = _RecordingAdapter();
+    final adapter = FakeHttpAdapter();
     final dio = Dio()
       ..httpClientAdapter = adapter
       ..interceptors.add(TenantInterceptor('acme'));
@@ -74,7 +50,7 @@ void main() {
     addTearDown(container.dispose);
 
     final dio = container.read(dioProvider);
-    final adapter = _RecordingAdapter();
+    final adapter = FakeHttpAdapter();
     dio.httpClientAdapter = adapter;
     await dio.get<dynamic>('/listings');
 
