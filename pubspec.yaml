@@ -5,8 +5,16 @@ publish_to: none
 environment:
   sdk: ^3.13.0
 
-# Members are added in step 1.3, once the packages exist.
-workspace: []
+# The app shell (apps/stays_app) joins in step 1.5.
+workspace:
+  - packages/core
+  - packages/design_system
+  - packages/l10n
+  - packages/listings
+  - packages/feature_auth
+  - packages/feature_browse
+  - packages/feature_favourites
+  - packages/feature_host
 
 dev_dependencies:
   flutter_lints: ^6.0.0
