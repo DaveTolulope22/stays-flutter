@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../tenant/tenant_environment_provider.dart';
+import 'auth_hooks_provider.dart';
+import 'auth_interceptor.dart';
 import 'tenant_interceptor.dart';
 
 part 'dio_provider.g.dart';
@@ -15,10 +17,17 @@ const _receiveTimeout = Duration(seconds: 20);
 Dio dio(Ref ref) {
   final environment = ref.watch(tenantEnvironmentProvider);
   return Dio(
-    BaseOptions(
-      baseUrl: environment.apiBaseUrl,
-      connectTimeout: _connectTimeout,
-      receiveTimeout: _receiveTimeout,
-    ),
-  )..interceptors.add(TenantInterceptor(environment.tenant));
+      BaseOptions(
+        baseUrl: environment.apiBaseUrl,
+        connectTimeout: _connectTimeout,
+        receiveTimeout: _receiveTimeout,
+      ),
+    )
+    ..interceptors.addAll([
+      TenantInterceptor(environment.tenant),
+      AuthInterceptor(
+        tokenGetter: ref.watch(authTokenGetterProvider),
+        onUnauthorized: ref.watch(unauthorizedCallbackProvider),
+      ),
+    ]);
 }
