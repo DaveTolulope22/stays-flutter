@@ -121,6 +121,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
+
+  /// Fallback for a rejected request (4xx) whose messageCode we do not know.
+  ///
+  /// In en, this message translates to:
+  /// **'The request could not be completed. Please try again.'**
+  String get errorRequestFailed;
+
+  /// Server errors (5xx), including error.internalServerError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong on our side. Please try again later.'**
+  String get errorServer;
+
+  /// error.tenantRequired and error.tenantUnknown: the build's tenant was not accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'This app is not set up correctly. Please update the app or contact support.'**
+  String get errorTenantSetup;
+
+  /// error.badCredentials: shown on the sign-in screen after a wrong login.
+  ///
+  /// In en, this message translates to:
+  /// **'The email address or password is incorrect.'**
+  String get errorBadCredentials;
+
+  /// error.userAlreadyExist: registering with an email that is taken.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with this email address already exists.'**
+  String get errorUserAlreadyExists;
+
+  /// error.fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all required fields.'**
+  String get errorFieldRequired;
+
+  /// error.badRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'That request was not valid. Please check your input and try again.'**
+  String get errorBadRequest;
+
+  /// auth.token.invalid.UnauthorizedException and any other 401.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please sign in again.'**
+  String get errorSessionExpired;
+
+  /// auth.forbidden.ForbiddenException and any other 403.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have access to this.'**
+  String get errorForbidden;
+
+  /// listing.NotFoundException.
+  ///
+  /// In en, this message translates to:
+  /// **'This listing could not be found.'**
+  String get errorListingNotFound;
+
+  /// route.NotFoundException and any other 404.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not find what you were looking for.'**
+  String get errorNotFound;
+
+  /// error.rangeTooLong: a date search or availability window over 366 days.
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose a shorter date range (up to one year).'**
+  String get errorRangeTooLong;
 }
 
 class _AppLocalizationsDelegate

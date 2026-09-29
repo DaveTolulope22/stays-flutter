@@ -35,9 +35,9 @@ class BootLoading extends StatelessWidget {
   }
 }
 
-/// Our own copy for a failed config load, chosen from the failure. Never the
-/// server's message. Step 3.5 replaces this small switch with the full
-/// messageCode mapping.
+/// Our own copy for a failed config load, chosen by [failureMessage]. Never
+/// the server's message. Anything that is not an [AppFailure] (a bug) gets the
+/// generic text.
 class BootError extends StatelessWidget {
   const BootError({required this.error, required this.onRetry, super.key});
 
@@ -46,8 +46,8 @@ class BootError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final message = error is NetworkFailure
-        ? context.l10n.errorNetwork
+    final message = error is AppFailure
+        ? failureMessage(error as AppFailure, context.l10n)
         : context.l10n.errorGeneric;
     return _CenteredColumn(
       children: [

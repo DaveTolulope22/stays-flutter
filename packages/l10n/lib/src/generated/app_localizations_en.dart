@@ -21,4 +21,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorRequestFailed =>
+      'The request could not be completed. Please try again.';
+
+  @override
+  String get errorServer =>
+      'Something went wrong on our side. Please try again later.';
+
+  @override
+  String get errorTenantSetup =>
+      'This app is not set up correctly. Please update the app or contact support.';
+
+  @override
+  String get errorBadCredentials =>
+      'The email address or password is incorrect.';
+
+  @override
+  String get errorUserAlreadyExists =>
+      'An account with this email address already exists.';
+
+  @override
+  String get errorFieldRequired => 'Please fill in all required fields.';
+
+  @override
+  String get errorBadRequest =>
+      'That request was not valid. Please check your input and try again.';
+
+  @override
+  String get errorSessionExpired =>
+      'Your session has expired. Please sign in again.';
+
+  @override
+  String get errorForbidden => 'You do not have access to this.';
+
+  @override
+  String get errorListingNotFound => 'This listing could not be found.';
+
+  @override
+  String get errorNotFound => 'We could not find what you were looking for.';
+
+  @override
+  String get errorRangeTooLong =>
+      'Please choose a shorter date range (up to one year).';
 }

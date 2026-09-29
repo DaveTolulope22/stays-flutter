@@ -217,8 +217,8 @@ void main() {
       expect(find.text('Acme Stays'), findsNothing);
     });
 
-    testWidgets('any other failure shows the generic copy, never the '
-        'server message', (tester) async {
+    testWidgets('a server failure with an unknown code shows the server-side '
+        'copy, never the code', (tester) async {
       stubFailure(
         const ServerFailure(statusCode: 500, messageCode: 'error.whatever'),
       );
@@ -226,8 +226,19 @@ void main() {
       await pumpApp(tester);
       await tester.pumpAndSettle();
 
-      expect(find.text(_copy('en').errorGeneric), findsOneWidget);
+      expect(find.text(_copy('en').errorServer), findsOneWidget);
       expect(find.textContaining('error.whatever'), findsNothing);
+    });
+
+    testWidgets('a failure with no status or code shows the generic copy', (
+      tester,
+    ) async {
+      stubFailure(const UnknownFailure());
+
+      await pumpApp(tester);
+      await tester.pumpAndSettle();
+
+      expect(find.text(_copy('en').errorGeneric), findsOneWidget);
     });
 
     testWidgets('the boot error follows the device language', (tester) async {

@@ -19,5 +19,65 @@
   "errorGeneric": "Something went wrong. Please try again.",
   "@errorGeneric": {
     "description": "Final fallback for any failure that has no more specific message."
+  },
+
+  "errorRequestFailed": "The request could not be completed. Please try again.",
+  "@errorRequestFailed": {
+    "description": "Fallback for a rejected request (4xx) whose messageCode we do not know."
+  },
+
+  "errorServer": "Something went wrong on our side. Please try again later.",
+  "@errorServer": {
+    "description": "Server errors (5xx), including error.internalServerError."
+  },
+
+  "errorTenantSetup": "This app is not set up correctly. Please update the app or contact support.",
+  "@errorTenantSetup": {
+    "description": "error.tenantRequired and error.tenantUnknown: the build's tenant was not accepted."
+  },
+
+  "errorBadCredentials": "The email address or password is incorrect.",
+  "@errorBadCredentials": {
+    "description": "error.badCredentials: shown on the sign-in screen after a wrong login."
+  },
+
+  "errorUserAlreadyExists": "An account with this email address already exists.",
+  "@errorUserAlreadyExists": {
+    "description": "error.userAlreadyExist: registering with an email that is taken."
+  },
+
+  "errorFieldRequired": "Please fill in all required fields.",
+  "@errorFieldRequired": {
+    "description": "error.fieldRequired."
+  },
+
+  "errorBadRequest": "That request was not valid. Please check your input and try again.",
+  "@errorBadRequest": {
+    "description": "error.badRequest."
+  },
+
+  "errorSessionExpired": "Your session has expired. Please sign in again.",
+  "@errorSessionExpired": {
+    "description": "auth.token.invalid.UnauthorizedException and any other 401."
+  },
+
+  "errorForbidden": "You do not have access to this.",
+  "@errorForbidden": {
+    "description": "auth.forbidden.ForbiddenException and any other 403."
+  },
+
+  "errorListingNotFound": "This listing could not be found.",
+  "@errorListingNotFound": {
+    "description": "listing.NotFoundException."
+  },
+
+  "errorNotFound": "We could not find what you were looking for.",
+  "@errorNotFound": {
+    "description": "route.NotFoundException and any other 404."
+  },
+
+  "errorRangeTooLong": "Please choose a shorter date range (up to one year).",
+  "@errorRangeTooLong": {
+    "description": "error.rangeTooLong: a date search or availability window over 366 days."
   }
 }

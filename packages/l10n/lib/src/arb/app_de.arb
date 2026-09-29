@@ -4,5 +4,17 @@
   "retry": "Erneut versuchen",
   "loading": "Wird geladen",
   "errorNetwork": "Der Server ist nicht erreichbar. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
-  "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+  "errorRequestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
+  "errorServer": "Auf unserer Seite ist etwas schiefgelaufen. Bitte versuchen Sie es später erneut.",
+  "errorTenantSetup": "Die App ist nicht richtig eingerichtet. Bitte aktualisieren Sie die App oder wenden Sie sich an den Support.",
+  "errorBadCredentials": "Die E-Mail-Adresse oder das Passwort ist nicht korrekt.",
+  "errorUserAlreadyExists": "Mit dieser E-Mail-Adresse existiert bereits ein Konto.",
+  "errorFieldRequired": "Bitte füllen Sie alle Pflichtfelder aus.",
+  "errorBadRequest": "Die Anfrage war ungültig. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
+  "errorSessionExpired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+  "errorForbidden": "Sie haben darauf keinen Zugriff.",
+  "errorListingNotFound": "Diese Unterkunft wurde nicht gefunden.",
+  "errorNotFound": "Wir haben nicht gefunden, wonach Sie gesucht haben.",
+  "errorRangeTooLong": "Bitte wählen Sie einen kürzeren Zeitraum (höchstens ein Jahr)."
 }
