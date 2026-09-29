@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'src/bootstrap.dart';
 
-import 'src/app.dart';
-
-void main() => runApp(const ProviderScope(child: StaysApp()));
+void main() => bootstrap();

@@ -125,6 +125,17 @@ void main() {
     });
   });
 
+  group('resolveBootLocale', () {
+    test('uses the device language when the app ships it', () {
+      expect(resolveBootLocale([const Locale('de')]).languageCode, 'de');
+    });
+
+    test('falls back to English for a language the app lacks', () {
+      expect(resolveBootLocale([const Locale('fr')]).languageCode, 'en');
+      expect(resolveBootLocale(null).languageCode, 'en');
+    });
+  });
+
   group('supportedLocalesFor', () {
     test('is the intersection of the tenant offer and app copy', () {
       expect(

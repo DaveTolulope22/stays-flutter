@@ -13,8 +13,23 @@ const _errorDark = Color(0xFFF2B8B5);
 /// widgets (buttons, text fields, app bars) use the tenant's colours instead
 /// of a default seed colour the tenant never sent. [AppColors] rides along in
 /// `extensions` for our own widgets.
-ThemeData buildTheme(Map<String, String> tokens, Brightness brightness) {
-  final colors = AppColors.fromTokens(tokens, brightness: brightness);
+ThemeData buildTheme(Map<String, String> tokens, Brightness brightness) =>
+    _themeFrom(
+      AppColors.fromTokens(tokens, brightness: brightness),
+      brightness,
+    );
+
+/// The neutral theme, for the moments before a tenant's palette exists (the
+/// boot screen). Unlike `buildTheme({})` it does not log missing tokens,
+/// because nothing is missing: there is simply no tenant yet.
+ThemeData buildNeutralTheme(Brightness brightness) => _themeFrom(
+  brightness == Brightness.dark
+      ? AppColors.neutralDark
+      : AppColors.neutralLight,
+  brightness,
+);
+
+ThemeData _themeFrom(AppColors colors, Brightness brightness) {
   final isDark = brightness == Brightness.dark;
 
   final scheme = ColorScheme(

@@ -113,6 +113,15 @@ void main() {
       expect(scheme.outline, const Color(0xFF777777));
     });
 
+    test('the neutral theme uses the neutral palette per brightness', () {
+      final light = buildNeutralTheme(Brightness.light);
+      final dark = buildNeutralTheme(Brightness.dark);
+
+      expect(light.extension<AppColors>(), AppColors.neutralLight);
+      expect(dark.extension<AppColors>(), AppColors.neutralDark);
+      expect(dark.brightness, Brightness.dark);
+    });
+
     test('builds a usable theme from an empty config', () {
       final theme = buildTheme({}, Brightness.light);
 

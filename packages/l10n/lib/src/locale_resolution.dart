@@ -49,3 +49,14 @@ Locale resolveLocale({
   }
   return match(_languageOf(defaultLocale)) ?? supported.first;
 }
+
+/// For screens shown before the tenant config exists (the boot screen): every
+/// language the app ships is on offer, and the baseline is the fallback.
+Locale resolveBootLocale(List<Locale>? deviceLocales) => resolveLocale(
+  deviceLocales: deviceLocales,
+  configLocales: [
+    _baselineLanguage,
+    ...AppLocalizations.supportedLocales.map((locale) => locale.languageCode),
+  ],
+  defaultLocale: _baselineLanguage,
+);
