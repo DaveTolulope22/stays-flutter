@@ -19,6 +19,7 @@ workspace:
 dev_dependencies:
   flutter_lints: ^6.0.0
   melos: ^8.9.0
+  riverpod_lint: ^3.1.9
 
 melos:
   scripts:
@@ -31,9 +32,9 @@ melos:
         dependsOn: build_runner
 
     analyze:
-      description: Static analysis with fatal infos, in every package.
+      description: Static analysis (dart analyze, so analyzer plugins run) with fatal infos.
       exec:
-        command: flutter analyze --fatal-infos
+        command: dart analyze --fatal-infos
         concurrency: 2
 
     format:
