@@ -32,6 +32,14 @@ melos:
       packageFilters:
         dependsOn: build_runner
 
+    gen:l10n:
+      description: Generate the localisation classes from the ARB files.
+      exec:
+        command: flutter gen-l10n
+        concurrency: 1
+      packageFilters:
+        fileExists: l10n.yaml
+
     analyze:
       description: Static analysis (dart analyze, so analyzer plugins run) with fatal infos.
       exec:

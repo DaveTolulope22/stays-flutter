@@ -1,0 +1,8 @@
+{
+  "@@locale": "de",
+
+  "retry": "Erneut versuchen",
+  "loading": "Wird geladen",
+  "errorNetwork": "Der Server ist nicht erreichbar. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+  "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+}

@@ -1,0 +1,9 @@
+arb-dir: lib/src/arb
+template-arb-file: app_en.arb
+output-dir: lib/src/generated
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+# Generate real source files in this package, not the old synthetic
+# flutter_gen package, so they can be committed and reviewed.
+synthetic-package: false
+nullable-getter: false

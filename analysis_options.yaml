@@ -13,5 +13,5 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-    - "**/l10n/generated/**"
+    - "**/lib/src/generated/**"
     - build/**

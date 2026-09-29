@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+
+  "retry": "Try again",
+  "@retry": {
+    "description": "Button that repeats a failed action, such as loading the app or a list."
+  },
+
+  "loading": "Loading",
+  "@loading": {
+    "description": "Accessibility label for a loading indicator."
+  },
+
+  "errorNetwork": "We couldn't reach the server. Please check your connection and try again.",
+  "@errorNetwork": {
+    "description": "Shown when a request got no response: offline, timeout or refused connection."
+  },
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {
+    "description": "Final fallback for any failure that has no more specific message."
+  }
+}
