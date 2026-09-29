@@ -5,8 +5,9 @@ publish_to: none
 environment:
   sdk: ^3.13.0
 
-# The app shell (apps/stays_app) joins in step 1.5.
+# The thin app shell.
 workspace:
+  - apps/stays_app
   - packages/core
   - packages/design_system
   - packages/l10n
