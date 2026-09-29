@@ -1,6 +1,9 @@
 /// Public API of core. Everything else lives under `lib/src/`.
 library;
 
+export 'src/dates/date_range.dart';
+export 'src/dates/local_date.dart';
+export 'src/dates/local_date_converter.dart';
 export 'src/failures/api_error_mapper.dart';
 export 'src/failures/app_failure.dart';
 export 'src/network/api_call.dart';
