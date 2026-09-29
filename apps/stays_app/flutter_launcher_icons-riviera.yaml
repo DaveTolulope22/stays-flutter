@@ -1,0 +1,6 @@
+flutter_launcher_icons:
+  image_path: launcher_icons/icon_riviera.png
+  android: true
+  ios: false
+  # Writes to android/app/src/riviera/res, matching the Gradle flavor name.
+  # The generated mipmap name is the default "ic_launcher".

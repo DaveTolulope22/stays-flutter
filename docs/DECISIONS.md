@@ -210,3 +210,34 @@ committed `pubspec.lock`.
 - Editor folders (`.vscode/`, `.idea/`) and local Android files are ignored.
 - Commits are small and Conventional (`feat(auth): restore session on
   launch`), one step per commit.
+
+## 011. Android flavors and launcher icons
+
+**Context:** The brief wants each tenant as its own flavor with its own name,
+icon and bundle id, built from the same code.
+
+**Decision:**
+
+- Two Gradle product flavors, `alpine` and `riviera`, in one `tenant`
+  dimension. Each has an `applicationIdSuffix` (a separate install with a
+  separate sandbox) and a `resValue` launcher label.
+- Icons are generated once with `flutter_launcher_icons` (one config file per
+  flavor, output in `src/<flavor>/res`) and the PNGs are committed. The
+  generated files are legacy launcher icons: the sources are opaque squares,
+  so there is no separate foreground layer for an adaptive icon.
+- The Flutter default icon is removed from `src/main`, so a build cannot ship
+  without a flavor icon.
+- Cleartext HTTP is allowed by a `src/debug` network security config, limited
+  to `127.0.0.1`, `localhost` and `10.0.2.2`. Release builds have no config
+  and the platform default blocks cleartext. As a result, profile builds
+  cannot reach the local HTTP API either, which is intended.
+
+**Rejected:**
+
+- `flutter_launcher_icons` as a dev dependency: every current release needs
+  `cli_util ^0.4`, Melos 8 needs `>=0.5`, so only a 2021 release resolves and
+  it has no flavor support. It runs as a globally activated tool instead
+  (`dart pub global activate flutter_launcher_icons`), which is enough for a
+  one-off generation step.
+- `usesCleartextTraffic="true"` in the debug manifest: it opens every host,
+  not just the local ones.

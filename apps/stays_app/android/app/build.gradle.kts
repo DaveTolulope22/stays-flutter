@@ -15,18 +15,35 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.davidosunsakin.stays_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
-        // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
-        // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`
-        // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    // AGP 8+ disables generated resource values unless asked; the launcher
+    // label below is one.
+    buildFeatures {
+        resValues = true
+    }
+
+    // One flavor per tenant. Each gets its own applicationId, so Android keeps
+    // the two installs (and their secure storage) completely apart. The label
+    // is native launcher metadata; inside the app the name comes from the
+    // runtime config.
+    flavorDimensions += "tenant"
+    productFlavors {
+        create("alpine") {
+            dimension = "tenant"
+            applicationIdSuffix = ".alpine"
+            resValue("string", "app_name", "Alpine Stays")
+        }
+        create("riviera") {
+            dimension = "tenant"
+            applicationIdSuffix = ".riviera"
+            resValue("string", "app_name", "Riviera Rentals")
+        }
     }
 
     buildTypes {

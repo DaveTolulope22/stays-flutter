@@ -38,6 +38,22 @@ melos:
         command: dart analyze --fatal-infos
         concurrency: 2
 
+    run:alpine:
+      description: Run the alpine flavor on the connected device.
+      exec:
+        command: flutter run --flavor alpine --dart-define=TENANT=alpine
+        concurrency: 1
+      packageFilters:
+        scope: stays_app
+
+    run:riviera:
+      description: Run the riviera flavor on the connected device.
+      exec:
+        command: flutter run --flavor riviera --dart-define=TENANT=riviera
+        concurrency: 1
+      packageFilters:
+        scope: stays_app
+
     format:
       description: Format all Dart code.
       run: dart format .
