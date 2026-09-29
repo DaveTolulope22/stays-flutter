@@ -241,3 +241,18 @@ icon and bundle id, built from the same code.
   one-off generation step.
 - `usesCleartextTraffic="true"` in the debug manifest: it opens every host,
   not just the local ones.
+
+## 012. Failure and networking foundation built before the first API call
+
+**Context:** The first API call (the tenant runtime config) has to follow the
+repository convention `TaskEither<AppFailure, T>`, and it needs the `tenant`
+header even though it is public.
+
+**Decision:** `AppFailure`, `ApiErrorMapper`, the `apiCall` helper, the single
+Dio provider and `TenantInterceptor` were built first and tested on their own.
+The config repository then sits on top of them without special cases.
+
+**Rejected:** a temporary stub failure type and an explicit header on the one
+call, to be replaced later. It would have meant rewriting the first
+repository, and the first call would not have followed the conventions the
+rest of the app uses.
