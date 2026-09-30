@@ -287,3 +287,22 @@ the Dio.
   rejects a provider reading one of its own transitive dependents (the
   controller depends on the repository, the Dio and the hooks), even lazily
   inside a closure. The bridge keeps the provider graph acyclic.
+
+## 014. A feature module declares its own guard
+
+**Context:** The router must keep a client out of host routes on the device,
+before any screen builds. Something has to say which routes belong to which
+side of the app.
+
+**Decision:** Each `FeatureModule` states its `area` (guest, host, or none for
+sign-in and registration), its `basePath`, its routes, an optional tab, and an
+optional extra requirement. `isAllowedFor(capabilities)` is the guard and
+`owns(location)` says which module a path belongs to, so the router's redirect
+is generic and no path such as `/host` appears in the shell. The constructor
+asserts that every top-level route lives under the base path, and
+`validateModules` rejects duplicate ids and overlapping base paths at startup.
+
+**Rejected:** Keeping a path-prefix table in the shell. The type is smaller,
+but the rule lives in a different package from the routes it protects, so a
+new host route added outside the prefix would silently be reachable by a
+client, and the two places would have to be kept in sync by hand.
