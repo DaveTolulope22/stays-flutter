@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_browse/feature_browse.dart';
+import 'package:feature_favourites/feature_favourites.dart';
 import 'package:go_router/go_router.dart';
 
 import 'session_home_screens.dart';
@@ -44,6 +45,10 @@ List<FeatureModule> modulesFor(TenantFlags flags) {
   final modules = [
     authModule,
     browseModule,
+    // Only when the tenant has favourites on. Off, this is never built: no
+    // route, no tab, and nothing that reads the favourites provider.
+    if (flags.favourites)
+      favouritesModule(listingLocation: BrowsePaths.listing),
     if (flags.hostPanel) hostHomePlaceholder else hostUnavailableModule,
   ];
   validateModules(modules);

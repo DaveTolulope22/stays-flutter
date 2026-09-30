@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -8,9 +9,11 @@ import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 import 'package:listings/listings.dart';
 import 'package:stays_app/src/app.dart';
+import 'package:stays_app/src/modules/shell_slots.dart';
 import 'package:stays_app/src/tenant_app.dart';
 
 import 'fake_listings_repository.dart';
+import 'recording_http_adapter.dart';
 
 const clientSession = Session(
   accessToken: 'client-token',
@@ -155,6 +158,10 @@ class ShellHarness {
        config = config ?? configWith(flags);
 
   final SessionScript script;
+
+  /// Records every request the app's Dio makes. A test that says "nothing was
+  /// requested" asks this, so it cannot pass by accident.
+  final adapter = RecordingHttpAdapter();
   final TenantConfig config;
 
   List<Override> get overrides => [
@@ -168,6 +175,13 @@ class ShellHarness {
     tenantConfigProvider.overrideWith((ref) => config),
     sessionControllerProvider.overrideWith(() => FakeSessionController(script)),
     listingsRepositoryProvider.overrideWithValue(FakeListingsRepository()),
+    // The REAL favourites repository runs on top of this, so any favourites
+    // call the app makes shows up in [adapter].
+    dioProvider.overrideWithValue(
+      Dio(BaseOptions(baseUrl: 'http://api.test'))..httpClientAdapter = adapter,
+    ),
+    // The shell's own slot wiring, exactly as bootstrap installs it.
+    ...shellSlotOverrides,
   ];
 
   /// Pumps the whole app ([StaysApp]), or just the tenant app with the given

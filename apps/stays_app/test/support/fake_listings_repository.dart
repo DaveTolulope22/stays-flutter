@@ -40,4 +40,21 @@ class FakeListingsRepository extends ListingsRepository {
     String? cursor,
     int limit = ListingsRepository.defaultPageSize,
   }) => TaskEither.right(CursorPage(items: [shellListing], total: 1));
+
+  @override
+  TaskEither<AppFailure, Listing> detail(String id) =>
+      TaskEither.right(shellListing);
+
+  @override
+  TaskEither<AppFailure, Availability> availability(
+    String listingId,
+    DateRange window,
+  ) => TaskEither.right(
+    Availability(
+      listingId: listingId,
+      from: window.start,
+      to: window.end,
+      unavailable: const [],
+    ),
+  );
 }

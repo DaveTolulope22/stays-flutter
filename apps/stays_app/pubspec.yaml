@@ -13,6 +13,7 @@ dependencies:
   design_system: any
   feature_auth: any
   feature_browse: any
+  feature_favourites: any
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -21,12 +22,12 @@ dependencies:
   fpdart: ^1.2.0
   go_router: ^18.0.2
   l10n: any
+  listings: any
 
 dev_dependencies:
   dio: ^5.11.1
   flutter_test:
     sdk: flutter
-  listings: any
   mocktail: ^1.0.5
 
 flutter:

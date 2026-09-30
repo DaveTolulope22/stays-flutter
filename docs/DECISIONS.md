@@ -539,3 +539,38 @@ step), favourites importing `BrowsePaths` (breaks the dependency rule the
 architecture test will enforce), and a second global slot provider for the
 location (one more hidden dependency for something a single module needs, where a
 constructor argument is visible at the one place it is wired).
+
+## 026. The favourites flag is applied in the shell, twice, and each layer is tested
+
+**Context:** The brief: "hiding saved listings means a route, a tab and the
+provider behind them all have to go. Show us a flag that actually turns something
+off." The API does not enforce the flag, so calling `/favourites` on a tenant that
+has it off is an app bug.
+
+**Decision:**
+- **Existence is decided in the shell, from the flag only.** `modulesFor` adds
+  `favouritesModule(...)` only `if (flags.favourites)`, so with it off there is no
+  route, no tab and no Saved screen. `shellSlotOverrides` fills the card's save
+  slot with the button only when the flag is on; otherwise the slot stays empty.
+  It is an ordinary root-scope provider override installed in `bootstrap`, next
+  to the tenant environment, with no nested scope.
+- **Use is decided by the button, from the role.** `SaveButton` returns nothing
+  unless `canSaveListings` (client AND flag), and checks it BEFORE reading the
+  favourites provider. A host shares an alpine build where the slot is filled, and
+  never sees the button or triggers a request.
+- **Two independent layers, on purpose.** Filling the slot only when the flag is
+  on, and the button checking the capability, each keep the save control and the
+  requests away from a flag-off tenant. Each has its own test that FAILS if only
+  that layer is removed (checked by temporarily breaking each one): the slot is
+  asserted empty on riviera, the route and module are asserted absent, and the
+  button is asserted to draw nothing for a host, a signed-out user and a flag-off
+  client.
+- **The proof runs the real shell.** `favourites_flag_test.dart` runs `StaysApp`
+  with the real `modulesFor`, the real slot override and the real favourites
+  repository, over a Dio adapter that records every request. A positive control
+  on the flag-on side proves the recorder would have seen a `/favourites` call.
+
+**Rejected:** Hiding the heart and the tab with `if (flag)` inside each widget
+(the route and the provider would still exist), relying on the API to refuse
+(it does not enforce flags), and mocking the favourites repository in the shell
+test (a mock cannot prove the real code made no request).

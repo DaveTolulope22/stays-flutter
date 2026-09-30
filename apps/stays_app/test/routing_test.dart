@@ -457,14 +457,23 @@ void main() {
       for (final module in modulesFor(flags)) module.id,
     ];
 
-    test('with the host panel on: auth, guest and host', () {
-      expect(ids(allFlagsOn), ['auth', 'browse', 'host-home']);
+    test('with everything on: auth, guest (browse, saved) and host', () {
+      expect(ids(allFlagsOn), ['auth', 'browse', 'favourites', 'host-home']);
+    });
+
+    test('with favourites off: no favourites module at all', () {
+      expect(ids(allFlagsOn.copyWith(favourites: false)), [
+        'auth',
+        'browse',
+        'host-home',
+      ]);
     });
 
     test('with the host panel off: the "not available" module instead', () {
       expect(ids(allFlagsOn.copyWith(hostPanel: false)), [
         'auth',
         'browse',
+        'favourites',
         'host-unavailable',
       ]);
     });
@@ -473,9 +482,15 @@ void main() {
       expect(ids(allFlagsOn), ids(allFlagsOn));
     });
 
-    test('the registered set is valid', () {
+    test('the registered set is valid for every combination of the flags', () {
       for (final panel in [true, false]) {
-        validateModules(modulesFor(allFlagsOn.copyWith(hostPanel: panel)));
+        for (final favourites in [true, false]) {
+          validateModules(
+            modulesFor(
+              allFlagsOn.copyWith(hostPanel: panel, favourites: favourites),
+            ),
+          );
+        }
       }
     });
   });

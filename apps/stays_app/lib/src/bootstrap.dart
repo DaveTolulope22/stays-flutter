@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
 import 'boot/boot_app.dart';
+import 'modules/shell_slots.dart';
 
 /// App start. The tenant environment is checked here, once, before any
 /// provider exists: a missing or mismatched TENANT shows a developer error
@@ -26,7 +27,10 @@ void bootstrap() {
 
   runApp(
     ProviderScope(
-      overrides: [tenantEnvironmentProvider.overrideWithValue(environment)],
+      overrides: [
+        tenantEnvironmentProvider.overrideWithValue(environment),
+        ...shellSlotOverrides,
+      ],
       child: const StaysApp(),
     ),
   );
