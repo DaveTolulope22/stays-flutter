@@ -746,3 +746,44 @@ scrolling chip row (options off-screen on a phone and in German), filtering the
 statuses on the device (it would page through everything to find a few rows, and
 the API already filters), and formatting totals in the tenant's currency (the row
 says what it was booked in).
+
+## 032. The brief's rules are tests, not promises
+
+**Context:** The brief sets structural rules: a feature never depends on another
+feature, no colour or size literal and no user-facing string in a widget, and no
+tenant name or currency in code. A rule that lives only in a document stops being
+true the first time someone is in a hurry.
+
+**Decision:** Two tests in `apps/stays_app/test/architecture/`, run with the rest
+of the suite and in CI.
+- **Dependency rules.** Every workspace pubspec is read (runtime and dev
+  dependencies) and checked against the graph of ADR 001. Imports are scanned
+  too, because pub workspaces share one package config and the compiler accepts
+  an import of a sibling that was never declared. Importing another package's
+  `lib/src/` fails as well. A package with no rule fails, so new packages must be
+  classified.
+- **Literal guard.** It scans `stays_app`, `listings`, every `feature_*` and the
+  `design_system` widgets (decision D), skipping only `design_system`'s
+  `src/tokens/` and `src/theme/`, where the values are allowed to live. It fails
+  with `path:line  rule  snippet` on `Colors.`, `Color(...)`, `0x` and `'#hex'`
+  colours, a number inside `EdgeInsets`, `SizedBox`, `BorderRadius` or `Radius`
+  or given as a size argument, and a string literal in `Text(` or a label
+  argument.
+- **Tenant rule.** In the `lib/` of every package, no flavor name and no
+  hard-coded currency code or symbol. The flavor names are read from the Gradle
+  `productFlavors` block, so the test names no tenant itself.
+- **The rules are pure functions over text, each with fixtures that must fail
+  and fixtures that must pass.** A small scanner first blanks comments (and
+  string contents for the code rules), keeping every offset, so `Colors.` in a
+  comment or a URL in a string cannot cause a false result. Each test also
+  asserts it found what it expected to scan, so it cannot go green by scanning
+  nothing.
+
+**Known limits:** It is a text scan, not the Dart analyzer. It does not see a
+number hidden behind a local variable, or a string built outside a `Text`. The
+rest is covered by review and by the l10n setup (the message strings come from
+the generated class).
+
+**Rejected:** A custom analyzer or lint plugin. It gives editor squiggles, but it
+is another package and another API, and plugin setup is already delicate on this
+toolchain (ADR 008). A plain test is readable in an interview and runs anywhere.
