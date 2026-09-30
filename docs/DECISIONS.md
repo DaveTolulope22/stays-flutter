@@ -610,3 +610,46 @@ copies of the same logic, and a bug fix in three places). A shared mixin for the
 notifiers: Riverpod's generated notifiers extend a generated `_$X` class, so a
 mixin needs awkward generics to reach `state` and `ref`, for about 20 lines of
 code that differ in the repository call anyway.
+
+## 029. Editing a listing: a diff, not the whole listing
+
+**Context:** `PATCH /host/listings/{id}` is partial and all or nothing. It takes
+types literally (`"250"` is refused, not coerced), trims strings itself, ignores
+fields outside the editable set, and answers 404 for a listing the host does not
+own. A price edit does not restate the total on bookings already made.
+
+**Decision:**
+- **The request is a diff.** `buildListingPatch(original, draft)` returns a
+  `ListingPatch` holding only the fields that differ. A field that did not
+  change is null and absent from the JSON (`includeIfNull: false`). An empty
+  patch means no request at all, and Save stays off until something changed.
+- **Text is trimmed before it is compared and before it is sent.** A change of
+  spaces only is therefore not a change.
+- **Numbers stay numbers.** The form turns text into a `ListingDraft` of real
+  values first (`parseAmount`, `parseCount`), so the patch holds `num` and `int`
+  and encodes JSON numbers. The parsers accept a point or a comma, and refuse
+  signs, exponents and letters. Numbers compare as numbers, so 249 and 249.0 are
+  one price.
+- **Amenities compare as a set**, in any order. The draft starts from the
+  listing's own list, so a slug the app has no label for is shown as a chip and
+  survives an edit. An empty list is a value (it clears them), which is why
+  "unchanged" is null and never an empty collection.
+- **One banner for a failed save.** The API is all or nothing, so there is no
+  per-field server error to show. The banner uses our own copy for the
+  `messageCode`, the typed values are kept, and saving again is allowed.
+- **Success updates the list in place** (`HostListings.replace`), so the list
+  shows the change with no refetch.
+- **The form reads the listing from the host's list**, which is still open under
+  it. A listing that is not there is reported as not found rather than fetched.
+- **The choices.** Property types are the API's closed set of seven, labelled in
+  ARB. Amenity chips are the slugs `amenityLabel` can translate, plus the
+  listing's own. Both are lists of what we can label, not of what can exist.
+- **Save is pinned under the form**, always in reach on a long form.
+
+**Rejected:** Sending the whole listing (it would overwrite fields the host did
+not touch and risks the read-only ones), building the body from a `Map` in the
+form (nothing to test, and a string price could slip through), offering only the
+amenities found in `/listings/facets` (a host could not add one nobody has yet,
+and the form would need a second request to open), and fetching the listing by id
+on the edit screen (the API has no host-side single-listing endpoint, and the
+public one is another tenant-checked call for data we already hold).

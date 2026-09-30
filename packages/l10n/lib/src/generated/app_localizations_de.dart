@@ -544,4 +544,76 @@ class AppLocalizationsDe extends AppLocalizations {
   String hostActionBookingsSemantics(String title) {
     return 'Buchungen von $title';
   }
+
+  @override
+  String get hostEditTitle => 'Unterkunft bearbeiten';
+
+  @override
+  String get hostEditSave => 'Speichern';
+
+  @override
+  String get hostEditSaved => 'Unterkunft gespeichert';
+
+  @override
+  String get hostEditFieldTitle => 'Titel';
+
+  @override
+  String get hostEditFieldDescription => 'Beschreibung';
+
+  @override
+  String get hostEditFieldPricePerNight => 'Preis pro Nacht';
+
+  @override
+  String get hostEditFieldCleaningFee => 'Reinigungsgebühr';
+
+  @override
+  String get hostEditFieldMaxGuests => 'Gäste';
+
+  @override
+  String get hostEditFieldBedrooms => 'Schlafzimmer';
+
+  @override
+  String get hostEditFieldBeds => 'Betten';
+
+  @override
+  String get hostEditFieldBathrooms => 'Badezimmer';
+
+  @override
+  String get hostEditFieldPropertyType => 'Unterkunftsart';
+
+  @override
+  String get hostEditFieldAmenities => 'Ausstattung';
+
+  @override
+  String get hostEditErrorRequired => 'Pflichtfeld';
+
+  @override
+  String get hostEditErrorAmount => 'Bitte einen Betrag ab 0 eingeben';
+
+  @override
+  String get hostEditErrorCount => 'Bitte eine ganze Zahl ab 0 eingeben';
+
+  @override
+  String get hostEditErrorGuests => 'Bitte eine ganze Zahl ab 1 eingeben';
+
+  @override
+  String get propertyTypeApartment => 'Apartment';
+
+  @override
+  String get propertyTypeChalet => 'Chalet';
+
+  @override
+  String get propertyTypeVilla => 'Villa';
+
+  @override
+  String get propertyTypeStudio => 'Studio';
+
+  @override
+  String get propertyTypeLoft => 'Loft';
+
+  @override
+  String get propertyTypeCabin => 'Hütte';
+
+  @override
+  String get propertyTypeTownhouse => 'Stadthaus';
 }

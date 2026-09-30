@@ -75,15 +75,22 @@ CursorPage<Listing> pageOf(
 
 typedef ListResult = Either<AppFailure, CursorPage<Listing>>;
 
-/// Answers the host's listings from a callback and records the cursors it was
-/// asked for. No network.
+typedef UpdateResult = Either<AppFailure, Listing>;
+
+/// Answers the host's listings (and an edit) from callbacks and records what it
+/// was asked. No network.
 class ScriptedHostRepository extends HostRepository {
-  ScriptedHostRepository(this._onListings)
-    : super(dio: Dio(), tenant: testTenant);
+  ScriptedHostRepository(
+    this._onListings, {
+    Future<UpdateResult> Function(String id, ListingPatch patch)? onUpdate,
+  }) : _onUpdate = onUpdate ?? ((id, patch) async => right(listingOf(id))),
+       super(dio: Dio(), tenant: testTenant);
 
   final Future<ListResult> Function(String? cursor) _onListings;
+  final Future<UpdateResult> Function(String id, ListingPatch patch) _onUpdate;
 
   final cursors = <String?>[];
+  final updates = <({String id, ListingPatch patch})>[];
 
   @override
   TaskEither<AppFailure, CursorPage<Listing>> listings({
@@ -92,6 +99,12 @@ class ScriptedHostRepository extends HostRepository {
   }) {
     cursors.add(cursor);
     return TaskEither(() => _onListings(cursor));
+  }
+
+  @override
+  TaskEither<AppFailure, Listing> update(String listingId, ListingPatch patch) {
+    updates.add((id: listingId, patch: patch));
+    return TaskEither(() => _onUpdate(listingId, patch));
   }
 }
 

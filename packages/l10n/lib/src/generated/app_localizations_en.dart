@@ -539,4 +539,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String hostActionBookingsSemantics(String title) {
     return 'Bookings of $title';
   }
+
+  @override
+  String get hostEditTitle => 'Edit listing';
+
+  @override
+  String get hostEditSave => 'Save';
+
+  @override
+  String get hostEditSaved => 'Listing saved';
+
+  @override
+  String get hostEditFieldTitle => 'Title';
+
+  @override
+  String get hostEditFieldDescription => 'Description';
+
+  @override
+  String get hostEditFieldPricePerNight => 'Price per night';
+
+  @override
+  String get hostEditFieldCleaningFee => 'Cleaning fee';
+
+  @override
+  String get hostEditFieldMaxGuests => 'Guests';
+
+  @override
+  String get hostEditFieldBedrooms => 'Bedrooms';
+
+  @override
+  String get hostEditFieldBeds => 'Beds';
+
+  @override
+  String get hostEditFieldBathrooms => 'Bathrooms';
+
+  @override
+  String get hostEditFieldPropertyType => 'Property type';
+
+  @override
+  String get hostEditFieldAmenities => 'Amenities';
+
+  @override
+  String get hostEditErrorRequired => 'Required';
+
+  @override
+  String get hostEditErrorAmount => 'Enter an amount of 0 or more';
+
+  @override
+  String get hostEditErrorCount => 'Enter a whole number of 0 or more';
+
+  @override
+  String get hostEditErrorGuests => 'Enter a whole number of 1 or more';
+
+  @override
+  String get propertyTypeApartment => 'Apartment';
+
+  @override
+  String get propertyTypeChalet => 'Chalet';
+
+  @override
+  String get propertyTypeVilla => 'Villa';
+
+  @override
+  String get propertyTypeStudio => 'Studio';
+
+  @override
+  String get propertyTypeLoft => 'Loft';
+
+  @override
+  String get propertyTypeCabin => 'Cabin';
+
+  @override
+  String get propertyTypeTownhouse => 'Townhouse';
 }

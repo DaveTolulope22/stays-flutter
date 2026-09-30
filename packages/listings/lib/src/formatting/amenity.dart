@@ -1,6 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
+/// The slugs [amenityLabel] has a translation for, in the order a form offers
+/// them. The set the API can send is open, so this is what we can LABEL, not
+/// what can exist; keep it next to the switch below.
+const knownAmenitySlugs = [
+  'wifi',
+  'kitchen',
+  'parking',
+  'washer',
+  'dryer',
+  'air_conditioning',
+  'heating',
+  'tv',
+  'pool',
+  'hot_tub',
+  'fireplace',
+  'balcony',
+  'sea_view',
+  'mountain_view',
+  'ski_storage',
+  'pets_allowed',
+  'workspace',
+  'elevator',
+  'bbq',
+  'sauna',
+];
+
 /// The label for an amenity slug. The set of slugs is open, so one without a
 /// translation degrades to a readable form of the slug instead of failing.
 String amenityLabel(String slug, AppLocalizations l10n) => switch (slug) {

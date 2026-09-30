@@ -76,6 +76,22 @@ void main() {
     });
   });
 
+  group('knownAmenitySlugs', () {
+    test('has no duplicates', () {
+      expect(knownAmenitySlugs.toSet(), hasLength(knownAmenitySlugs.length));
+    });
+
+    test('lists only slugs the app really knows: each has its own icon', () {
+      // The icon switch mirrors the label switch, so a slug added to the list
+      // but not to them shows the generic fallback icon and fails here.
+      final generic = amenityIcon('not_a_known_slug');
+
+      for (final slug in knownAmenitySlugs) {
+        expect(amenityIcon(slug), isNot(generic), reason: slug);
+      }
+    });
+  });
+
   group('countryLabel', () {
     final en = lookupAppLocalizations(const Locale('en'));
     final de = lookupAppLocalizations(const Locale('de'));

@@ -912,6 +912,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bookings of {title}'**
   String hostActionBookingsSemantics(String title);
+
+  /// Title of the screen where a host edits one of their listings.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit listing'**
+  String get hostEditTitle;
+
+  /// Button that saves the changes to a listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get hostEditSave;
+
+  /// Confirmation shown after a listing was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing saved'**
+  String get hostEditSaved;
+
+  /// Label of the listing title field.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get hostEditFieldTitle;
+
+  /// Label of the listing description field.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get hostEditFieldDescription;
+
+  /// Label of the price per night field.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per night'**
+  String get hostEditFieldPricePerNight;
+
+  /// Label of the cleaning fee field. The fee is charged once per stay.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning fee'**
+  String get hostEditFieldCleaningFee;
+
+  /// Label of the field for how many guests the listing sleeps.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests'**
+  String get hostEditFieldMaxGuests;
+
+  /// Label of the bedrooms field.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedrooms'**
+  String get hostEditFieldBedrooms;
+
+  /// Label of the beds field.
+  ///
+  /// In en, this message translates to:
+  /// **'Beds'**
+  String get hostEditFieldBeds;
+
+  /// Label of the bathrooms field.
+  ///
+  /// In en, this message translates to:
+  /// **'Bathrooms'**
+  String get hostEditFieldBathrooms;
+
+  /// Label of the property type dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Property type'**
+  String get hostEditFieldPropertyType;
+
+  /// Heading of the amenity chips on the edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Amenities'**
+  String get hostEditFieldAmenities;
+
+  /// Shown under a text field that was left empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get hostEditErrorRequired;
+
+  /// Shown under a price field that does not hold a valid amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount of 0 or more'**
+  String get hostEditErrorAmount;
+
+  /// Shown under a count field (bedrooms, beds, bathrooms) that does not hold a whole number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number of 0 or more'**
+  String get hostEditErrorCount;
+
+  /// Shown under the guests field when it is not a whole number of at least one.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number of 1 or more'**
+  String get hostEditErrorGuests;
+
+  /// Property type: apartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Apartment'**
+  String get propertyTypeApartment;
+
+  /// Property type: chalet.
+  ///
+  /// In en, this message translates to:
+  /// **'Chalet'**
+  String get propertyTypeChalet;
+
+  /// Property type: villa.
+  ///
+  /// In en, this message translates to:
+  /// **'Villa'**
+  String get propertyTypeVilla;
+
+  /// Property type: studio.
+  ///
+  /// In en, this message translates to:
+  /// **'Studio'**
+  String get propertyTypeStudio;
+
+  /// Property type: loft.
+  ///
+  /// In en, this message translates to:
+  /// **'Loft'**
+  String get propertyTypeLoft;
+
+  /// Property type: cabin.
+  ///
+  /// In en, this message translates to:
+  /// **'Cabin'**
+  String get propertyTypeCabin;
+
+  /// Property type: townhouse.
+  ///
+  /// In en, this message translates to:
+  /// **'Townhouse'**
+  String get propertyTypeTownhouse;
 }
 
 class _AppLocalizationsDelegate

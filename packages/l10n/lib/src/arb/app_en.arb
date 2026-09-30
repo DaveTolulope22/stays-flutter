@@ -712,5 +712,125 @@
         "type": "String"
       }
     }
+  },
+
+  "hostEditTitle": "Edit listing",
+  "@hostEditTitle": {
+    "description": "Title of the screen where a host edits one of their listings."
+  },
+
+  "hostEditSave": "Save",
+  "@hostEditSave": {
+    "description": "Button that saves the changes to a listing."
+  },
+
+  "hostEditSaved": "Listing saved",
+  "@hostEditSaved": {
+    "description": "Confirmation shown after a listing was saved."
+  },
+
+  "hostEditFieldTitle": "Title",
+  "@hostEditFieldTitle": {
+    "description": "Label of the listing title field."
+  },
+
+  "hostEditFieldDescription": "Description",
+  "@hostEditFieldDescription": {
+    "description": "Label of the listing description field."
+  },
+
+  "hostEditFieldPricePerNight": "Price per night",
+  "@hostEditFieldPricePerNight": {
+    "description": "Label of the price per night field."
+  },
+
+  "hostEditFieldCleaningFee": "Cleaning fee",
+  "@hostEditFieldCleaningFee": {
+    "description": "Label of the cleaning fee field. The fee is charged once per stay."
+  },
+
+  "hostEditFieldMaxGuests": "Guests",
+  "@hostEditFieldMaxGuests": {
+    "description": "Label of the field for how many guests the listing sleeps."
+  },
+
+  "hostEditFieldBedrooms": "Bedrooms",
+  "@hostEditFieldBedrooms": {
+    "description": "Label of the bedrooms field."
+  },
+
+  "hostEditFieldBeds": "Beds",
+  "@hostEditFieldBeds": {
+    "description": "Label of the beds field."
+  },
+
+  "hostEditFieldBathrooms": "Bathrooms",
+  "@hostEditFieldBathrooms": {
+    "description": "Label of the bathrooms field."
+  },
+
+  "hostEditFieldPropertyType": "Property type",
+  "@hostEditFieldPropertyType": {
+    "description": "Label of the property type dropdown."
+  },
+
+  "hostEditFieldAmenities": "Amenities",
+  "@hostEditFieldAmenities": {
+    "description": "Heading of the amenity chips on the edit form."
+  },
+
+  "hostEditErrorRequired": "Required",
+  "@hostEditErrorRequired": {
+    "description": "Shown under a text field that was left empty."
+  },
+
+  "hostEditErrorAmount": "Enter an amount of 0 or more",
+  "@hostEditErrorAmount": {
+    "description": "Shown under a price field that does not hold a valid amount."
+  },
+
+  "hostEditErrorCount": "Enter a whole number of 0 or more",
+  "@hostEditErrorCount": {
+    "description": "Shown under a count field (bedrooms, beds, bathrooms) that does not hold a whole number."
+  },
+
+  "hostEditErrorGuests": "Enter a whole number of 1 or more",
+  "@hostEditErrorGuests": {
+    "description": "Shown under the guests field when it is not a whole number of at least one."
+  },
+
+  "propertyTypeApartment": "Apartment",
+  "@propertyTypeApartment": {
+    "description": "Property type: apartment."
+  },
+
+  "propertyTypeChalet": "Chalet",
+  "@propertyTypeChalet": {
+    "description": "Property type: chalet."
+  },
+
+  "propertyTypeVilla": "Villa",
+  "@propertyTypeVilla": {
+    "description": "Property type: villa."
+  },
+
+  "propertyTypeStudio": "Studio",
+  "@propertyTypeStudio": {
+    "description": "Property type: studio."
+  },
+
+  "propertyTypeLoft": "Loft",
+  "@propertyTypeLoft": {
+    "description": "Property type: loft."
+  },
+
+  "propertyTypeCabin": "Cabin",
+  "@propertyTypeCabin": {
+    "description": "Property type: cabin."
+  },
+
+  "propertyTypeTownhouse": "Townhouse",
+  "@propertyTypeTownhouse": {
+    "description": "Property type: townhouse."
   }
 }
