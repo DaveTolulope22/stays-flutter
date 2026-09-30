@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 
 /// A Dio adapter that records every request and answers like a healthy
-/// favourites API. No network in tests. The shell tests use it to prove what the
-/// app does NOT call.
+/// favourites and host API. No network in tests. The shell tests use it to prove
+/// what the app does NOT call.
 class RecordingHttpAdapter implements HttpClientAdapter {
   final requests = <RequestOptions>[];
 
@@ -16,6 +16,13 @@ class RecordingHttpAdapter implements HttpClientAdapter {
         request,
   ];
 
+  /// Every request whose path is, or is below, `/host`. Not the app's own
+  /// "host area not available" route: that is a location, never an API path.
+  List<RequestOptions> get hostRequests => [
+    for (final request in requests)
+      if (request.path == '/host' || request.path.startsWith('/host/')) request,
+  ];
+
   @override
   Future<ResponseBody> fetch(
     RequestOptions options,
@@ -23,15 +30,24 @@ class RecordingHttpAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     requests.add(options);
-    if (options.path == '/favourites' && options.method == 'GET') {
-      return _json('[]', 200);
-    }
-    if (options.path == '/favourites' && options.method == 'POST') {
-      return _json('{}', 201);
-    }
-    if (options.path.startsWith('/favourites/')) {
+    final path = options.path;
+    final method = options.method;
+    if (path == '/favourites' && method == 'GET') return _json('[]', 200);
+    if (path == '/favourites' && method == 'POST') return _json('{}', 201);
+    if (path.startsWith('/favourites/')) {
       return ResponseBody.fromString('', 204);
     }
+    if (path == '/host/listings' && method == 'GET') return _json('[]', 200);
+    if (path.endsWith('/blocked-days') && method == 'GET') {
+      return _json('[]', 200);
+    }
+    if (path.endsWith('/blocked-days') && method == 'POST') {
+      return _json('{}', 201);
+    }
+    if (path.contains('/blocked-days/') && method == 'DELETE') {
+      return ResponseBody.fromString('', 204);
+    }
+    if (path.endsWith('/bookings') && method == 'GET') return _json('[]', 200);
     return _json('{"messageCode":"error.notFound"}', 404);
   }
 

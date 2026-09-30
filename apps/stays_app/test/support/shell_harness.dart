@@ -156,8 +156,18 @@ class ShellHarness {
     Session? session,
     TenantFlags flags = allFlagsOn,
     TenantConfig? config,
+
+    /// Runs the REAL host repository over [adapter] instead of the fake, so a
+    /// test can see every `/host` request the app makes.
+    this.realHostRepository = false,
+
+    /// Pins "today" for screens that use the clock, such as the calendar.
+    this.today,
   }) : script = SessionScript(initial: session),
        config = config ?? configWith(flags);
+
+  final bool realHostRepository;
+  final LocalDate? today;
 
   final SessionScript script;
 
@@ -177,7 +187,9 @@ class ShellHarness {
     tenantConfigProvider.overrideWith((ref) => config),
     sessionControllerProvider.overrideWith(() => FakeSessionController(script)),
     listingsRepositoryProvider.overrideWithValue(FakeListingsRepository()),
-    hostRepositoryProvider.overrideWithValue(FakeHostRepository()),
+    if (!realHostRepository)
+      hostRepositoryProvider.overrideWithValue(FakeHostRepository()),
+    if (today case final today?) clockProvider.overrideWithValue(() => today),
     // The REAL favourites repository runs on top of this, so any favourites
     // call the app makes shows up in [adapter].
     dioProvider.overrideWithValue(
