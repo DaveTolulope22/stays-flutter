@@ -2,36 +2,7 @@ import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:listings/listings.dart';
 
-Map<String, dynamic> listingJson({
-  Object rating = 4.5,
-  int reviewsCount = 12,
-  List<String> amenities = const ['wifi', 'sauna'],
-  int bedrooms = 2,
-}) => {
-  'id': 'l1',
-  'tenantId': 'alpine',
-  'hostId': 'h1',
-  'title': 'Chalet with a view',
-  'description': 'Quiet.',
-  'city': 'Davos',
-  'country': 'CH',
-  'address': 'Bergstrasse 1',
-  'latitude': 46.8,
-  'longitude': 9.8,
-  'propertyType': 'chalet',
-  'maxGuests': 4,
-  'bedrooms': bedrooms,
-  'beds': 3,
-  'bathrooms': 1,
-  'pricePerNight': 249,
-  'cleaningFee': 40.5,
-  'currency': 'CHF',
-  'amenities': amenities,
-  'rating': rating,
-  'reviewsCount': reviewsCount,
-  'images': ['https://picsum.photos/1', 'https://picsum.photos/2'],
-  'createdAt': '2026-01-15T10:30:00.000Z',
-};
+import 'support/listing_json.dart';
 
 void main() {
   group('Listing.fromJson', () {
