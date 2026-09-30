@@ -79,5 +79,95 @@
   "errorRangeTooLong": "Please choose a shorter date range (up to one year).",
   "@errorRangeTooLong": {
     "description": "error.rangeTooLong: a date search or availability window over 366 days."
+  },
+
+  "authSignIn": "Sign in",
+  "@authSignIn": {
+    "description": "Sign-in screen title and its submit button."
+  },
+
+  "authRegister": "Create account",
+  "@authRegister": {
+    "description": "Registration screen title and its submit button."
+  },
+
+  "authEmail": "Email address",
+  "@authEmail": {
+    "description": "Label of the email field."
+  },
+
+  "authPassword": "Password",
+  "@authPassword": {
+    "description": "Label of the password field."
+  },
+
+  "authFirstName": "First name",
+  "@authFirstName": {
+    "description": "Label of the first name field on the registration form."
+  },
+
+  "authLastName": "Last name",
+  "@authLastName": {
+    "description": "Label of the last name field on the registration form."
+  },
+
+  "authGoToRegister": "New here? Create an account",
+  "@authGoToRegister": {
+    "description": "Link on the sign-in screen that opens registration."
+  },
+
+  "authGoToSignIn": "Already have an account? Sign in",
+  "@authGoToSignIn": {
+    "description": "Link on the registration screen that opens sign-in."
+  },
+
+  "authShowPassword": "Show password",
+  "@authShowPassword": {
+    "description": "Tooltip and accessibility label of the button that reveals the password."
+  },
+
+  "authHidePassword": "Hide password",
+  "@authHidePassword": {
+    "description": "Tooltip and accessibility label of the button that hides the password."
+  },
+
+  "authErrorRequired": "This field is required.",
+  "@authErrorRequired": {
+    "description": "Inline error for an empty required field."
+  },
+
+  "authErrorEmailInvalid": "Enter a valid email address.",
+  "@authErrorEmailInvalid": {
+    "description": "Inline error for an email that is not shaped like one."
+  },
+
+  "authErrorPasswordTooShort": "Use at least {min} characters.",
+  "@authErrorPasswordTooShort": {
+    "description": "Inline error for a password shorter than the minimum.",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+
+  "authTermsIntro": "By creating an account you agree to:",
+  "@authTermsIntro": {
+    "description": "Line above the terms and privacy links on the registration screen."
+  },
+
+  "authTermsOfUse": "Terms of use",
+  "@authTermsOfUse": {
+    "description": "Link to the tenant's terms of use."
+  },
+
+  "authPrivacyPolicy": "Privacy policy",
+  "@authPrivacyPolicy": {
+    "description": "Link to the tenant's privacy policy."
+  },
+
+  "authLinkOpenFailed": "The link could not be opened.",
+  "@authLinkOpenFailed": {
+    "description": "Message shown when the terms or privacy page cannot be opened."
   }
 }

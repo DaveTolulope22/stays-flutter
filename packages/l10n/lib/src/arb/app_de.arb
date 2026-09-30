@@ -16,5 +16,22 @@
   "errorForbidden": "Sie haben darauf keinen Zugriff.",
   "errorListingNotFound": "Diese Unterkunft wurde nicht gefunden.",
   "errorNotFound": "Wir haben nicht gefunden, wonach Sie gesucht haben.",
-  "errorRangeTooLong": "Bitte wählen Sie einen kürzeren Zeitraum (höchstens ein Jahr)."
+  "errorRangeTooLong": "Bitte wählen Sie einen kürzeren Zeitraum (höchstens ein Jahr).",
+  "authSignIn": "Anmelden",
+  "authRegister": "Konto erstellen",
+  "authEmail": "E-Mail-Adresse",
+  "authPassword": "Passwort",
+  "authFirstName": "Vorname",
+  "authLastName": "Nachname",
+  "authGoToRegister": "Neu hier? Konto erstellen",
+  "authGoToSignIn": "Bereits ein Konto? Anmelden",
+  "authShowPassword": "Passwort anzeigen",
+  "authHidePassword": "Passwort verbergen",
+  "authErrorRequired": "Dieses Feld ist erforderlich.",
+  "authErrorEmailInvalid": "Geben Sie eine gültige E-Mail-Adresse ein.",
+  "authErrorPasswordTooShort": "Verwenden Sie mindestens {min} Zeichen.",
+  "authTermsIntro": "Mit der Erstellung eines Kontos stimmen Sie Folgendem zu:",
+  "authTermsOfUse": "Nutzungsbedingungen",
+  "authPrivacyPolicy": "Datenschutzerklärung",
+  "authLinkOpenFailed": "Der Link konnte nicht geöffnet werden."
 }

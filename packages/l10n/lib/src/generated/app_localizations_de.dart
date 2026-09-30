@@ -67,4 +67,59 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get errorRangeTooLong =>
       'Bitte wählen Sie einen kürzeren Zeitraum (höchstens ein Jahr).';
+
+  @override
+  String get authSignIn => 'Anmelden';
+
+  @override
+  String get authRegister => 'Konto erstellen';
+
+  @override
+  String get authEmail => 'E-Mail-Adresse';
+
+  @override
+  String get authPassword => 'Passwort';
+
+  @override
+  String get authFirstName => 'Vorname';
+
+  @override
+  String get authLastName => 'Nachname';
+
+  @override
+  String get authGoToRegister => 'Neu hier? Konto erstellen';
+
+  @override
+  String get authGoToSignIn => 'Bereits ein Konto? Anmelden';
+
+  @override
+  String get authShowPassword => 'Passwort anzeigen';
+
+  @override
+  String get authHidePassword => 'Passwort verbergen';
+
+  @override
+  String get authErrorRequired => 'Dieses Feld ist erforderlich.';
+
+  @override
+  String get authErrorEmailInvalid =>
+      'Geben Sie eine gültige E-Mail-Adresse ein.';
+
+  @override
+  String authErrorPasswordTooShort(int min) {
+    return 'Verwenden Sie mindestens $min Zeichen.';
+  }
+
+  @override
+  String get authTermsIntro =>
+      'Mit der Erstellung eines Kontos stimmen Sie Folgendem zu:';
+
+  @override
+  String get authTermsOfUse => 'Nutzungsbedingungen';
+
+  @override
+  String get authPrivacyPolicy => 'Datenschutzerklärung';
+
+  @override
+  String get authLinkOpenFailed => 'Der Link konnte nicht geöffnet werden.';
 }

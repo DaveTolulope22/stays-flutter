@@ -3,7 +3,6 @@ template-arb-file: app_en.arb
 output-dir: lib/src/generated
 output-localization-file: app_localizations.dart
 output-class: AppLocalizations
-# Generate real source files in this package, not the old synthetic
-# flutter_gen package, so they can be committed and reviewed.
-synthetic-package: false
+# Output goes to real source files in this package (output-dir above), which
+# are committed and reviewed. The old synthetic flutter_gen package is gone.
 nullable-getter: false

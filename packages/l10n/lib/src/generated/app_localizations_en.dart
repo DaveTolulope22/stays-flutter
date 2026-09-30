@@ -65,4 +65,57 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorRangeTooLong =>
       'Please choose a shorter date range (up to one year).';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get authRegister => 'Create account';
+
+  @override
+  String get authEmail => 'Email address';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authFirstName => 'First name';
+
+  @override
+  String get authLastName => 'Last name';
+
+  @override
+  String get authGoToRegister => 'New here? Create an account';
+
+  @override
+  String get authGoToSignIn => 'Already have an account? Sign in';
+
+  @override
+  String get authShowPassword => 'Show password';
+
+  @override
+  String get authHidePassword => 'Hide password';
+
+  @override
+  String get authErrorRequired => 'This field is required.';
+
+  @override
+  String get authErrorEmailInvalid => 'Enter a valid email address.';
+
+  @override
+  String authErrorPasswordTooShort(int min) {
+    return 'Use at least $min characters.';
+  }
+
+  @override
+  String get authTermsIntro => 'By creating an account you agree to:';
+
+  @override
+  String get authTermsOfUse => 'Terms of use';
+
+  @override
+  String get authPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get authLinkOpenFailed => 'The link could not be opened.';
 }

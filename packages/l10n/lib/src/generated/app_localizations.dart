@@ -193,6 +193,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please choose a shorter date range (up to one year).'**
   String get errorRangeTooLong;
+
+  /// Sign-in screen title and its submit button.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignIn;
+
+  /// Registration screen title and its submit button.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authRegister;
+
+  /// Label of the email field.
+  ///
+  /// In en, this message translates to:
+  /// **'Email address'**
+  String get authEmail;
+
+  /// Label of the password field.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// Label of the first name field on the registration form.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get authFirstName;
+
+  /// Label of the last name field on the registration form.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get authLastName;
+
+  /// Link on the sign-in screen that opens registration.
+  ///
+  /// In en, this message translates to:
+  /// **'New here? Create an account'**
+  String get authGoToRegister;
+
+  /// Link on the registration screen that opens sign-in.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get authGoToSignIn;
+
+  /// Tooltip and accessibility label of the button that reveals the password.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// Tooltip and accessibility label of the button that hides the password.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
+  /// Inline error for an empty required field.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required.'**
+  String get authErrorRequired;
+
+  /// Inline error for an email that is not shaped like one.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address.'**
+  String get authErrorEmailInvalid;
+
+  /// Inline error for a password shorter than the minimum.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least {min} characters.'**
+  String authErrorPasswordTooShort(int min);
+
+  /// Line above the terms and privacy links on the registration screen.
+  ///
+  /// In en, this message translates to:
+  /// **'By creating an account you agree to:'**
+  String get authTermsIntro;
+
+  /// Link to the tenant's terms of use.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get authTermsOfUse;
+
+  /// Link to the tenant's privacy policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get authPrivacyPolicy;
+
+  /// Message shown when the terms or privacy page cannot be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'The link could not be opened.'**
+  String get authLinkOpenFailed;
 }
 
 class _AppLocalizationsDelegate
