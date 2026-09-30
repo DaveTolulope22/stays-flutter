@@ -131,5 +131,14 @@
   "unsaveListing": "Aus Merkliste entfernen",
   "savedTab": "Gemerkt",
   "savedTitle": "Gemerkte Unterkünfte",
-  "savedEmpty": "Sie haben noch keine Unterkünfte gemerkt. Tippen Sie auf das Herz, um eine hier zu behalten."
+  "savedEmpty": "Sie haben noch keine Unterkünfte gemerkt. Tippen Sie auf das Herz, um eine hier zu behalten.",
+  "hostListingsTab": "Meine Unterkünfte",
+  "hostListingsTitle": "Meine Unterkünfte",
+  "hostListingsEmpty": "Sie haben noch keine Unterkünfte.",
+  "hostActionEdit": "Bearbeiten",
+  "hostActionCalendar": "Kalender",
+  "hostActionBookings": "Buchungen",
+  "hostActionEditSemantics": "{title} bearbeiten",
+  "hostActionCalendarSemantics": "Kalender von {title}",
+  "hostActionBookingsSemantics": "Buchungen von {title}"
 }

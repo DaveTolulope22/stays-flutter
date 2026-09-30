@@ -511,4 +511,37 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get savedEmpty =>
       'Sie haben noch keine Unterkünfte gemerkt. Tippen Sie auf das Herz, um eine hier zu behalten.';
+
+  @override
+  String get hostListingsTab => 'Meine Unterkünfte';
+
+  @override
+  String get hostListingsTitle => 'Meine Unterkünfte';
+
+  @override
+  String get hostListingsEmpty => 'Sie haben noch keine Unterkünfte.';
+
+  @override
+  String get hostActionEdit => 'Bearbeiten';
+
+  @override
+  String get hostActionCalendar => 'Kalender';
+
+  @override
+  String get hostActionBookings => 'Buchungen';
+
+  @override
+  String hostActionEditSemantics(String title) {
+    return '$title bearbeiten';
+  }
+
+  @override
+  String hostActionCalendarSemantics(String title) {
+    return 'Kalender von $title';
+  }
+
+  @override
+  String hostActionBookingsSemantics(String title) {
+    return 'Buchungen von $title';
+  }
 }

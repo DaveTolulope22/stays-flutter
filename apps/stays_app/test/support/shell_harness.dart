@@ -1,5 +1,6 @@
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
+import 'package:feature_host/feature_host.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -12,6 +13,7 @@ import 'package:stays_app/src/app.dart';
 import 'package:stays_app/src/modules/shell_slots.dart';
 import 'package:stays_app/src/tenant_app.dart';
 
+import 'fake_host_repository.dart';
 import 'fake_listings_repository.dart';
 import 'recording_http_adapter.dart';
 
@@ -175,6 +177,7 @@ class ShellHarness {
     tenantConfigProvider.overrideWith((ref) => config),
     sessionControllerProvider.overrideWith(() => FakeSessionController(script)),
     listingsRepositoryProvider.overrideWithValue(FakeListingsRepository()),
+    hostRepositoryProvider.overrideWithValue(FakeHostRepository()),
     // The REAL favourites repository runs on top of this, so any favourites
     // call the app makes shows up in [adapter].
     dioProvider.overrideWithValue(

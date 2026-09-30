@@ -84,10 +84,9 @@ void main() {
     testWidgets('a failed page shows our words, does not loop, and Retry asks '
         'again', (tester) async {
       var calls = 0;
-      final failed = _page(
-        ['a'],
-        nextCursor: 'next',
-      ).loadMoreFailed(const NetworkFailure());
+      final failed = _page([
+        'a',
+      ], nextCursor: 'next').loadMoreFailed(const NetworkFailure());
 
       await _pump(tester, failed, onLoadMore: () => calls++);
 

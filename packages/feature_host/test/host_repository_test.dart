@@ -37,8 +37,9 @@ void main() {
         ),
       );
 
-      final page = (await repositoryWith(adapter).listings().run())
-          .getOrElse((_) => throw StateError('failed'));
+      final page = (await repositoryWith(
+        adapter,
+      ).listings().run()).getOrElse((_) => throw StateError('failed'));
 
       final request = adapter.requests.single;
       expect(request.method, 'GET');
@@ -57,8 +58,9 @@ void main() {
         ),
       );
 
-      final page = (await repositoryWith(adapter).listings().run())
-          .getOrElse((_) => throw StateError('failed'));
+      final page = (await repositoryWith(
+        adapter,
+      ).listings().run()).getOrElse((_) => throw StateError('failed'));
 
       expect(page.nextCursor, isNull);
       expect(page.hasNext, isFalse);
@@ -91,9 +93,9 @@ void main() {
         (_) => errorBody(403, 'auth.forbidden.ForbiddenException'),
       );
 
-      final failure = (await repositoryWith(adapter).listings().run())
-          .getLeft()
-          .toNullable();
+      final failure = (await repositoryWith(
+        adapter,
+      ).listings().run()).getLeft().toNullable();
 
       expect(failure, isA<ForbiddenFailure>());
       expect(failure!.messageCode, 'auth.forbidden.ForbiddenException');
@@ -118,9 +120,9 @@ void main() {
         (_) => FakeHttpAdapter.json(jsonEncode(<dynamic>[])),
       );
 
-      await repositoryWith(
-        adapter,
-      ).bookings('l1', status: BookingStatus.cancelled).run();
+      await repositoryWith(adapter)
+          .bookings('l1', status: BookingStatus.cancelled)
+          .run();
 
       expect(adapter.requests.single.queryParameters['status'], 'cancelled');
     });
@@ -130,8 +132,9 @@ void main() {
         (_) => FakeHttpAdapter.json(jsonEncode([bookingRow('b1')])),
       );
 
-      final page = (await repositoryWith(adapter).bookings('l1').run())
-          .getOrElse((_) => throw StateError('failed'));
+      final page = (await repositoryWith(
+        adapter,
+      ).bookings('l1').run()).getOrElse((_) => throw StateError('failed'));
 
       final booking = page.items.single;
       expect(booking.checkIn, LocalDate(2026, 10, 12));
@@ -147,8 +150,9 @@ void main() {
         ),
       );
 
-      final page = (await repositoryWith(adapter).bookings('l1').run())
-          .getOrElse((_) => throw StateError('failed'));
+      final page = (await repositoryWith(
+        adapter,
+      ).bookings('l1').run()).getOrElse((_) => throw StateError('failed'));
 
       expect(page.items.single.status, BookingStatus.unknown);
     });
@@ -175,14 +179,15 @@ void main() {
         ),
       );
 
-      final days = (await repositoryWith(adapter).blockedDays('l1').run())
-          .getOrElse((_) => throw StateError('failed'));
+      final days = (await repositoryWith(
+        adapter,
+      ).blockedDays('l1').run()).getOrElse((_) => throw StateError('failed'));
 
       expect(adapter.requests.single.path, '/host/listings/l1/blocked-days');
-      expect([for (final d in days) d.date], [
-        LocalDate(2026, 10, 1),
-        LocalDate(2026, 10, 2),
-      ]);
+      expect(
+        [for (final d in days) d.date],
+        [LocalDate(2026, 10, 1), LocalDate(2026, 10, 2)],
+      );
     });
 
     test('block posts the day as YYYY-MM-DD', () async {
@@ -193,9 +198,9 @@ void main() {
         ),
       );
 
-      final result = await repositoryWith(
-        adapter,
-      ).block('l1', LocalDate(2026, 10, 5)).run();
+      final result = await repositoryWith(adapter)
+          .block('l1', LocalDate(2026, 10, 5))
+          .run();
 
       final request = adapter.requests.single;
       expect(request.method, 'POST');
@@ -207,9 +212,9 @@ void main() {
     test('unblock deletes by date in the path', () async {
       final adapter = FakeHttpAdapter((_) => emptyBody(204));
 
-      final result = await repositoryWith(
-        adapter,
-      ).unblock('l1', LocalDate(2026, 10, 5)).run();
+      final result = await repositoryWith(adapter)
+          .unblock('l1', LocalDate(2026, 10, 5))
+          .run();
 
       final request = adapter.requests.single;
       expect(request.method, 'DELETE');
@@ -225,9 +230,9 @@ void main() {
         ),
       );
 
-      final result = await repositoryWith(
-        adapter,
-      ).block('l1', LocalDate(2026, 10, 5)).run();
+      final result = await repositoryWith(adapter)
+          .block('l1', LocalDate(2026, 10, 5))
+          .run();
 
       expect(result.getLeft().toNullable(), isA<NetworkFailure>());
     });
@@ -259,19 +264,24 @@ void main() {
         (_) => FakeHttpAdapter.json(jsonEncode(listingRow('l1'))),
       );
 
-      await repositoryWith(
-        adapter,
-      ).update('l1', const ListingPatch(amenities: [])).run();
+      await repositoryWith(adapter)
+          .update('l1', const ListingPatch(amenities: []))
+          .run();
 
       expect(adapter.requests.single.data, {'amenities': <String>[]});
     });
 
     test('a rejected patch is a ValidationFailure with its code', () async {
-      final adapter = FakeHttpAdapter((_) => errorBody(400, 'error.badRequest'));
+      final adapter = FakeHttpAdapter(
+        (_) => errorBody(400, 'error.badRequest'),
+      );
 
-      final failure = (await repositoryWith(
-        adapter,
-      ).update('l1', const ListingPatch(beds: -1)).run()).getLeft().toNullable();
+      final failure =
+          (await repositoryWith(adapter)
+                  .update('l1', const ListingPatch(beds: -1))
+                  .run())
+              .getLeft()
+              .toNullable();
 
       expect(failure, isA<ValidationFailure>());
       expect(failure!.messageCode, 'error.badRequest');
@@ -284,9 +294,9 @@ void main() {
         ),
       );
 
-      final result = await repositoryWith(
-        adapter,
-      ).update('l1', const ListingPatch(title: 'x')).run();
+      final result = await repositoryWith(adapter)
+          .update('l1', const ListingPatch(title: 'x'))
+          .run();
 
       expect(result.getLeft().toNullable(), isA<TenantMismatchFailure>());
     });

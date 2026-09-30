@@ -14,6 +14,7 @@ dependencies:
   feature_auth: any
   feature_browse: any
   feature_favourites: any
+  feature_host: any
   flutter:
     sdk: flutter
   flutter_localizations:

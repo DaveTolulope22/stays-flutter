@@ -95,7 +95,10 @@ class HostRepository {
 
   /// Sends only what [patch] holds and returns the listing as the API now has
   /// it. All or nothing: if any field is rejected, none is applied.
-  TaskEither<AppFailure, Listing> update(String listingId, ListingPatch patch) =>
+  TaskEither<AppFailure, Listing> update(
+    String listingId,
+    ListingPatch patch,
+  ) =>
       apiCall(() async {
         final response = await dio.patch<Map<String, dynamic>>(
           '/host/listings/${Uri.encodeComponent(listingId)}',

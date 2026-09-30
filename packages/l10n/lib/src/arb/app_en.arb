@@ -652,5 +652,65 @@
   "savedEmpty": "You haven't saved any stays yet. Tap the heart on a stay to keep it here.",
   "@savedEmpty": {
     "description": "Shown on the saved screen when nothing is saved."
+  },
+
+  "hostListingsTab": "My listings",
+  "@hostListingsTab": {
+    "description": "Label of the host's listings tab."
+  },
+
+  "hostListingsTitle": "My listings",
+  "@hostListingsTitle": {
+    "description": "Title of the screen that lists the host's own listings."
+  },
+
+  "hostListingsEmpty": "You don't have any listings yet.",
+  "@hostListingsEmpty": {
+    "description": "Shown on the host's listings screen when the host has none."
+  },
+
+  "hostActionEdit": "Edit",
+  "@hostActionEdit": {
+    "description": "Button on a host's listing that opens the edit form."
+  },
+
+  "hostActionCalendar": "Calendar",
+  "@hostActionCalendar": {
+    "description": "Button on a host's listing that opens its availability calendar."
+  },
+
+  "hostActionBookings": "Bookings",
+  "@hostActionBookings": {
+    "description": "Button on a host's listing that opens its bookings."
+  },
+
+  "hostActionEditSemantics": "Edit {title}",
+  "@hostActionEditSemantics": {
+    "description": "Screen reader text for the edit button on one listing, so each button says which listing it is for.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+
+  "hostActionCalendarSemantics": "Calendar of {title}",
+  "@hostActionCalendarSemantics": {
+    "description": "Screen reader text for the calendar button on one listing.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+
+  "hostActionBookingsSemantics": "Bookings of {title}",
+  "@hostActionBookingsSemantics": {
+    "description": "Screen reader text for the bookings button on one listing.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
   }
 }

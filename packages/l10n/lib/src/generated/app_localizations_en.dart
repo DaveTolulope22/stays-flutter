@@ -506,4 +506,37 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get savedEmpty =>
       'You haven\'t saved any stays yet. Tap the heart on a stay to keep it here.';
+
+  @override
+  String get hostListingsTab => 'My listings';
+
+  @override
+  String get hostListingsTitle => 'My listings';
+
+  @override
+  String get hostListingsEmpty => 'You don\'t have any listings yet.';
+
+  @override
+  String get hostActionEdit => 'Edit';
+
+  @override
+  String get hostActionCalendar => 'Calendar';
+
+  @override
+  String get hostActionBookings => 'Bookings';
+
+  @override
+  String hostActionEditSemantics(String title) {
+    return 'Edit $title';
+  }
+
+  @override
+  String hostActionCalendarSemantics(String title) {
+    return 'Calendar of $title';
+  }
+
+  @override
+  String hostActionBookingsSemantics(String title) {
+    return 'Bookings of $title';
+  }
 }

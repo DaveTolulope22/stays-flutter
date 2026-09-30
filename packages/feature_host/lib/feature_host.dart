@@ -3,6 +3,8 @@ library;
 
 export 'src/data/host_repository.dart';
 export 'src/data/host_repository_provider.dart';
+export 'src/host_module.dart';
+export 'src/host_paths.dart';
 export 'src/models/blocked_day.dart';
 export 'src/models/booking.dart';
 export 'src/models/listing_patch.dart';

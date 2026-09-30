@@ -1,6 +1,14 @@
-import 'package:feature_host/src/data/host_repository.dart';
+import 'package:core/core.dart';
+import 'package:design_system/design_system.dart';
+import 'package:dio/dio.dart';
+import 'package:feature_host/feature_host.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:go_router/go_router.dart';
+import 'package:l10n/l10n.dart';
 import 'package:listings/listings.dart';
-import 'package:mocktail/mocktail.dart';
 
 const testTenant = 'acme';
 
@@ -52,4 +60,107 @@ Map<String, dynamic> bookingRow(
   'createdAt': '2026-09-01T08:00:00.000Z',
 };
 
-class MockHostRepository extends Mock implements HostRepository {}
+/// A page of [count] listings whose ids run on from [start], so two pages never
+/// share an id and a test can tell them apart.
+CursorPage<Listing> pageOf(
+  int count, {
+  int start = 0,
+  String? next,
+  int? total,
+}) => CursorPage(
+  items: [for (var i = start; i < start + count; i++) listingOf('l$i')],
+  total: total,
+  nextCursor: next,
+);
+
+typedef ListResult = Either<AppFailure, CursorPage<Listing>>;
+
+/// Answers the host's listings from a callback and records the cursors it was
+/// asked for. No network.
+class ScriptedHostRepository extends HostRepository {
+  ScriptedHostRepository(this._onListings)
+    : super(dio: Dio(), tenant: testTenant);
+
+  final Future<ListResult> Function(String? cursor) _onListings;
+
+  final cursors = <String?>[];
+
+  @override
+  TaskEither<AppFailure, CursorPage<Listing>> listings({
+    String? cursor,
+    int limit = HostRepository.defaultPageSize,
+  }) {
+    cursors.add(cursor);
+    return TaskEither(() => _onListings(cursor));
+  }
+}
+
+/// Counts sign-outs. A plain object because a Riverpod notifier must not expose
+/// public fields.
+class SignOutCounter {
+  int count = 0;
+}
+
+class FakeSessionController extends SessionController {
+  FakeSessionController(this._signOuts);
+
+  final SignOutCounter _signOuts;
+
+  @override
+  Future<Session?> build() async => null;
+
+  @override
+  Future<void> signOut() async => _signOuts.count++;
+}
+
+/// The host module inside a real router, so opening a listing's screen on top of
+/// the list and coming back behaves as it does in the app.
+class HostHarness {
+  HostHarness(this.repository);
+
+  final ScriptedHostRepository repository;
+  final signOuts = SignOutCounter();
+  late final GoRouter router;
+
+  Future<void> pump(
+    WidgetTester tester, {
+    Locale locale = const Locale('en'),
+    Size size = const Size(400, 900),
+
+    /// False while something animates forever (a spinner), which would make
+    /// `pumpAndSettle` wait until it times out.
+    bool settle = true,
+  }) async {
+    tester.view.physicalSize = size;
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    router = GoRouter(
+      initialLocation: HostPaths.base,
+      routes: hostModule.routes,
+    );
+    addTearDown(router.dispose);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          hostRepositoryProvider.overrideWithValue(repository),
+          sessionControllerProvider.overrideWith(
+            () => FakeSessionController(signOuts),
+          ),
+        ],
+        child: MaterialApp.router(
+          routerConfig: router,
+          theme: buildNeutralTheme(Brightness.light),
+          locale: locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+        ),
+      ),
+    );
+    settle ? await tester.pumpAndSettle() : await tester.pump();
+  }
+}
+
+AppLocalizations copyFor(String language) =>
+    lookupAppLocalizations(Locale(language));

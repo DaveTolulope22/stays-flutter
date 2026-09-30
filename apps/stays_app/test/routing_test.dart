@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stays_app/src/modules/shell_modules.dart';
 
+import 'support/fake_host_repository.dart';
 import 'support/fake_listings_repository.dart';
 import 'support/shell_harness.dart';
 
@@ -17,9 +18,10 @@ void main() {
   Finder field(String label) => find.widgetWithText(TextFormField, label);
 
   /// The guest side is the browse screen, which shows the (fake) listing; the
-  /// host side is still the temporary home, which shows the role in plain text.
+  /// host side is "My listings", which shows the host's (fake) listing. The two
+  /// titles differ, so each finder matches only its own side.
   Finder guestHome() => find.text(shellListing.title);
-  Finder hostHome() => find.text('host');
+  Finder hostHome() => find.text(shellHostListing.title);
   Finder signInScreen() => find.widgetWithText(FilledButton, en.authSignIn);
 
   Future<void> go(WidgetTester tester, String location) async {
@@ -106,7 +108,7 @@ void main() {
       await ShellHarness(session: hostSession).pump(tester);
 
       expect(hostHome(), findsOneWidget);
-      expect(find.text('Hal Host'), findsOneWidget);
+      expect(find.text(en.hostListingsTitle), findsOneWidget);
     });
 
     testWidgets('sees only the host side: no browsing', (tester) async {
@@ -458,14 +460,14 @@ void main() {
     ];
 
     test('with everything on: auth, guest (browse, saved) and host', () {
-      expect(ids(allFlagsOn), ['auth', 'browse', 'favourites', 'host-home']);
+      expect(ids(allFlagsOn), ['auth', 'browse', 'favourites', 'host']);
     });
 
     test('with favourites off: no favourites module at all', () {
       expect(ids(allFlagsOn.copyWith(favourites: false)), [
         'auth',
         'browse',
-        'host-home',
+        'host',
       ]);
     });
 

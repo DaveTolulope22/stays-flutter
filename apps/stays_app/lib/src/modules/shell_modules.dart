@@ -2,23 +2,10 @@ import 'package:core/core.dart';
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_browse/feature_browse.dart';
 import 'package:feature_favourites/feature_favourites.dart';
+import 'package:feature_host/feature_host.dart';
 import 'package:go_router/go_router.dart';
 
-import 'session_home_screens.dart';
-
-/// TEMPORARY stand-in, replaced by `hostModule` in Phase 7. It keeps the real
-/// path (`/host`), so nothing else changes when the real module arrives.
-final hostHomePlaceholder = FeatureModule(
-  id: 'host-home',
-  area: AccessArea.host,
-  basePath: '/host',
-  routes: [
-    GoRoute(
-      path: '/host',
-      builder: (context, state) => const SessionHomeScreen(),
-    ),
-  ],
-);
+import 'host_unavailable_screen.dart';
 
 /// Registered INSTEAD of the host area when the tenant's `hostPanel` flag is
 /// off. It belongs to the host side, so a host lands here and never falls
@@ -49,7 +36,9 @@ List<FeatureModule> modulesFor(TenantFlags flags) {
     // route, no tab, and nothing that reads the favourites provider.
     if (flags.favourites)
       favouritesModule(listingLocation: BrowsePaths.listing),
-    if (flags.hostPanel) hostHomePlaceholder else hostUnavailableModule,
+    // The host area, or the screen that says it is off. Never both, and with
+    // the panel off no host route or provider exists.
+    if (flags.hostPanel) hostModule else hostUnavailableModule,
   ];
   validateModules(modules);
   return modules;

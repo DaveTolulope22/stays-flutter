@@ -858,6 +858,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You haven\'t saved any stays yet. Tap the heart on a stay to keep it here.'**
   String get savedEmpty;
+
+  /// Label of the host's listings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'My listings'**
+  String get hostListingsTab;
+
+  /// Title of the screen that lists the host's own listings.
+  ///
+  /// In en, this message translates to:
+  /// **'My listings'**
+  String get hostListingsTitle;
+
+  /// Shown on the host's listings screen when the host has none.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any listings yet.'**
+  String get hostListingsEmpty;
+
+  /// Button on a host's listing that opens the edit form.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get hostActionEdit;
+
+  /// Button on a host's listing that opens its availability calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get hostActionCalendar;
+
+  /// Button on a host's listing that opens its bookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings'**
+  String get hostActionBookings;
+
+  /// Screen reader text for the edit button on one listing, so each button says which listing it is for.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {title}'**
+  String hostActionEditSemantics(String title);
+
+  /// Screen reader text for the calendar button on one listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar of {title}'**
+  String hostActionCalendarSemantics(String title);
+
+  /// Screen reader text for the bookings button on one listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings of {title}'**
+  String hostActionBookingsSemantics(String title);
 }
 
 class _AppLocalizationsDelegate
