@@ -129,4 +129,110 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get authLinkOpenFailed => 'Der Link konnte nicht geöffnet werden.';
+
+  @override
+  String get listingNew => 'Neu';
+
+  @override
+  String listingPricePerNight(String price) {
+    return '$price / Nacht';
+  }
+
+  @override
+  String listingRatingLabel(String rating, int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$rating ($countString)';
+  }
+
+  @override
+  String listingRatingSemantics(String rating, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Bewertungen',
+      one: '1 Bewertung',
+    );
+    return 'Bewertet mit $rating von 5 aus $_temp0';
+  }
+
+  @override
+  String get listingNewSemantics => 'Neues Angebot, noch keine Bewertungen';
+
+  @override
+  String listingCardSemantics(String title, String city, String price) {
+    return '$title, $city, $price';
+  }
+
+  @override
+  String listingCardSemanticsRated(
+    String title,
+    String city,
+    String price,
+    String rating,
+  ) {
+    return '$title, $city, $price, $rating';
+  }
+
+  @override
+  String get amenityWifi => 'WLAN';
+
+  @override
+  String get amenityKitchen => 'Küche';
+
+  @override
+  String get amenityParking => 'Parkplatz';
+
+  @override
+  String get amenityWasher => 'Waschmaschine';
+
+  @override
+  String get amenityDryer => 'Wäschetrockner';
+
+  @override
+  String get amenityAirConditioning => 'Klimaanlage';
+
+  @override
+  String get amenityHeating => 'Heizung';
+
+  @override
+  String get amenityTv => 'Fernseher';
+
+  @override
+  String get amenityPool => 'Pool';
+
+  @override
+  String get amenityHotTub => 'Whirlpool';
+
+  @override
+  String get amenityFireplace => 'Kamin';
+
+  @override
+  String get amenityBalcony => 'Balkon';
+
+  @override
+  String get amenitySeaView => 'Meerblick';
+
+  @override
+  String get amenityMountainView => 'Bergblick';
+
+  @override
+  String get amenitySkiStorage => 'Skiraum';
+
+  @override
+  String get amenityPetsAllowed => 'Haustiere erlaubt';
+
+  @override
+  String get amenityWorkspace => 'Arbeitsplatz';
+
+  @override
+  String get amenityElevator => 'Aufzug';
+
+  @override
+  String get amenityBbq => 'Grill';
+
+  @override
+  String get amenitySauna => 'Sauna';
 }

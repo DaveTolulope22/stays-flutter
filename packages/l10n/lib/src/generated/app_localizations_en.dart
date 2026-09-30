@@ -124,4 +124,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authLinkOpenFailed => 'The link could not be opened.';
+
+  @override
+  String get listingNew => 'New';
+
+  @override
+  String listingPricePerNight(String price) {
+    return '$price / night';
+  }
+
+  @override
+  String listingRatingLabel(String rating, int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$rating ($countString)';
+  }
+
+  @override
+  String listingRatingSemantics(String rating, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reviews',
+      one: '1 review',
+    );
+    return 'Rated $rating out of 5 from $_temp0';
+  }
+
+  @override
+  String get listingNewSemantics => 'New listing, no reviews yet';
+
+  @override
+  String listingCardSemantics(String title, String city, String price) {
+    return '$title, $city, $price';
+  }
+
+  @override
+  String listingCardSemanticsRated(
+    String title,
+    String city,
+    String price,
+    String rating,
+  ) {
+    return '$title, $city, $price, $rating';
+  }
+
+  @override
+  String get amenityWifi => 'Wi-Fi';
+
+  @override
+  String get amenityKitchen => 'Kitchen';
+
+  @override
+  String get amenityParking => 'Parking';
+
+  @override
+  String get amenityWasher => 'Washing machine';
+
+  @override
+  String get amenityDryer => 'Dryer';
+
+  @override
+  String get amenityAirConditioning => 'Air conditioning';
+
+  @override
+  String get amenityHeating => 'Heating';
+
+  @override
+  String get amenityTv => 'TV';
+
+  @override
+  String get amenityPool => 'Pool';
+
+  @override
+  String get amenityHotTub => 'Hot tub';
+
+  @override
+  String get amenityFireplace => 'Fireplace';
+
+  @override
+  String get amenityBalcony => 'Balcony';
+
+  @override
+  String get amenitySeaView => 'Sea view';
+
+  @override
+  String get amenityMountainView => 'Mountain view';
+
+  @override
+  String get amenitySkiStorage => 'Ski storage';
+
+  @override
+  String get amenityPetsAllowed => 'Pets allowed';
+
+  @override
+  String get amenityWorkspace => 'Workspace';
+
+  @override
+  String get amenityElevator => 'Elevator';
+
+  @override
+  String get amenityBbq => 'Barbecue';
+
+  @override
+  String get amenitySauna => 'Sauna';
 }

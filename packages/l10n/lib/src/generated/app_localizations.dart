@@ -307,6 +307,173 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The link could not be opened.'**
   String get authLinkOpenFailed;
+
+  /// Badge on a listing that has no reviews yet (instead of a zero rating).
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get listingNew;
+
+  /// Price line of a listing. The price is already formatted with the listing's currency.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / night'**
+  String listingPricePerNight(String price);
+
+  /// Visible rating badge: the score to one decimal and the number of reviews.
+  ///
+  /// In en, this message translates to:
+  /// **'{rating} ({count})'**
+  String listingRatingLabel(String rating, int count);
+
+  /// Screen reader text for the rating badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Rated {rating} out of 5 from {count, plural, one{1 review} other{{count} reviews}}'**
+  String listingRatingSemantics(String rating, int count);
+
+  /// Screen reader text for the New badge.
+  ///
+  /// In en, this message translates to:
+  /// **'New listing, no reviews yet'**
+  String get listingNewSemantics;
+
+  /// Screen reader text for a listing card without a rating.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {city}, {price}'**
+  String listingCardSemantics(String title, String city, String price);
+
+  /// Screen reader text for a listing card whose rating is visible. The rating is the rating's own screen reader text.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {city}, {price}, {rating}'**
+  String listingCardSemanticsRated(
+    String title,
+    String city,
+    String price,
+    String rating,
+  );
+
+  /// Amenity label: wifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi'**
+  String get amenityWifi;
+
+  /// Amenity label: kitchen.
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen'**
+  String get amenityKitchen;
+
+  /// Amenity label: parking.
+  ///
+  /// In en, this message translates to:
+  /// **'Parking'**
+  String get amenityParking;
+
+  /// Amenity label: washer.
+  ///
+  /// In en, this message translates to:
+  /// **'Washing machine'**
+  String get amenityWasher;
+
+  /// Amenity label: dryer.
+  ///
+  /// In en, this message translates to:
+  /// **'Dryer'**
+  String get amenityDryer;
+
+  /// Amenity label: air_conditioning.
+  ///
+  /// In en, this message translates to:
+  /// **'Air conditioning'**
+  String get amenityAirConditioning;
+
+  /// Amenity label: heating.
+  ///
+  /// In en, this message translates to:
+  /// **'Heating'**
+  String get amenityHeating;
+
+  /// Amenity label: tv.
+  ///
+  /// In en, this message translates to:
+  /// **'TV'**
+  String get amenityTv;
+
+  /// Amenity label: pool.
+  ///
+  /// In en, this message translates to:
+  /// **'Pool'**
+  String get amenityPool;
+
+  /// Amenity label: hot_tub.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot tub'**
+  String get amenityHotTub;
+
+  /// Amenity label: fireplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Fireplace'**
+  String get amenityFireplace;
+
+  /// Amenity label: balcony.
+  ///
+  /// In en, this message translates to:
+  /// **'Balcony'**
+  String get amenityBalcony;
+
+  /// Amenity label: sea_view.
+  ///
+  /// In en, this message translates to:
+  /// **'Sea view'**
+  String get amenitySeaView;
+
+  /// Amenity label: mountain_view.
+  ///
+  /// In en, this message translates to:
+  /// **'Mountain view'**
+  String get amenityMountainView;
+
+  /// Amenity label: ski_storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Ski storage'**
+  String get amenitySkiStorage;
+
+  /// Amenity label: pets_allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pets allowed'**
+  String get amenityPetsAllowed;
+
+  /// Amenity label: workspace.
+  ///
+  /// In en, this message translates to:
+  /// **'Workspace'**
+  String get amenityWorkspace;
+
+  /// Amenity label: elevator.
+  ///
+  /// In en, this message translates to:
+  /// **'Elevator'**
+  String get amenityElevator;
+
+  /// Amenity label: bbq.
+  ///
+  /// In en, this message translates to:
+  /// **'Barbecue'**
+  String get amenityBbq;
+
+  /// Amenity label: sauna.
+  ///
+  /// In en, this message translates to:
+  /// **'Sauna'**
+  String get amenitySauna;
 }
 
 class _AppLocalizationsDelegate

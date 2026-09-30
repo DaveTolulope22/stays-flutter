@@ -179,5 +179,128 @@
   "authLinkOpenFailed": "The link could not be opened.",
   "@authLinkOpenFailed": {
     "description": "Message shown when the terms or privacy page cannot be opened."
-  }
+  },
+
+  "listingNew": "New",
+  "@listingNew": {
+    "description": "Badge on a listing that has no reviews yet (instead of a zero rating)."
+  },
+
+  "listingPricePerNight": "{price} / night",
+  "@listingPricePerNight": {
+    "description": "Price line of a listing. The price is already formatted with the listing's currency.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+
+  "listingRatingLabel": "{rating} ({count})",
+  "@listingRatingLabel": {
+    "description": "Visible rating badge: the score to one decimal and the number of reviews.",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+
+  "listingRatingSemantics": "Rated {rating} out of 5 from {count, plural, one{1 review} other{{count} reviews}}",
+  "@listingRatingSemantics": {
+    "description": "Screen reader text for the rating badge.",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "listingNewSemantics": "New listing, no reviews yet",
+  "@listingNewSemantics": {
+    "description": "Screen reader text for the New badge."
+  },
+
+  "listingCardSemantics": "{title}, {city}, {price}",
+  "@listingCardSemantics": {
+    "description": "Screen reader text for a listing card without a rating.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "city": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+
+  "listingCardSemanticsRated": "{title}, {city}, {price}, {rating}",
+  "@listingCardSemanticsRated": {
+    "description": "Screen reader text for a listing card whose rating is visible. The rating is the rating's own screen reader text.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "city": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+
+  "amenityWifi": "Wi-Fi",
+  "@amenityWifi": { "description": "Amenity label: wifi." },
+  "amenityKitchen": "Kitchen",
+  "@amenityKitchen": { "description": "Amenity label: kitchen." },
+  "amenityParking": "Parking",
+  "@amenityParking": { "description": "Amenity label: parking." },
+  "amenityWasher": "Washing machine",
+  "@amenityWasher": { "description": "Amenity label: washer." },
+  "amenityDryer": "Dryer",
+  "@amenityDryer": { "description": "Amenity label: dryer." },
+  "amenityAirConditioning": "Air conditioning",
+  "@amenityAirConditioning": { "description": "Amenity label: air_conditioning." },
+  "amenityHeating": "Heating",
+  "@amenityHeating": { "description": "Amenity label: heating." },
+  "amenityTv": "TV",
+  "@amenityTv": { "description": "Amenity label: tv." },
+  "amenityPool": "Pool",
+  "@amenityPool": { "description": "Amenity label: pool." },
+  "amenityHotTub": "Hot tub",
+  "@amenityHotTub": { "description": "Amenity label: hot_tub." },
+  "amenityFireplace": "Fireplace",
+  "@amenityFireplace": { "description": "Amenity label: fireplace." },
+  "amenityBalcony": "Balcony",
+  "@amenityBalcony": { "description": "Amenity label: balcony." },
+  "amenitySeaView": "Sea view",
+  "@amenitySeaView": { "description": "Amenity label: sea_view." },
+  "amenityMountainView": "Mountain view",
+  "@amenityMountainView": { "description": "Amenity label: mountain_view." },
+  "amenitySkiStorage": "Ski storage",
+  "@amenitySkiStorage": { "description": "Amenity label: ski_storage." },
+  "amenityPetsAllowed": "Pets allowed",
+  "@amenityPetsAllowed": { "description": "Amenity label: pets_allowed." },
+  "amenityWorkspace": "Workspace",
+  "@amenityWorkspace": { "description": "Amenity label: workspace." },
+  "amenityElevator": "Elevator",
+  "@amenityElevator": { "description": "Amenity label: elevator." },
+  "amenityBbq": "Barbecue",
+  "@amenityBbq": { "description": "Amenity label: bbq." },
+  "amenitySauna": "Sauna",
+  "@amenitySauna": { "description": "Amenity label: sauna." }
 }

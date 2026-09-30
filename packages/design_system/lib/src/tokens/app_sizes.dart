@@ -9,4 +9,7 @@ abstract final class AppSizes {
 
   /// Width of a centred content column on wide screens.
   static const double maxContentWidth = 640;
+
+  /// Width divided by height of a listing's cover image (4:3).
+  static const double listingImageAspectRatio = 4 / 3;
 }
