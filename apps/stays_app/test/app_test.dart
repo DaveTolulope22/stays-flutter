@@ -7,10 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:l10n/l10n.dart';
+import 'package:listings/listings.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:stays_app/src/app.dart';
 import 'package:stays_app/src/boot/boot_app.dart';
 
+import 'support/fake_listings_repository.dart';
 import 'support/shell_harness.dart'
     show FakeSessionController, SessionScript, clientSession;
 
@@ -88,6 +90,9 @@ void main() {
             ),
           ),
           tenantConfigRepositoryProvider.overrideWithValue(repository),
+          listingsRepositoryProvider.overrideWithValue(
+            FakeListingsRepository(),
+          ),
           // Signed in as a client, so the tenant's own app is what shows.
           sessionControllerProvider.overrideWith(
             () => FakeSessionController(SessionScript(initial: clientSession)),
@@ -103,7 +108,8 @@ void main() {
   }
 
   AppColors colorsOnScreen(WidgetTester tester) =>
-      Theme.of(tester.element(find.byType(Scaffold))).extension<AppColors>()!;
+      Theme.of(tester.element(find.byType(Scaffold).first))
+          .extension<AppColors>()!;
 
   group('once the config is loaded', () {
     testWidgets('shows the tenant name and the tenant colours', (tester) async {
@@ -115,7 +121,8 @@ void main() {
       expect(find.text('Acme Stays'), findsOneWidget);
       expect(colorsOnScreen(tester).surfaceAction, _hex(0x0a5cb8));
       expect(
-        Theme.of(tester.element(find.byType(Scaffold))).scaffoldBackgroundColor,
+        Theme.of(tester.element(find.byType(Scaffold).first))
+            .scaffoldBackgroundColor,
         _hex(0xfafafa),
       );
     });
@@ -155,7 +162,9 @@ void main() {
   group('language', () {
     Future<Locale> shownLocale(WidgetTester tester) async {
       await tester.pumpAndSettle();
-      return Localizations.localeOf(tester.element(find.byType(Scaffold)));
+      return Localizations.localeOf(
+        tester.element(find.byType(Scaffold).first),
+      );
     }
 
     testWidgets('device language wins when the tenant offers it', (

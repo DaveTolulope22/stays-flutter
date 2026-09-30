@@ -5,16 +5,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../failures/app_failure.dart';
 import '../network/auth_hooks_provider.dart';
+import '../network/no_automatic_retry.dart';
 import '../tenant/tenant_environment_provider.dart';
 import 'auth_repository_provider.dart';
 import 'session.dart';
 import 'session_storage_provider.dart';
 
 part 'session_controller.g.dart';
-
-/// The restore step reports its own failure and the boot screen offers Retry,
-/// so Riverpod's automatic retry would only hide it behind a spinner.
-Duration? _noAutomaticRetry(int retryCount, Object error) => null;
 
 /// Who is signed in, or nobody. Its value is:
 /// - `AsyncData(Session)`: signed in,
@@ -25,8 +22,10 @@ Duration? _noAutomaticRetry(int retryCount, Object error) => null;
 ///   `ref.invalidate(sessionControllerProvider)`.
 ///
 /// keepAlive: the session is app-wide state that outlives every screen, and
-/// the router, the interceptor hooks and the capabilities all read it.
-@Riverpod(keepAlive: true, retry: _noAutomaticRetry)
+/// the router, the interceptor hooks and the capabilities all read it. The
+/// restore step reports its own failure and the boot screen offers Retry, so it
+/// does not retry automatically.
+@Riverpod(keepAlive: true, retry: noAutomaticRetry)
 class SessionController extends _$SessionController {
   /// Restores a stored session. It is trusted only after `/auth/me` confirms
   /// it, so a revoked token can never show a signed-in screen. A 401 or a

@@ -6,8 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
+import 'package:listings/listings.dart';
 import 'package:stays_app/src/app.dart';
 import 'package:stays_app/src/tenant_app.dart';
+
+import 'fake_listings_repository.dart';
 
 const clientSession = Session(
   accessToken: 'client-token',
@@ -164,6 +167,7 @@ class ShellHarness {
     ),
     tenantConfigProvider.overrideWith((ref) => config),
     sessionControllerProvider.overrideWith(() => FakeSessionController(script)),
+    listingsRepositoryProvider.overrideWithValue(FakeListingsRepository()),
   ];
 
   /// Pumps the whole app ([StaysApp]), or just the tenant app with the given

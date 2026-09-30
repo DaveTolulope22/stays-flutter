@@ -64,7 +64,8 @@ String _$tenantConfigRepositoryHash() =>
 /// keepAlive: the runtime config is loaded once and read by the theme, the
 /// locale setup, the router and the capabilities for the life of the process.
 /// A failure surfaces as `AsyncError` holding the `AppFailure`; retry with
-/// `ref.invalidate(tenantConfigProvider)`.
+/// `ref.invalidate(tenantConfigProvider)`. The boot screen has its own Retry,
+/// so it fails once (no automatic retry).
 
 @ProviderFor(tenantConfig)
 final tenantConfigProvider = TenantConfigProvider._();
@@ -72,7 +73,8 @@ final tenantConfigProvider = TenantConfigProvider._();
 /// keepAlive: the runtime config is loaded once and read by the theme, the
 /// locale setup, the router and the capabilities for the life of the process.
 /// A failure surfaces as `AsyncError` holding the `AppFailure`; retry with
-/// `ref.invalidate(tenantConfigProvider)`.
+/// `ref.invalidate(tenantConfigProvider)`. The boot screen has its own Retry,
+/// so it fails once (no automatic retry).
 
 final class TenantConfigProvider
     extends
@@ -85,12 +87,13 @@ final class TenantConfigProvider
   /// keepAlive: the runtime config is loaded once and read by the theme, the
   /// locale setup, the router and the capabilities for the life of the process.
   /// A failure surfaces as `AsyncError` holding the `AppFailure`; retry with
-  /// `ref.invalidate(tenantConfigProvider)`.
+  /// `ref.invalidate(tenantConfigProvider)`. The boot screen has its own Retry,
+  /// so it fails once (no automatic retry).
   TenantConfigProvider._()
     : super(
         from: null,
         argument: null,
-        retry: _noAutomaticRetry,
+        retry: noAutomaticRetry,
         name: r'tenantConfigProvider',
         isAutoDispose: false,
         dependencies: null,
@@ -112,4 +115,4 @@ final class TenantConfigProvider
   }
 }
 
-String _$tenantConfigHash() => r'941ee5b917259bc65f55e99ad1918a46d6833689';
+String _$tenantConfigHash() => r'a8217c5a96d6896a6047d0dcade25336c149607f';

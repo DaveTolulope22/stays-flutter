@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
-/// TEMPORARY landing page for a signed-in user, until the real guest (Phase 5)
-/// and host (Phase 7) screens exist. It shows who is signed in, the tenant's
-/// eight colour roles, and a sign-out button, so the whole sign-in, redirect
-/// and sign-out loop can be tried on a device.
+/// TEMPORARY landing page for a signed-in host, until the real host screens
+/// exist (Phase 7). It shows who is signed in, the tenant's eight colour roles,
+/// and a sign-out button, so the host side of the loop can be tried on a
+/// device.
 class SessionHomeScreen extends ConsumerWidget {
   const SessionHomeScreen({super.key});
 

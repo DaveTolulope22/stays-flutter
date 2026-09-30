@@ -230,4 +230,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get amenitySauna => 'Sauna';
+
+  @override
+  String get browseTab => 'Browse';
+
+  @override
+  String browseResultCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString stays',
+      one: '1 stay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get browseEmpty => 'There are no stays to show right now.';
+
+  @override
+  String get browseEmptyFiltered => 'No stays match your search.';
+
+  @override
+  String get browseClearFilters => 'Clear filters';
+
+  @override
+  String get browseFilters => 'Filters';
 }

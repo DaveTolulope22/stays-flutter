@@ -302,5 +302,41 @@
   "amenityBbq": "Barbecue",
   "@amenityBbq": { "description": "Amenity label: bbq." },
   "amenitySauna": "Sauna",
-  "@amenitySauna": { "description": "Amenity label: sauna." }
+  "@amenitySauna": { "description": "Amenity label: sauna." },
+
+  "browseTab": "Browse",
+  "@browseTab": {
+    "description": "Label of the guest's browse tab."
+  },
+
+  "browseResultCount": "{count, plural, one{1 stay} other{{count} stays}}",
+  "@browseResultCount": {
+    "description": "Number of listings matching the current filters, shown above the list.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+
+  "browseEmpty": "There are no stays to show right now.",
+  "@browseEmpty": {
+    "description": "The list is empty and no filter is applied."
+  },
+
+  "browseEmptyFiltered": "No stays match your search.",
+  "@browseEmptyFiltered": {
+    "description": "The list is empty because of the applied filters."
+  },
+
+  "browseClearFilters": "Clear filters",
+  "@browseClearFilters": {
+    "description": "Button that removes every applied filter."
+  },
+
+  "browseFilters": "Filters",
+  "@browseFilters": {
+    "description": "Tooltip and accessibility label of the button that opens the filter sheet."
+  }
 }

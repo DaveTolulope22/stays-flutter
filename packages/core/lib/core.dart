@@ -14,6 +14,7 @@ export 'src/network/api_call.dart';
 export 'src/network/auth_hooks_provider.dart';
 export 'src/network/auth_interceptor.dart';
 export 'src/network/dio_provider.dart';
+export 'src/network/no_automatic_retry.dart';
 export 'src/network/tenant_interceptor.dart';
 export 'src/paging/cursor_page.dart';
 export 'src/paging/page_info.dart';

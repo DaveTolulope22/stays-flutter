@@ -352,3 +352,61 @@ on a different drive from the project.
 has almost no Kotlin of its own, so a full compile of the plugins costs
 nothing, and the build is reliable. Switching the Kotlin compiler to run in
 the Gradle process did not help.
+
+## 017. Listing images: `Image.network`, no image-cache package
+
+**Context:** Every card has a cover and the detail screen has a pager, served
+from the internet. The brief excludes offline support.
+
+**Decision:** Plain `Image.network` in a fixed-aspect-ratio box, with a surface
+while loading and an icon if it fails (or if a listing has no image). Flutter's
+in-memory image cache is enough for scrolling a list.
+
+**Rejected:** `cached_network_image`. It adds a disk cache and one more
+dependency for a benefit the brief does not ask for.
+
+## 018. Guest sign-out is an app-bar action
+
+**Context:** The temporary home screen held the only sign-out button. Once it is
+replaced, a guest still needs a way out.
+
+**Decision:** A sign-out icon button (with a tooltip) in the browse app bar. A
+guest on a tenant with favourites off has one tab, so there is no bottom bar to
+host an "Account" tab either way.
+
+**Rejected:** An account tab. It adds a module and a tab (and a bottom bar on
+tenants that otherwise have none) for one button.
+
+## 019. Browse list state: a family keyed by the filter, applied from a draft
+
+**Context:** The list must reload when the filter changes, must not mix pages of
+two filters, and must survive opening a listing.
+
+**Decision:**
+- `BrowseListings` is an auto-dispose notifier family keyed by `ListingFilter`
+  (a freezed value, so equal filters are the same key). A new filter is a new
+  list, and a slow answer for the old one can never be appended to it.
+- `ListingFilterController` holds the applied filter. The filter sheet edits a
+  local draft and writes it once on "Show results", so a slider does not reload
+  the list on every tick.
+- A listing opens on top of the browse screen, so the screen stays mounted and
+  keeps listening: the filter, the pages and the scroll position survive. A test
+  proves it, including that no request is repeated.
+- A load-more that started before a refresh is dropped (a generation counter),
+  and the screen asks for the next page after every rebuild too, so a first page
+  too short to scroll still fills the screen.
+
+**Rejected:** Writing every change to the filter controller (reloads while the
+user is still choosing), and a `keepAlive` list (it would keep the last list
+across sign-out and tenant-level changes for no reason).
+
+## 020. One `noAutomaticRetry` for providers that load from the API
+
+**Context:** Riverpod 3 retries a failed provider with a growing delay, which
+keeps a screen on its spinner instead of showing the error. Core had two private
+copies of the same function.
+
+**Decision:** One public `noAutomaticRetry` in `core`, used by the tenant
+config, the session, and every notifier that loads from the API. Failing once
+and showing our own message with a Retry button is the behaviour the brief's
+error handling asks for.

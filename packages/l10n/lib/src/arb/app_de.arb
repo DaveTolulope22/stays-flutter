@@ -64,5 +64,12 @@
   "amenityWorkspace": "Arbeitsplatz",
   "amenityElevator": "Aufzug",
   "amenityBbq": "Grill",
-  "amenitySauna": "Sauna"
+  "amenitySauna": "Sauna",
+
+  "browseTab": "Entdecken",
+  "browseResultCount": "{count, plural, one{1 Unterkunft} other{{count} Unterkünfte}}",
+  "browseEmpty": "Derzeit gibt es keine Unterkünfte.",
+  "browseEmptyFiltered": "Keine Unterkünfte passen zu Ihrer Suche.",
+  "browseClearFilters": "Filter zurücksetzen",
+  "browseFilters": "Filter"
 }

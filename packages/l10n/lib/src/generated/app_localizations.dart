@@ -474,6 +474,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sauna'**
   String get amenitySauna;
+
+  /// Label of the guest's browse tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse'**
+  String get browseTab;
+
+  /// Number of listings matching the current filters, shown above the list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 stay} other{{count} stays}}'**
+  String browseResultCount(int count);
+
+  /// The list is empty and no filter is applied.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no stays to show right now.'**
+  String get browseEmpty;
+
+  /// The list is empty because of the applied filters.
+  ///
+  /// In en, this message translates to:
+  /// **'No stays match your search.'**
+  String get browseEmptyFiltered;
+
+  /// Button that removes every applied filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get browseClearFilters;
+
+  /// Tooltip and accessibility label of the button that opens the filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get browseFilters;
 }
 
 class _AppLocalizationsDelegate

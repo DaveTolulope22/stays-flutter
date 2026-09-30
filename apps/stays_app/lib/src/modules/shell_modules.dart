@@ -1,24 +1,12 @@
 import 'package:core/core.dart';
 import 'package:feature_auth/feature_auth.dart';
+import 'package:feature_browse/feature_browse.dart';
 import 'package:go_router/go_router.dart';
 
 import 'session_home_screens.dart';
 
-/// TEMPORARY stand-ins, replaced by `browseModule` in Phase 5 and `hostModule`
-/// in Phase 7. They keep the real paths (`/browse`, `/host`), so nothing
-/// else changes when the real modules arrive.
-final guestHomePlaceholder = FeatureModule(
-  id: 'guest-home',
-  area: AccessArea.guest,
-  basePath: '/browse',
-  routes: [
-    GoRoute(
-      path: '/browse',
-      builder: (context, state) => const SessionHomeScreen(),
-    ),
-  ],
-);
-
+/// TEMPORARY stand-in, replaced by `hostModule` in Phase 7. It keeps the real
+/// path (`/host`), so nothing else changes when the real module arrives.
 final hostHomePlaceholder = FeatureModule(
   id: 'host-home',
   area: AccessArea.host,
@@ -55,7 +43,7 @@ final hostUnavailableModule = FeatureModule(
 List<FeatureModule> modulesFor(TenantFlags flags) {
   final modules = [
     authModule,
-    guestHomePlaceholder,
+    browseModule,
     if (flags.hostPanel) hostHomePlaceholder else hostUnavailableModule,
   ];
   validateModules(modules);

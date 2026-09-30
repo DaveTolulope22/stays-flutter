@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stays_app/src/modules/shell_modules.dart';
 
+import 'support/fake_listings_repository.dart';
 import 'support/shell_harness.dart';
 
 void main() {
@@ -15,8 +16,9 @@ void main() {
 
   Finder field(String label) => find.widgetWithText(TextFormField, label);
 
-  /// The temporary home shows the signed-in user's role in plain text.
-  Finder guestHome() => find.text('client');
+  /// The guest side is the browse screen, which shows the (fake) listing; the
+  /// host side is still the temporary home, which shows the role in plain text.
+  Finder guestHome() => find.text(shellListing.title);
   Finder hostHome() => find.text('host');
   Finder signInScreen() => find.widgetWithText(FilledButton, en.authSignIn);
 
@@ -62,7 +64,6 @@ void main() {
       await ShellHarness(session: clientSession).pump(tester);
 
       expect(guestHome(), findsOneWidget);
-      expect(find.text('Gia Guest'), findsOneWidget);
       expect(signInScreen(), findsNothing);
     });
 
@@ -246,7 +247,7 @@ void main() {
       final harness = ShellHarness(session: clientSession);
       await harness.pump(tester);
 
-      await tester.tap(find.text(en.signOut));
+      await tester.tap(find.byTooltip(en.signOut));
       await tester.pumpAndSettle();
 
       expect(signInScreen(), findsOneWidget);
@@ -257,7 +258,7 @@ void main() {
       tester,
     ) async {
       await ShellHarness(session: clientSession).pump(tester);
-      await tester.tap(find.text(en.signOut));
+      await tester.tap(find.byTooltip(en.signOut));
       await tester.pumpAndSettle();
 
       await go(tester, '/browse');
@@ -457,13 +458,13 @@ void main() {
     ];
 
     test('with the host panel on: auth, guest and host', () {
-      expect(ids(allFlagsOn), ['auth', 'guest-home', 'host-home']);
+      expect(ids(allFlagsOn), ['auth', 'browse', 'host-home']);
     });
 
     test('with the host panel off: the "not available" module instead', () {
       expect(ids(allFlagsOn.copyWith(hostPanel: false)), [
         'auth',
-        'guest-home',
+        'browse',
         'host-unavailable',
       ]);
     });

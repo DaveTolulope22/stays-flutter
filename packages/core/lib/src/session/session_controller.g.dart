@@ -17,7 +17,9 @@ part of 'session_controller.dart';
 ///   `ref.invalidate(sessionControllerProvider)`.
 ///
 /// keepAlive: the session is app-wide state that outlives every screen, and
-/// the router, the interceptor hooks and the capabilities all read it.
+/// the router, the interceptor hooks and the capabilities all read it. The
+/// restore step reports its own failure and the boot screen offers Retry, so it
+/// does not retry automatically.
 
 @ProviderFor(SessionController)
 final sessionControllerProvider = SessionControllerProvider._();
@@ -31,7 +33,9 @@ final sessionControllerProvider = SessionControllerProvider._();
 ///   `ref.invalidate(sessionControllerProvider)`.
 ///
 /// keepAlive: the session is app-wide state that outlives every screen, and
-/// the router, the interceptor hooks and the capabilities all read it.
+/// the router, the interceptor hooks and the capabilities all read it. The
+/// restore step reports its own failure and the boot screen offers Retry, so it
+/// does not retry automatically.
 final class SessionControllerProvider
     extends $AsyncNotifierProvider<SessionController, Session?> {
   /// Who is signed in, or nobody. Its value is:
@@ -43,12 +47,14 @@ final class SessionControllerProvider
   ///   `ref.invalidate(sessionControllerProvider)`.
   ///
   /// keepAlive: the session is app-wide state that outlives every screen, and
-  /// the router, the interceptor hooks and the capabilities all read it.
+  /// the router, the interceptor hooks and the capabilities all read it. The
+  /// restore step reports its own failure and the boot screen offers Retry, so it
+  /// does not retry automatically.
   SessionControllerProvider._()
     : super(
         from: null,
         argument: null,
-        retry: _noAutomaticRetry,
+        retry: noAutomaticRetry,
         name: r'sessionControllerProvider',
         isAutoDispose: false,
         dependencies: null,
@@ -63,7 +69,7 @@ final class SessionControllerProvider
   SessionController create() => SessionController();
 }
 
-String _$sessionControllerHash() => r'ac692bbe875ca0aa50678ef8489ffc5395a81d91';
+String _$sessionControllerHash() => r'a2dd745335948dc4a10312b9ba25fdbcb6f3b118';
 
 /// Who is signed in, or nobody. Its value is:
 /// - `AsyncData(Session)`: signed in,
@@ -74,7 +80,9 @@ String _$sessionControllerHash() => r'ac692bbe875ca0aa50678ef8489ffc5395a81d91';
 ///   `ref.invalidate(sessionControllerProvider)`.
 ///
 /// keepAlive: the session is app-wide state that outlives every screen, and
-/// the router, the interceptor hooks and the capabilities all read it.
+/// the router, the interceptor hooks and the capabilities all read it. The
+/// restore step reports its own failure and the boot screen offers Retry, so it
+/// does not retry automatically.
 
 abstract class _$SessionController extends $AsyncNotifier<Session?> {
   FutureOr<Session?> build();

@@ -235,4 +235,34 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get amenitySauna => 'Sauna';
+
+  @override
+  String get browseTab => 'Entdecken';
+
+  @override
+  String browseResultCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString Unterkünfte',
+      one: '1 Unterkunft',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get browseEmpty => 'Derzeit gibt es keine Unterkünfte.';
+
+  @override
+  String get browseEmptyFiltered => 'Keine Unterkünfte passen zu Ihrer Suche.';
+
+  @override
+  String get browseClearFilters => 'Filter zurücksetzen';
+
+  @override
+  String get browseFilters => 'Filter';
 }
