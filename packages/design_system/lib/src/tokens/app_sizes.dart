@@ -4,6 +4,9 @@ abstract final class AppSizes {
   static const double iconM = 24;
   static const double iconL = 48;
 
+  /// Edge of the rounded square that holds the app mark on the auth screens.
+  static const double brandMark = 80;
+
   /// Smallest comfortable tap target (Material and Android guidance).
   static const double minTapTarget = 48;
 

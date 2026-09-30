@@ -75,6 +75,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authRegister => 'Konto erstellen';
 
   @override
+  String get authWelcomeTitle => 'Willkommen zurück';
+
+  @override
+  String get authWelcomeSubtitle => 'Melden Sie sich an, um fortzufahren.';
+
+  @override
   String get authEmail => 'E-Mail-Adresse';
 
   @override

@@ -73,6 +73,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authRegister => 'Create account';
 
   @override
+  String get authWelcomeTitle => 'Welcome back';
+
+  @override
+  String get authWelcomeSubtitle => 'Sign in to continue.';
+
+  @override
   String get authEmail => 'Email address';
 
   @override

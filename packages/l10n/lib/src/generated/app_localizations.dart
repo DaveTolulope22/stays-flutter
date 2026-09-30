@@ -206,6 +206,18 @@ abstract class AppLocalizations {
   /// **'Create account'**
   String get authRegister;
 
+  /// Heading of the sign-in screen, under the app mark.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get authWelcomeTitle;
+
+  /// One line under the sign-in heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue.'**
+  String get authWelcomeSubtitle;
+
   /// Label of the email field.
   ///
   /// In en, this message translates to:

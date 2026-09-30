@@ -19,6 +19,8 @@
   "errorRangeTooLong": "Bitte wählen Sie einen kürzeren Zeitraum (höchstens ein Jahr).",
   "authSignIn": "Anmelden",
   "authRegister": "Konto erstellen",
+  "authWelcomeTitle": "Willkommen zurück",
+  "authWelcomeSubtitle": "Melden Sie sich an, um fortzufahren.",
   "authEmail": "E-Mail-Adresse",
   "authPassword": "Passwort",
   "authFirstName": "Vorname",

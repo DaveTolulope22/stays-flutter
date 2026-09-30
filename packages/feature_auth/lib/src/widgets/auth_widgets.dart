@@ -17,16 +17,27 @@ String authErrorText(AppLocalizations l10n, AuthFieldError error) =>
 
 /// A scrollable, width-limited page for an auth form, so it survives a small
 /// screen, the keyboard, large text and a wide window.
+///
+/// Either an app-bar [title] or a [header] shown above the form, not both.
 class AuthFormLayout extends StatelessWidget {
-  const AuthFormLayout({required this.title, required this.child, super.key});
+  const AuthFormLayout({
+    this.title,
+    this.header,
+    required this.child,
+    super.key,
+  }) : assert(
+         (title == null) != (header == null),
+         'Give either a title or a header',
+       );
 
-  final String title;
+  final String? title;
+  final Widget? header;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: title == null ? null : AppBar(title: Text(title!)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -35,8 +46,88 @@ class AuthFormLayout extends StatelessWidget {
               constraints: const BoxConstraints(
                 maxWidth: AppSizes.maxContentWidth,
               ),
-              child: child,
+              child: header == null
+                  ? child
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        header!,
+                        const SizedBox(height: AppSpacing.xl),
+                        child,
+                      ],
+                    ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The sign-in heading: the app mark, a centred title and a short subtitle.
+class AuthBrandHeader extends StatelessWidget {
+  const AuthBrandHeader({
+    required this.title,
+    required this.subtitle,
+    super.key,
+  });
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        const AuthMark(),
+        const SizedBox(height: AppSpacing.l),
+        Semantics(
+          header: true,
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.s),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: context.colors.textMuted,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// A rounded square with a neutral icon, coloured from the tenant's tokens.
+///
+/// Deliberately not a per-tenant image: the colours already carry the brand,
+/// the mark follows light and dark for free, and no tenant name or asset path
+/// is needed in code. It is decoration, so a screen reader skips it.
+class AuthMark extends StatelessWidget {
+  const AuthMark({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return ExcludeSemantics(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceAction,
+          borderRadius: AppRadius.largeAll,
+        ),
+        child: SizedBox.square(
+          dimension: AppSizes.brandMark,
+          child: Icon(
+            Icons.home_work_outlined,
+            size: AppSizes.iconL,
+            color: colors.textOnAction,
           ),
         ),
       ),

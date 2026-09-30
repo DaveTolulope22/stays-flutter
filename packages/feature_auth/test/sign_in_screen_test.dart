@@ -23,12 +23,15 @@ void main() {
     await tester.enterText(field(en.authPassword), ' secret ');
   }
 
-  testWidgets('shows the form with its title, fields and register link', (
+  testWidgets('shows the welcome heading, fields, button and register link', (
     tester,
   ) async {
     await harness.pump(tester);
 
-    expect(find.text(en.authSignIn), findsNWidgets(2)); // title + button
+    expect(find.text(en.authWelcomeTitle), findsOneWidget);
+    expect(find.text(en.authWelcomeSubtitle), findsOneWidget);
+    expect(find.byType(AppBar), findsNothing);
+    expect(submit(), findsOneWidget);
     expect(field(en.authEmail), findsOneWidget);
     expect(field(en.authPassword), findsOneWidget);
     expect(find.text(en.authGoToRegister), findsOneWidget);

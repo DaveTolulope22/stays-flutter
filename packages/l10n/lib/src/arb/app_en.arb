@@ -91,6 +91,16 @@
     "description": "Registration screen title and its submit button."
   },
 
+  "authWelcomeTitle": "Welcome back",
+  "@authWelcomeTitle": {
+    "description": "Heading of the sign-in screen, under the app mark."
+  },
+
+  "authWelcomeSubtitle": "Sign in to continue.",
+  "@authWelcomeSubtitle": {
+    "description": "One line under the sign-in heading."
+  },
+
   "authEmail": "Email address",
   "@authEmail": {
     "description": "Label of the email field."

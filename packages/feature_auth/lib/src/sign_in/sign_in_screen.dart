@@ -62,7 +62,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     }
 
     return AuthFormLayout(
-      title: l10n.authSignIn,
+      header: AuthBrandHeader(
+        title: l10n.authWelcomeTitle,
+        subtitle: l10n.authWelcomeSubtitle,
+      ),
       child: Form(
         key: _formKey,
         child: AutofillGroup(
