@@ -17,27 +17,16 @@ String authErrorText(AppLocalizations l10n, AuthFieldError error) =>
 
 /// A scrollable, width-limited page for an auth form, so it survives a small
 /// screen, the keyboard, large text and a wide window.
-///
-/// Either an app-bar [title] or a [header] shown above the form, not both.
+/// The [header] sits above the form.
 class AuthFormLayout extends StatelessWidget {
-  const AuthFormLayout({
-    this.title,
-    this.header,
-    required this.child,
-    super.key,
-  }) : assert(
-         (title == null) != (header == null),
-         'Give either a title or a header',
-       );
+  const AuthFormLayout({required this.header, required this.child, super.key});
 
-  final String? title;
-  final Widget? header;
+  final Widget header;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: title == null ? null : AppBar(title: Text(title!)),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -46,20 +35,73 @@ class AuthFormLayout extends StatelessWidget {
               constraints: const BoxConstraints(
                 maxWidth: AppSizes.maxContentWidth,
               ),
-              child: header == null
-                  ? child
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        header!,
-                        const SizedBox(height: AppSpacing.xl),
-                        child,
-                      ],
-                    ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  header,
+                  const SizedBox(height: AppSpacing.xl),
+                  child,
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The registration heading: a back arrow and the title on one row, with a
+/// short subtitle under them.
+class AuthBackHeader extends StatelessWidget {
+  const AuthBackHeader({
+    required this.title,
+    required this.subtitle,
+    required this.backTooltip,
+    required this.onBack,
+    super.key,
+  });
+
+  final String title;
+  final String subtitle;
+  final String backTooltip;
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            IconButton(
+              tooltip: backTooltip,
+              icon: const BackButtonIcon(),
+              onPressed: onBack,
+            ),
+            const SizedBox(width: AppSpacing.s),
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(
+                  title,
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.s),
+        Text(
+          subtitle,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: context.colors.textMuted,
+          ),
+        ),
+      ],
     );
   }
 }

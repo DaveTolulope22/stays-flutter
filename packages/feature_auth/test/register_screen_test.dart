@@ -51,6 +51,25 @@ void main() {
     expect(find.text(en.authGoToSignIn), findsOneWidget);
   });
 
+  testWidgets('has a header row with a back arrow, no app bar', (tester) async {
+    await pumpRegister(tester);
+
+    expect(find.byType(AppBar), findsNothing);
+    expect(find.text(en.authRegister), findsNWidgets(2)); // title + button
+    expect(find.text(en.authRegisterSubtitle), findsOneWidget);
+    expect(find.byTooltip(en.authBackToSignIn), findsOneWidget);
+  });
+
+  testWidgets('the back arrow returns to sign-in', (tester) async {
+    await pumpRegister(tester);
+
+    await tester.tap(find.byTooltip(en.authBackToSignIn));
+    await tester.pumpAndSettle();
+
+    expect(find.text(en.authWelcomeTitle), findsOneWidget);
+    expect(find.text(en.authGoToRegister), findsOneWidget);
+  });
+
   group('validation mirrors the server rules', () {
     testWidgets('an empty form shows four required errors', (tester) async {
       await pumpRegister(tester);

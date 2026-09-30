@@ -68,7 +68,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
 
     return AuthFormLayout(
-      title: l10n.authRegister,
+      header: AuthBackHeader(
+        title: l10n.authRegister,
+        subtitle: l10n.authRegisterSubtitle,
+        backTooltip: l10n.authBackToSignIn,
+        // Register is reached with `go`, so there is nothing to pop.
+        onBack: () => context.go(AuthPaths.signIn),
+      ),
       child: Form(
         key: _formKey,
         child: AutofillGroup(

@@ -79,6 +79,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authWelcomeSubtitle => 'Sign in to continue.';
 
   @override
+  String get authRegisterSubtitle => 'Enter your details to get started.';
+
+  @override
+  String get authBackToSignIn => 'Back to sign in';
+
+  @override
   String get authEmail => 'Email address';
 
   @override

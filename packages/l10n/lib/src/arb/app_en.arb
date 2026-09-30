@@ -101,6 +101,16 @@
     "description": "One line under the sign-in heading."
   },
 
+  "authRegisterSubtitle": "Enter your details to get started.",
+  "@authRegisterSubtitle": {
+    "description": "One line under the heading of the registration screen."
+  },
+
+  "authBackToSignIn": "Back to sign in",
+  "@authBackToSignIn": {
+    "description": "Tooltip and screen reader label of the back arrow on the registration screen."
+  },
+
   "authEmail": "Email address",
   "@authEmail": {
     "description": "Label of the email field."

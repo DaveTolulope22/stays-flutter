@@ -218,6 +218,18 @@ abstract class AppLocalizations {
   /// **'Sign in to continue.'**
   String get authWelcomeSubtitle;
 
+  /// One line under the heading of the registration screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your details to get started.'**
+  String get authRegisterSubtitle;
+
+  /// Tooltip and screen reader label of the back arrow on the registration screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get authBackToSignIn;
+
   /// Label of the email field.
   ///
   /// In en, this message translates to:

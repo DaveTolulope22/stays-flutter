@@ -21,6 +21,8 @@
   "authRegister": "Konto erstellen",
   "authWelcomeTitle": "Willkommen zurück",
   "authWelcomeSubtitle": "Melden Sie sich an, um fortzufahren.",
+  "authRegisterSubtitle": "Geben Sie Ihre Daten ein, um loszulegen.",
+  "authBackToSignIn": "Zurück zur Anmeldung",
   "authEmail": "E-Mail-Adresse",
   "authPassword": "Passwort",
   "authFirstName": "Vorname",
