@@ -172,5 +172,18 @@
   "hostCalendarDayFreeTap": "{date}, verfügbar. Zum Sperren tippen.",
   "hostCalendarDayBlockedTap": "{date}, gesperrt. Zum Freigeben tippen.",
   "hostCalendarDayBlocked": "{date}, gesperrt",
-  "hostCalendarDayBooked": "{date}, gebucht"
+  "hostCalendarDayBooked": "{date}, gebucht",
+  "hostBookingsFilterAll": "Alle",
+  "bookingStatusConfirmed": "Bestätigt",
+  "bookingStatusPending": "Ausstehend",
+  "bookingStatusCompleted": "Abgeschlossen",
+  "bookingStatusCancelled": "Storniert",
+  "bookingStatusUnknown": "Unbekannter Status",
+  "hostBookingsCount": "{count, plural, one{1 Buchung} other{{count} Buchungen}}",
+  "hostBookingsEmpty": "Diese Unterkunft hat noch keine Buchungen.",
+  "hostBookingsEmptyFiltered": "Keine Buchungen mit diesem Status.",
+  "hostBookingsShowAll": "Alle Buchungen anzeigen",
+  "hostBookingDates": "{checkIn} – {checkOut}",
+  "hostBookingNights": "{count, plural, one{1 Nacht} other{{count} Nächte}}",
+  "hostBookingGuests": "{count, plural, one{1 Gast} other{{count} Gäste}}"
 }

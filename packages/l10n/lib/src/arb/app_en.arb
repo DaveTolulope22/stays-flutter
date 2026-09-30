@@ -868,5 +868,56 @@
   "@hostCalendarDayBooked": {
     "description": "Screen reader label of a day a guest has booked. It cannot be blocked.",
     "placeholders": { "date": { "type": "String" } }
+  },
+
+  "hostBookingsFilterAll": "All",
+  "@hostBookingsFilterAll": { "description": "Status filter chip that shows bookings of every status." },
+
+  "bookingStatusConfirmed": "Confirmed",
+  "@bookingStatusConfirmed": { "description": "Booking status: upcoming and paid for." },
+
+  "bookingStatusPending": "Pending",
+  "@bookingStatusPending": { "description": "Booking status: upcoming, not yet confirmed." },
+
+  "bookingStatusCompleted": "Completed",
+  "@bookingStatusCompleted": { "description": "Booking status: the stay is in the past." },
+
+  "bookingStatusCancelled": "Cancelled",
+  "@bookingStatusCancelled": { "description": "Booking status: called off." },
+
+  "bookingStatusUnknown": "Unknown status",
+  "@bookingStatusUnknown": { "description": "Shown for a booking status this app does not know, so one new value on the API does not break the list." },
+
+  "hostBookingsCount": "{count, plural, one{1 booking} other{{count} bookings}}",
+  "@hostBookingsCount": {
+    "description": "Number of bookings matching the status filter, shown above the list.",
+    "placeholders": { "count": { "type": "int", "format": "decimalPattern" } }
+  },
+
+  "hostBookingsEmpty": "This listing has no bookings yet.",
+  "@hostBookingsEmpty": { "description": "Shown on the bookings screen when a listing has no bookings at all." },
+
+  "hostBookingsEmptyFiltered": "No bookings have this status.",
+  "@hostBookingsEmptyFiltered": { "description": "Shown on the bookings screen when the chosen status filter matches nothing." },
+
+  "hostBookingsShowAll": "Show all bookings",
+  "@hostBookingsShowAll": { "description": "Button on the empty filtered bookings list that clears the status filter." },
+
+  "hostBookingDates": "{checkIn} – {checkOut}",
+  "@hostBookingDates": {
+    "description": "A booking's stay: check-in date to check-out date.",
+    "placeholders": { "checkIn": { "type": "String" }, "checkOut": { "type": "String" } }
+  },
+
+  "hostBookingNights": "{count, plural, one{1 night} other{{count} nights}}",
+  "@hostBookingNights": {
+    "description": "How many nights a booking lasts.",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "hostBookingGuests": "{count, plural, one{1 guest} other{{count} guests}}",
+  "@hostBookingGuests": {
+    "description": "How many guests a booking is for.",
+    "placeholders": { "count": { "type": "int" } }
   }
 }

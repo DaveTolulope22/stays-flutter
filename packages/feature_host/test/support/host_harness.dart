@@ -78,6 +78,7 @@ typedef ListResult = Either<AppFailure, CursorPage<Listing>>;
 typedef UpdateResult = Either<AppFailure, Listing>;
 typedef BlockedDaysResult = Either<AppFailure, List<BlockedDay>>;
 typedef DayWriteResult = Either<AppFailure, Unit>;
+typedef BookingsResult = Either<AppFailure, CursorPage<Booking>>;
 
 /// The date every calendar test runs on: a Sunday in the middle of March 2026.
 /// Nothing in these tests reads the real date, so they cannot break at a month
@@ -94,10 +95,19 @@ class ScriptedHostRepository extends HostRepository {
     Future<BlockedDaysResult> Function(String id)? onBlockedDays,
     Future<DayWriteResult> Function(String id, LocalDate date)? onBlock,
     Future<DayWriteResult> Function(String id, LocalDate date)? onUnblock,
+    Future<BookingsResult> Function(
+      String id,
+      BookingStatus? status,
+      String? cursor,
+    )?
+    onBookings,
   }) : _onUpdate = onUpdate ?? ((id, patch) async => right(listingOf(id))),
        _onBlockedDays = onBlockedDays ?? ((id) async => right(const [])),
        _onBlock = onBlock ?? ((id, date) async => right(unit)),
        _onUnblock = onUnblock ?? ((id, date) async => right(unit)),
+       _onBookings =
+           onBookings ??
+           ((id, status, cursor) async => right(const CursorPage(items: []))),
        super(dio: Dio(), tenant: testTenant);
 
   final Future<ListResult> Function(String? cursor) _onListings;
@@ -105,12 +115,19 @@ class ScriptedHostRepository extends HostRepository {
   final Future<BlockedDaysResult> Function(String id) _onBlockedDays;
   final Future<DayWriteResult> Function(String id, LocalDate date) _onBlock;
   final Future<DayWriteResult> Function(String id, LocalDate date) _onUnblock;
+  final Future<BookingsResult> Function(
+    String id,
+    BookingStatus? status,
+    String? cursor,
+  )
+  _onBookings;
 
   final cursors = <String?>[];
   final updates = <({String id, ListingPatch patch})>[];
   final blockedDaysCalls = <String>[];
   final blocks = <({String id, LocalDate date})>[];
   final unblocks = <({String id, LocalDate date})>[];
+  final bookingCalls = <({String id, BookingStatus? status, String? cursor})>[];
 
   @override
   TaskEither<AppFailure, CursorPage<Listing>> listings({
@@ -140,6 +157,17 @@ class ScriptedHostRepository extends HostRepository {
   }
 
   @override
+  TaskEither<AppFailure, CursorPage<Booking>> bookings(
+    String listingId, {
+    BookingStatus? status,
+    String? cursor,
+    int limit = HostRepository.defaultPageSize,
+  }) {
+    bookingCalls.add((id: listingId, status: status, cursor: cursor));
+    return TaskEither(() => _onBookings(listingId, status, cursor));
+  }
+
+  @override
   TaskEither<AppFailure, Unit> unblock(String listingId, LocalDate date) {
     unblocks.add((id: listingId, date: date));
     return TaskEither(() => _onUnblock(listingId, date));
@@ -152,6 +180,46 @@ BlockedDay blockedOn(String date, {String listingId = 'l1'}) =>
 UnavailableDay takenOn(String date, UnavailableReason reason) =>
     UnavailableDay(date: LocalDate.parse(date), reason: reason);
 
+/// A booking with the given parts; anything a test does not vary is ordinary.
+Booking bookingOf(
+  String id, {
+  BookingStatus status = BookingStatus.confirmed,
+  String guestName = 'Anna Guest',
+  String checkIn = '2026-10-12',
+  String checkOut = '2026-10-15',
+  int guests = 2,
+  num totalPrice = 787.5,
+  String currency = 'EUR',
+}) => Booking(
+  id: id,
+  listingId: 'l1',
+  tenantId: testTenant,
+  guestName: guestName,
+  checkIn: LocalDate.parse(checkIn),
+  checkOut: LocalDate.parse(checkOut),
+  guests: guests,
+  status: status,
+  totalPrice: totalPrice,
+  currency: currency,
+  createdAt: DateTime.utc(2026, 9, 1),
+);
+
+/// A page of [count] bookings whose ids run on from [start], so two pages never
+/// share an id.
+CursorPage<Booking> bookingsPageOf(
+  int count, {
+  int start = 0,
+  String? next,
+  int? total,
+  BookingStatus status = BookingStatus.confirmed,
+}) => CursorPage(
+  items: [
+    for (var i = start; i < start + count; i++)
+      bookingOf('b$i', status: status, guestName: 'Guest $i'),
+  ],
+  total: total,
+  nextCursor: next,
+);
 typedef AvailabilityResult = Either<AppFailure, Availability>;
 
 /// Answers the availability of a window from a callback and records the windows

@@ -707,3 +707,42 @@ refetch the blocks and duplicate the state), relying on the API to refuse a
 booked day (verified: it does not), restoring a saved copy of the set on
 failure, a confirmation dialog on every tap (blocking is cheap and reversible),
 and telling blocked from booked by colour alone.
+
+## 031. The bookings screen: a family per status, wrapped chips, the row's own currency
+
+**Context:** A host reads the bookings on one listing: newest check-in first,
+paged, optionally for one status. The API has a single status filter, no date
+filter (API_OBSERVATIONS row 8), and keeps each booking's total as it was when
+it was made.
+
+**Decision:**
+- **One notifier per listing AND status** (`ListingBookings`, a family keyed by
+  both, null meaning all), the same shape as browse's per-filter family
+  (ADR 019). Changing the chip starts a fresh list, and a slow answer for the old
+  filter cannot land in the new one. It has the same generation guard and
+  pre-`await` loading flag as the other paged notifiers.
+- **The chosen status is the screen's own state.** Nothing else reads it and it
+  starts at "all" each time the screen opens, so it is not a provider.
+- **Wrapped chips, all visible.** "All" plus four statuses wrap onto another line
+  on a narrow screen or in German instead of hiding off the edge, for the same
+  reason as the city chips (ADR 021). A filter that matches nothing keeps the
+  chips and offers "Show all bookings", so the host is never stuck.
+- **Status is an icon AND a word.** Each of the five statuses (including
+  `unknown`) has its own icon and label, so colour is never the only cue. A
+  status the API adds later decodes to `unknown` and shows a generic label, never
+  a crash. `unknown` is a decoding fallback only: it is not a filter chip and the
+  repository refuses to send it.
+- **The total is formatted with the booking's own currency**, never the tenant's,
+  and is shown as it was at booking time. A later price edit does not restate it.
+- **The whole booking is one item to a screen reader** (merged semantics), and the
+  stay is written as dates, nights and guests with plural-aware copy in both
+  languages.
+- **Read only.** Nothing creates, changes or cancels a booking in this app, so the
+  screen has no actions.
+
+**Rejected:** One shared provider with the status as mutable state (a slow
+response for the old status could overwrite the new list), a horizontally
+scrolling chip row (options off-screen on a phone and in German), filtering the
+statuses on the device (it would page through everything to find a few rows, and
+the API already filters), and formatting totals in the tenant's currency (the row
+says what it was booked in).

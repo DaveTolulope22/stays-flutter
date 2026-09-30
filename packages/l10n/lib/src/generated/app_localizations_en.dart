@@ -645,4 +645,73 @@ class AppLocalizationsEn extends AppLocalizations {
   String hostCalendarDayBooked(String date) {
     return '$date, booked';
   }
+
+  @override
+  String get hostBookingsFilterAll => 'All';
+
+  @override
+  String get bookingStatusConfirmed => 'Confirmed';
+
+  @override
+  String get bookingStatusPending => 'Pending';
+
+  @override
+  String get bookingStatusCompleted => 'Completed';
+
+  @override
+  String get bookingStatusCancelled => 'Cancelled';
+
+  @override
+  String get bookingStatusUnknown => 'Unknown status';
+
+  @override
+  String hostBookingsCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString bookings',
+      one: '1 booking',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get hostBookingsEmpty => 'This listing has no bookings yet.';
+
+  @override
+  String get hostBookingsEmptyFiltered => 'No bookings have this status.';
+
+  @override
+  String get hostBookingsShowAll => 'Show all bookings';
+
+  @override
+  String hostBookingDates(String checkIn, String checkOut) {
+    return '$checkIn – $checkOut';
+  }
+
+  @override
+  String hostBookingNights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nights',
+      one: '1 night',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String hostBookingGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count guests',
+      one: '1 guest',
+    );
+    return '$_temp0';
+  }
 }

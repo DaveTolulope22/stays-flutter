@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
 import 'host_paths.dart';
+import 'screens/bookings_screen.dart';
 import 'screens/edit_listing_screen.dart';
 import 'screens/host_calendar_screen.dart';
-import 'screens/host_placeholder_screen.dart';
 import 'screens/my_listings_screen.dart';
 
 /// The host's side: their listings, and for each one its edit form, calendar and
@@ -41,7 +41,7 @@ final hostModule = FeatureModule(
         GoRoute(
           path: HostPaths.bookingsRoute,
           builder: (context, state) =>
-              HostPlaceholderScreen(title: context.l10n.hostActionBookings),
+              BookingsScreen(listingId: state.pathParameters['id']!),
         ),
       ],
     ),

@@ -1104,6 +1104,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date}, booked'**
   String hostCalendarDayBooked(String date);
+
+  /// Status filter chip that shows bookings of every status.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get hostBookingsFilterAll;
+
+  /// Booking status: upcoming and paid for.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get bookingStatusConfirmed;
+
+  /// Booking status: upcoming, not yet confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get bookingStatusPending;
+
+  /// Booking status: the stay is in the past.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get bookingStatusCompleted;
+
+  /// Booking status: called off.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get bookingStatusCancelled;
+
+  /// Shown for a booking status this app does not know, so one new value on the API does not break the list.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown status'**
+  String get bookingStatusUnknown;
+
+  /// Number of bookings matching the status filter, shown above the list.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 booking} other{{count} bookings}}'**
+  String hostBookingsCount(int count);
+
+  /// Shown on the bookings screen when a listing has no bookings at all.
+  ///
+  /// In en, this message translates to:
+  /// **'This listing has no bookings yet.'**
+  String get hostBookingsEmpty;
+
+  /// Shown on the bookings screen when the chosen status filter matches nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No bookings have this status.'**
+  String get hostBookingsEmptyFiltered;
+
+  /// Button on the empty filtered bookings list that clears the status filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all bookings'**
+  String get hostBookingsShowAll;
+
+  /// A booking's stay: check-in date to check-out date.
+  ///
+  /// In en, this message translates to:
+  /// **'{checkIn} – {checkOut}'**
+  String hostBookingDates(String checkIn, String checkOut);
+
+  /// How many nights a booking lasts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 night} other{{count} nights}}'**
+  String hostBookingNights(int count);
+
+  /// How many guests a booking is for.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 guest} other{{count} guests}}'**
+  String hostBookingGuests(int count);
 }
 
 class _AppLocalizationsDelegate
