@@ -99,5 +99,21 @@
   "filterSortPriceLowToHigh": "Preis: aufsteigend",
   "filterSortPriceHighToLow": "Preis: absteigend",
   "filterSortRating": "Beste Bewertung",
-  "filterRemove": "Filter entfernen"
+  "filterRemove": "Filter entfernen",
+
+  "countryAT": "Österreich",
+  "countryCH": "Schweiz",
+  "countryFR": "Frankreich",
+  "countryIT": "Italien",
+  "countryMC": "Monaco",
+  "detailLocation": "{city}, {country}",
+  "detailGuests": "{count, plural, one{1 Gast} other{{count} Gäste}}",
+  "detailBedrooms": "{count, plural, =0{Studio} one{1 Schlafzimmer} other{{count} Schlafzimmer}}",
+  "detailBeds": "{count, plural, one{1 Bett} other{{count} Betten}}",
+  "detailBathrooms": "{count, plural, one{1 Badezimmer} other{{count} Badezimmer}}",
+  "detailAbout": "Über diese Unterkunft",
+  "detailAmenities": "Ausstattung",
+  "detailPrice": "Preis",
+  "detailCleaningFee": "Reinigungsgebühr {price}, einmalig pro Aufenthalt",
+  "detailPhoto": "Foto {index} von {total}"
 }

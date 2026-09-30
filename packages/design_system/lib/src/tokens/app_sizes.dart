@@ -15,6 +15,9 @@ abstract final class AppSizes {
   /// there.
   static const double listPrefetchExtent = 600;
 
+  /// Diameter of one dot in a photo pager's page indicator.
+  static const double pagerDot = 8;
+
   /// Width divided by height of a listing's cover image (4:3).
   static const double listingImageAspectRatio = 4 / 3;
 }

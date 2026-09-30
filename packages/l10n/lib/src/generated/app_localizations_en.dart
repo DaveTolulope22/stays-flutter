@@ -368,4 +368,88 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterRemove => 'Remove filter';
+
+  @override
+  String get countryAT => 'Austria';
+
+  @override
+  String get countryCH => 'Switzerland';
+
+  @override
+  String get countryFR => 'France';
+
+  @override
+  String get countryIT => 'Italy';
+
+  @override
+  String get countryMC => 'Monaco';
+
+  @override
+  String detailLocation(String city, String country) {
+    return '$city, $country';
+  }
+
+  @override
+  String detailGuests(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count guests',
+      one: '1 guest',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String detailBedrooms(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bedrooms',
+      one: '1 bedroom',
+      zero: 'Studio',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String detailBeds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count beds',
+      one: '1 bed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String detailBathrooms(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bathrooms',
+      one: '1 bathroom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get detailAbout => 'About this place';
+
+  @override
+  String get detailAmenities => 'Amenities';
+
+  @override
+  String get detailPrice => 'Price';
+
+  @override
+  String detailCleaningFee(String price) {
+    return 'Cleaning fee $price, once per stay';
+  }
+
+  @override
+  String detailPhoto(int index, int total) {
+    return 'Photo $index of $total';
+  }
 }

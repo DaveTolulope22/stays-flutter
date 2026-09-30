@@ -7,6 +7,7 @@ import 'package:l10n/l10n.dart';
 import '../formatting/formatting.dart';
 import '../models/listing.dart';
 import '../slots/listing_save_action.dart';
+import 'listing_image.dart';
 import 'rating_badge.dart';
 
 /// A listing in a list: cover image, title, city, price per night and, when
@@ -66,7 +67,7 @@ class ListingCard extends ConsumerWidget {
                 children: [
                   AspectRatio(
                     aspectRatio: AppSizes.listingImageAspectRatio,
-                    child: _CoverImage(url: listing.coverImage),
+                    child: ListingImage(url: listing.coverImage),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(AppSpacing.m),
@@ -113,50 +114,6 @@ class ListingCard extends ConsumerWidget {
             ),
         ],
       ),
-    );
-  }
-}
-
-/// The cover, with a plain surface while it loads and an icon if it fails, so
-/// a missing image never changes the card's size or throws.
-class _CoverImage extends StatelessWidget {
-  const _CoverImage({required this.url});
-
-  final String? url;
-
-  @override
-  Widget build(BuildContext context) {
-    final url = this.url;
-    if (url == null) {
-      return const _ImagePlaceholder(icon: Icons.image_not_supported_outlined);
-    }
-    return Image.network(
-      url,
-      fit: BoxFit.cover,
-      excludeFromSemantics: true,
-      loadingBuilder: (context, child, progress) =>
-          progress == null ? child : const _ImagePlaceholder(),
-      errorBuilder: (context, error, stackTrace) =>
-          const _ImagePlaceholder(icon: Icons.image_not_supported_outlined),
-    );
-  }
-}
-
-class _ImagePlaceholder extends StatelessWidget {
-  const _ImagePlaceholder({this.icon});
-
-  final IconData? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    return ColoredBox(
-      color: colors.surfaceSecondary,
-      child: icon == null
-          ? null
-          : Center(
-              child: Icon(icon, size: AppSizes.iconL, color: colors.textMuted),
-            ),
     );
   }
 }

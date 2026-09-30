@@ -9,6 +9,10 @@ import 'package:listings/listings.dart';
 import 'support/browse_harness.dart';
 
 void main() {
+  // A tap that misses its target must fail the test, not just warn: a missed
+  // tap can leave an assertion true for the wrong reason.
+  WidgetController.hitTestWarningShouldBeFatal = true;
+
   final en = copyFor('en');
 
   ScriptedRepository repository({
@@ -461,6 +465,7 @@ void main() {
         const ListingFilter(minPrice: 100, maxPrice: 300),
       );
 
+      await tester.ensureVisible(find.byTooltip(en.filterRemove));
       await tester.tap(find.byTooltip(en.filterRemove));
       await tester.pumpAndSettle();
 

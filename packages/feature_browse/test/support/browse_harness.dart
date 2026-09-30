@@ -14,29 +14,39 @@ import 'package:listings/listings.dart';
 typedef ListResult = Either<AppFailure, CursorPage<Listing>>;
 typedef ListCall = ({ListingFilter filter, String? cursor});
 
-Listing listingFixture(String id, {String? title}) => Listing(
+Listing listingFixture(
+  String id, {
+  String? title,
+  String country = 'CH',
+  int bedrooms = 2,
+  num cleaningFee = 40,
+  double rating = 4.5,
+  int reviewsCount = 3,
+  List<String> amenities = const ['wifi'],
+  List<String> images = const ['https://picsum.photos/1'],
+}) => Listing(
   id: id,
   tenantId: 'acme',
   hostId: 'h1',
   title: title ?? 'Stay $id',
-  description: 'Quiet.',
+  description: 'Quiet chalet near the lift.',
   city: 'Davos',
-  country: 'CH',
+  country: country,
   address: 'Bergstrasse 1',
   latitude: 46.8,
   longitude: 9.8,
   propertyType: 'chalet',
   maxGuests: 4,
-  bedrooms: 2,
+  bedrooms: bedrooms,
   beds: 3,
   bathrooms: 1,
   pricePerNight: 249,
-  cleaningFee: 40,
+  cleaningFee: cleaningFee,
   currency: 'CHF',
-  amenities: const ['wifi'],
-  rating: 4.5,
-  reviewsCount: 3,
-  images: const ['https://picsum.photos/1'],
+  amenities: amenities,
+  rating: rating,
+  reviewsCount: reviewsCount,
+  images: images,
   createdAt: DateTime.utc(2026, 1, 15),
 );
 
@@ -73,15 +83,25 @@ class ScriptedRepository extends ListingsRepository {
   ScriptedRepository(
     this._onList, {
     Future<Either<AppFailure, ListingFacets>> Function()? onFacets,
+    Future<Either<AppFailure, Listing>> Function(String id)? onDetail,
   }) : _onFacets = onFacets ?? (() async => right(facetsFixture())),
+       _onDetail = onDetail ?? ((id) async => right(listingFixture(id))),
        super(dio: Dio(), tenant: 'acme');
 
   final Future<ListResult> Function(ListingFilter filter, String? cursor)
   _onList;
   final Future<Either<AppFailure, ListingFacets>> Function() _onFacets;
+  final Future<Either<AppFailure, Listing>> Function(String id) _onDetail;
 
   final calls = <ListCall>[];
   int facetsCalls = 0;
+  final detailCalls = <String>[];
+
+  @override
+  TaskEither<AppFailure, Listing> detail(String id) {
+    detailCalls.add(id);
+    return TaskEither(() => _onDetail(id));
+  }
 
   @override
   TaskEither<AppFailure, ListingFacets> facets() {
@@ -134,10 +154,11 @@ TenantConfig testConfig() => TenantConfig(
 /// The browse screen inside a real router, so opening a page on top of it and
 /// coming back behaves as it does in the app.
 class BrowseHarness {
-  BrowseHarness(this.repository, {this.canSeeReviews = true});
+  BrowseHarness(this.repository, {this.canSeeReviews = true, this.saveAction});
 
   final ScriptedRepository repository;
   final bool canSeeReviews;
+  final ListingActionBuilder? saveAction;
   final signOuts = SignOutCounter();
   late final GoRouter router;
 
@@ -149,6 +170,9 @@ class BrowseHarness {
     Locale locale = const Locale('en'),
     Size size = const Size(400, 900),
 
+    /// Where the app starts, to open a listing as a deep link would.
+    String location = BrowsePaths.base,
+
     /// False while something animates forever (a spinner), which would make
     /// `pumpAndSettle` wait until it times out.
     bool settle = true,
@@ -158,7 +182,7 @@ class BrowseHarness {
     addTearDown(tester.view.reset);
 
     router = GoRouter(
-      initialLocation: BrowsePaths.base,
+      initialLocation: location,
       routes: [
         ...browseModule.routes,
         GoRoute(
@@ -174,6 +198,8 @@ class BrowseHarness {
       ProviderScope(
         overrides: [
           listingsRepositoryProvider.overrideWithValue(repository),
+          if (saveAction != null)
+            listingSaveActionProvider.overrideWithValue(saveAction!),
           capabilitiesProvider.overrideWithValue(
             Capabilities(area: AccessArea.guest, canSeeReviews: canSeeReviews),
           ),

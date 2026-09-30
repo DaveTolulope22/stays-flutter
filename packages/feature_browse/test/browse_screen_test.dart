@@ -11,6 +11,10 @@ import 'package:listings/listings.dart';
 import 'support/browse_harness.dart';
 
 void main() {
+  // A tap that misses its target must fail the test, not just warn: a missed
+  // tap can leave an assertion true for the wrong reason.
+  WidgetController.hitTestWarningShouldBeFatal = true;
+
   final en = copyFor('en');
 
   Finder cards({bool skipOffstage = true}) =>

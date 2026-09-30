@@ -4,9 +4,11 @@ import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 import 'package:listings/listings.dart';
 
+import '../browse_paths.dart';
 import '../filter/active_filter_chips.dart';
 import '../filter/filter_sheet.dart';
 import '../state/browse_listings.dart';
@@ -187,8 +189,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
               padding: const EdgeInsets.only(bottom: AppSpacing.m),
               child: ListingCard(
                 listing: listing,
-                // The detail screen arrives in the next step.
-                onTap: () {},
+                onTap: () => context.push(BrowsePaths.listing(listing.id)),
               ),
             );
           },

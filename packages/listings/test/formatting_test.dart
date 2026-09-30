@@ -76,6 +76,38 @@ void main() {
     });
   });
 
+  group('countryLabel', () {
+    final en = lookupAppLocalizations(const Locale('en'));
+    final de = lookupAppLocalizations(const Locale('de'));
+
+    test('names every country the catalogue has, in each language', () {
+      expect(countryLabel('CH', en), 'Switzerland');
+      expect(countryLabel('CH', de), 'Schweiz');
+      expect(countryLabel('AT', en), 'Austria');
+      expect(countryLabel('AT', de), 'Österreich');
+      expect(countryLabel('FR', en), 'France');
+      expect(countryLabel('FR', de), 'Frankreich');
+      expect(countryLabel('IT', en), 'Italy');
+      expect(countryLabel('IT', de), 'Italien');
+      expect(countryLabel('MC', en), 'Monaco');
+      expect(countryLabel('MC', de), 'Monaco');
+    });
+
+    test('a code it has no name for is shown as it arrived', () {
+      expect(countryLabel('ZZ', en), 'ZZ');
+      expect(countryLabel('ZZ', de), 'ZZ');
+      expect(countryLabel('xx', en), 'xx');
+    });
+
+    test('is not case sensitive for a known code', () {
+      expect(countryLabel('ch', en), 'Switzerland');
+    });
+
+    test('an empty code stays empty instead of failing', () {
+      expect(countryLabel('', en), '');
+    });
+  });
+
   group('amenityIcon', () {
     test('has an icon for a known slug', () {
       expect(amenityIcon('wifi'), Icons.wifi);

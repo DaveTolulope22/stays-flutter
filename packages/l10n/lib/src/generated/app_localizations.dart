@@ -678,6 +678,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove filter'**
   String get filterRemove;
+
+  /// Country name for the code AT.
+  ///
+  /// In en, this message translates to:
+  /// **'Austria'**
+  String get countryAT;
+
+  /// Country name for the code CH.
+  ///
+  /// In en, this message translates to:
+  /// **'Switzerland'**
+  String get countryCH;
+
+  /// Country name for the code FR.
+  ///
+  /// In en, this message translates to:
+  /// **'France'**
+  String get countryFR;
+
+  /// Country name for the code IT.
+  ///
+  /// In en, this message translates to:
+  /// **'Italy'**
+  String get countryIT;
+
+  /// Country name for the code MC.
+  ///
+  /// In en, this message translates to:
+  /// **'Monaco'**
+  String get countryMC;
+
+  /// Where a listing is: the city and the country name (or the raw country code when we have no name for it).
+  ///
+  /// In en, this message translates to:
+  /// **'{city}, {country}'**
+  String detailLocation(String city, String country);
+
+  /// How many guests a listing sleeps.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 guest} other{{count} guests}}'**
+  String detailGuests(int count);
+
+  /// Number of bedrooms. Zero means a studio.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Studio} one{1 bedroom} other{{count} bedrooms}}'**
+  String detailBedrooms(int count);
+
+  /// Number of beds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 bed} other{{count} beds}}'**
+  String detailBeds(int count);
+
+  /// Number of bathrooms.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 bathroom} other{{count} bathrooms}}'**
+  String detailBathrooms(int count);
+
+  /// Heading above a listing's description.
+  ///
+  /// In en, this message translates to:
+  /// **'About this place'**
+  String get detailAbout;
+
+  /// Heading above a listing's amenities.
+  ///
+  /// In en, this message translates to:
+  /// **'Amenities'**
+  String get detailAmenities;
+
+  /// Heading above a listing's price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get detailPrice;
+
+  /// The one-off cleaning fee. Shown only when it is not zero.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning fee {price}, once per stay'**
+  String detailCleaningFee(String price);
+
+  /// Screen reader label of one photo in a listing's photo pager.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo {index} of {total}'**
+  String detailPhoto(int index, int total);
 }
 
 class _AppLocalizationsDelegate

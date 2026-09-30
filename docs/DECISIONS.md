@@ -435,3 +435,24 @@ cities with short names, and prices that run 51 to 694 CHF and 50 to 765 EUR.
 **Rejected:** A plain `RangeSlider` over the bounds with a division count
 (fractional values, or the bounds not reachable), and a segmented button for
 sort (four options do not fit in German).
+
+## 022. Listing screen: fetched by id, nested under the list, country by name
+
+**Context:** A listing opens from a card, and can also be opened from a link. The
+API sends the country as an ISO code.
+
+**Decision:**
+- The screen always fetches the listing by id, although the list already had the
+  data. A deep link or a restarted app has no card to take it from, and one code
+  path keeps the data fresh. The cost is one request and a brief spinner.
+- The route is nested under the list (`/browse/listing/:id`, inside the browse
+  branch). It opens on top of the list, so the list keeps its filter, pages and
+  scroll position, and the bottom bar stays where a tenant has one. Back goes to
+  the previous screen, or to the list when there is none (a deep link).
+- Country codes get names the same way amenities get labels: ARB entries for the
+  codes the catalogue has today (AT, CH, FR, IT, MC, read from the seed data),
+  and any other code is shown as it arrived. The set is open.
+
+**Rejected:** Passing the listing from the card (a second code path, and nothing
+to pass for a link), and a full-screen route above the tab bar (a root
+navigator route just to hide a bar).
