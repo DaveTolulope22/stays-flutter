@@ -64,6 +64,37 @@ void main() {
       );
     });
 
+    test('an explicit header set by the caller is kept', () async {
+      final harness = _Harness(token: 'from-getter');
+
+      await harness.dio.get<dynamic>(
+        '/auth/me',
+        options: Options(headers: AuthInterceptor.bearerHeader('explicit')),
+      );
+
+      expect(
+        harness.adapter.requests.single.headers['Authorization'],
+        'Bearer explicit',
+      );
+    });
+
+    test(
+      'an explicit header is used even when the getter has no token',
+      () async {
+        final harness = _Harness();
+
+        await harness.dio.get<dynamic>(
+          '/auth/me',
+          options: Options(headers: AuthInterceptor.bearerHeader('explicit')),
+        );
+
+        expect(
+          harness.adapter.requests.single.headers['Authorization'],
+          'Bearer explicit',
+        );
+      },
+    );
+
     test('follows the token as it changes, request by request', () async {
       final harness = _Harness(token: 'first');
 

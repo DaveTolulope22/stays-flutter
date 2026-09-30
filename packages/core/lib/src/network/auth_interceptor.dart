@@ -19,14 +19,23 @@ class AuthInterceptor extends Interceptor {
 
   static const _authorization = 'Authorization';
 
+  /// The header a caller can set itself when it holds a token the getter does
+  /// not know yet (restoring a stored session, or revoking one on sign-out).
+  static Map<String, String> bearerHeader(String token) => {
+    _authorization: 'Bearer $token',
+  };
+
   final AuthTokenGetter tokenGetter;
   final UnauthorizedCallback onUnauthorized;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final token = tokenGetter();
-    if (token != null) {
-      options.headers[_authorization] = 'Bearer $token';
+    // An explicit header wins: the caller knows something the getter does not.
+    if (!options.headers.containsKey(_authorization)) {
+      final token = tokenGetter();
+      if (token != null) {
+        options.headers[_authorization] = 'Bearer $token';
+      }
     }
     handler.next(options);
   }

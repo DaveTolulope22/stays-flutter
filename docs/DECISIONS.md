@@ -256,3 +256,34 @@ The config repository then sits on top of them without special cases.
 call, to be replaced later. It would have meant rewriting the first
 repository, and the first call would not have followed the conventions the
 rest of the app uses.
+
+## 013. Session restore fails closed; the network hooks use a bridge
+
+**Context:** On launch the stored session is verified with `GET /auth/me`. The
+API can also reject a stored token (it is revoked on logout), and the Dio's
+interceptor needs the current token while the session controller itself needs
+the Dio.
+
+**Decision:**
+
+- A stored session is trusted only after `/auth/me` confirms it. A 401, or a
+  user of another tenant, discards it and the app starts signed out.
+- If the check cannot be made (network drop, timeout, 5xx), the session state
+  becomes an error and the stored session is left untouched. The app shows the
+  same translated error and Retry as the config load; Retry re-runs the
+  restore. The app never shows a signed-in screen on an unverified token.
+- The interceptor's token getter and "session rejected" callback read a small
+  `SessionBridge` object that the controller writes. They do not read the
+  controller.
+
+**Rejected:**
+
+- Trusting the stored session when the check fails. It avoids one error state,
+  but a revoked token would be discovered only on the first real call, after a
+  signed-in home has already been shown, and the role would come from disk
+  unchecked. Booting already needs the network for the runtime config, so the
+  extra wait is rare and short.
+- Letting the hooks `ref.read` the controller. Riverpod's debug assertion
+  rejects a provider reading one of its own transitive dependents (the
+  controller depends on the repository, the Dio and the hooks), even lazily
+  inside a closure. The bridge keeps the provider graph acyclic.
