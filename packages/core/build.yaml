@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Nested models (Session holds a User) must serialise to plain maps,
+          # not to model objects, or what we store would not round trip.
+          explicit_to_json: true

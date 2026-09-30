@@ -40,6 +40,6 @@ Map<String, dynamic> _$TenantConfigToJson(_TenantConfig instance) =>
       'supportEmail': instance.supportEmail,
       'termsOfUseUrl': instance.termsOfUseUrl,
       'privacyPolicyUrl': instance.privacyPolicyUrl,
-      'permissions': instance.flags,
-      'theme': instance.theme,
+      'permissions': instance.flags.toJson(),
+      'theme': instance.theme.toJson(),
     };
