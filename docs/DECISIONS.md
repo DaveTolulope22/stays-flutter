@@ -574,3 +574,39 @@ has it off is an app bug.
 (the route and the provider would still exist), relying on the API to refuse
 (it does not enforce flags), and mocking the favourites repository in the shell
 test (a mock cannot prove the real code made no request).
+
+## 027. The host area is one tab; listing actions are nested routes
+
+**Context:** Every host endpoint for bookings and blocked days is keyed by a
+listing (`/host/listings/{id}/...`). There is no "all my bookings" endpoint. The
+brief asks for my listings, editing, blocking days and viewing bookings.
+
+**Decision:** One tab, "My listings". Each listing card offers Edit, Calendar and
+Bookings, which push `/host/listings/:id/edit`, `/calendar` and `/bookings`. With
+a single tab the bottom bar hides itself, and Sign out is an app-bar action, as
+for guests (ADR 018).
+
+**Rejected:** Three tabs (Listings, Calendar, Bookings). Calendar and Bookings
+would each need a listing picker and a "selected listing" provider shared
+across tabs, and an empty state for a host with no listings. That is extra state
+to keep in sync, and it works against the shape of the API.
+
+## 028. One paged list widget in design_system; notifiers stay explicit
+
+**Context:** Browse, host listings and host bookings are all cursor-paged lists
+with infinite scroll, a spinner footer and an error footer with Retry. The scroll
+trigger and the footer were about 50 lines inside the browse screen.
+
+**Decision:** `PagedListView<T>` in `design_system` owns the scroll trigger and
+the footer. It takes the `PagedState`, an item builder, an `onLoadMore` callback
+and all strings as parameters, so it holds no copy and knows nothing about
+listings. The caller still owns the `RefreshIndicator`, because only it knows
+what a refresh reloads. Each notifier keeps its own short `loadMore` (a
+generation guard, then one repository call that differs per feature). Browse was
+moved onto the widget with no behaviour change; its existing tests are the proof.
+
+**Rejected:** Copying the scroll and footer code into each host screen (three
+copies of the same logic, and a bug fix in three places). A shared mixin for the
+notifiers: Riverpod's generated notifiers extend a generated `_$X` class, so a
+mixin needs awkward generics to reach `state` and `ref`, for about 20 lines of
+code that differ in the repository call anyway.

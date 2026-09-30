@@ -8,4 +8,5 @@ export 'src/tokens/app_radius.dart';
 export 'src/tokens/app_sizes.dart';
 export 'src/tokens/app_spacing.dart';
 export 'src/widgets/month_calendar.dart';
+export 'src/widgets/paged_list_view.dart';
 export 'src/widgets/status_views.dart';
