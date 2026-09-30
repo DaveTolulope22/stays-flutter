@@ -840,6 +840,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove from saved'**
   String get unsaveListing;
+
+  /// Label of the guest's saved-listings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get savedTab;
+
+  /// Title of the screen that lists the guest's saved listings.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved stays'**
+  String get savedTitle;
+
+  /// Shown on the saved screen when nothing is saved.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t saved any stays yet. Tap the heart on a stay to keep it here.'**
+  String get savedEmpty;
 }
 
 class _AppLocalizationsDelegate

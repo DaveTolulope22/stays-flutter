@@ -637,5 +637,20 @@
   "unsaveListing": "Remove from saved",
   "@unsaveListing": {
     "description": "Tooltip and accessibility label of the heart on a listing that is already saved."
+  },
+
+  "savedTab": "Saved",
+  "@savedTab": {
+    "description": "Label of the guest's saved-listings tab."
+  },
+
+  "savedTitle": "Saved stays",
+  "@savedTitle": {
+    "description": "Title of the screen that lists the guest's saved listings."
+  },
+
+  "savedEmpty": "You haven't saved any stays yet. Tap the heart on a stay to keep it here.",
+  "@savedEmpty": {
+    "description": "Shown on the saved screen when nothing is saved."
   }
 }

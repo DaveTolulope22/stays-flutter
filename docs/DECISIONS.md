@@ -518,3 +518,24 @@ whenever no card is on screen, and a toggle still in flight could lose its
 rollback), a per-card provider family (each heart would be its own request and
 could disagree with the Saved screen), and restoring a snapshot of the whole list
 on failure (undoes unrelated changes).
+
+## 025. The Saved screen is told where a listing opens
+
+**Context:** Tapping a saved listing must open the same listing screen browse
+uses. That screen lives in `feature_browse`, and a feature never depends on
+another feature.
+
+**Decision:** `favouritesModule` is a function that takes `listingLocation`, a
+`String Function(String id)`. The shell, the only place that knows both features,
+passes `BrowsePaths.listing`. The Saved screen calls `context.go` with it, which
+moves to the Browse tab with the listing open on top of the list, so Back returns
+to the list. There is still one listing screen.
+The module also declares `requires: canSaveListings`, so the router turns away
+anyone without that capability before the screen builds (defence in depth on top
+of the shell not registering the module at all when the flag is off).
+
+**Rejected:** A second listing screen inside favourites (two screens to keep in
+step), favourites importing `BrowsePaths` (breaks the dependency rule the
+architecture test will enforce), and a second global slot provider for the
+location (one more hidden dependency for something a single module needs, where a
+constructor argument is visible at the one place it is wired).

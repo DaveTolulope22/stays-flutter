@@ -496,4 +496,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unsaveListing => 'Remove from saved';
+
+  @override
+  String get savedTab => 'Saved';
+
+  @override
+  String get savedTitle => 'Saved stays';
+
+  @override
+  String get savedEmpty =>
+      'You haven\'t saved any stays yet. Tap the heart on a stay to keep it here.';
 }

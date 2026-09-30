@@ -501,4 +501,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get unsaveListing => 'Aus Merkliste entfernen';
+
+  @override
+  String get savedTab => 'Gemerkt';
+
+  @override
+  String get savedTitle => 'Gemerkte Unterkünfte';
+
+  @override
+  String get savedEmpty =>
+      'Sie haben noch keine Unterkünfte gemerkt. Tippen Sie auf das Herz, um eine hier zu behalten.';
 }
