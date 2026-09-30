@@ -55,10 +55,11 @@ class _FilterSheetState extends ConsumerState<FilterSheet> {
 
   Future<void> _pickDates() async {
     final l10n = context.l10n;
-    final today = LocalDate.today();
+    final today = ref.read(clockProvider)();
     final current = _draft.dates;
     final picked = await showDateRangePicker(
       context: context,
+      currentDate: asDateTime(today),
       firstDate: asDateTime(today),
       // The API refuses a stay longer than 366 nights.
       lastDate: asDateTime(

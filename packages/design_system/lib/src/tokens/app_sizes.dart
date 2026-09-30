@@ -15,6 +15,12 @@ abstract final class AppSizes {
   /// there.
   static const double listPrefetchExtent = 600;
 
+  /// Height of one row of a month calendar, and the size of a legend sample.
+  static const double calendarCell = 48;
+
+  /// Line width of the outline that marks a highlighted calendar day.
+  static const double calendarOutline = 2;
+
   /// Diameter of one dot in a photo pager's page indicator.
   static const double pagerDot = 8;
 

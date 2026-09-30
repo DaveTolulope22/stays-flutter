@@ -768,6 +768,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photo {index} of {total}'**
   String detailPhoto(int index, int total);
+
+  /// Heading of the availability calendar on a listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availabilityTitle;
+
+  /// Tooltip and accessibility label of the button that shows the previous month.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get availabilityPrevious;
+
+  /// Tooltip and accessibility label of the button that shows the next month.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get availabilityNext;
+
+  /// Legend entry for a day that is free.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get availabilityLegendAvailable;
+
+  /// Legend entry for a day that is booked or blocked. A guest is not told which.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken'**
+  String get availabilityLegendTaken;
+
+  /// Legend entry for the nights of the stay the guest searched for.
+  ///
+  /// In en, this message translates to:
+  /// **'Your dates'**
+  String get availabilityLegendYourDates;
+
+  /// Screen reader label of a free day in the calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, available'**
+  String availabilityDayAvailable(String date);
+
+  /// Screen reader label of a taken day in the calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, taken'**
+  String availabilityDayTaken(String date);
+
+  /// Screen reader label of a day that has already gone.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, in the past'**
+  String availabilityDayPast(String date);
+
+  /// Added to a day's screen reader label when it is one of the searched nights.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}, in your dates'**
+  String availabilityDayInStay(String label);
 }
 
 class _AppLocalizationsDelegate

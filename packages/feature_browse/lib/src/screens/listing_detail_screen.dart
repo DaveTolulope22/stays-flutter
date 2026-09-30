@@ -8,6 +8,7 @@ import 'package:listings/listings.dart';
 
 import '../browse_paths.dart';
 import '../state/listing_detail_provider.dart';
+import 'availability_section.dart';
 
 /// One listing: photos, where it is, what it offers and what it costs.
 ///
@@ -157,6 +158,10 @@ class _Detail extends StatelessWidget {
                             ),
                         ],
                       ),
+                    ),
+                    _Section(
+                      title: l10n.availabilityTitle,
+                      child: AvailabilitySection(listingId: listing.id),
                     ),
                   ],
                 ),

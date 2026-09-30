@@ -7,4 +7,5 @@ export 'src/tokens/app_durations.dart';
 export 'src/tokens/app_radius.dart';
 export 'src/tokens/app_sizes.dart';
 export 'src/tokens/app_spacing.dart';
+export 'src/widgets/month_calendar.dart';
 export 'src/widgets/status_views.dart';

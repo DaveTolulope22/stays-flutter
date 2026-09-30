@@ -11,6 +11,11 @@ import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 import 'package:listings/listings.dart';
 
+/// The date every test runs on: a Sunday in the middle of March 2026. Nothing in
+/// these tests reads the real date, so they cannot break at a month boundary or
+/// at midnight.
+final fixedToday = LocalDate(2026, 3, 15);
+
 typedef ListResult = Either<AppFailure, CursorPage<Listing>>;
 typedef ListCall = ({ListingFilter filter, String? cursor});
 
@@ -84,18 +89,48 @@ class ScriptedRepository extends ListingsRepository {
     this._onList, {
     Future<Either<AppFailure, ListingFacets>> Function()? onFacets,
     Future<Either<AppFailure, Listing>> Function(String id)? onDetail,
+    Future<Either<AppFailure, Availability>> Function(
+      String id,
+      DateRange window,
+    )?
+    onAvailability,
   }) : _onFacets = onFacets ?? (() async => right(facetsFixture())),
        _onDetail = onDetail ?? ((id) async => right(listingFixture(id))),
+       _onAvailability =
+           onAvailability ??
+           ((id, window) async => right(
+             Availability(
+               listingId: id,
+               from: window.start,
+               to: window.end,
+               unavailable: const [],
+             ),
+           )),
        super(dio: Dio(), tenant: 'acme');
 
   final Future<ListResult> Function(ListingFilter filter, String? cursor)
   _onList;
   final Future<Either<AppFailure, ListingFacets>> Function() _onFacets;
   final Future<Either<AppFailure, Listing>> Function(String id) _onDetail;
+  final Future<Either<AppFailure, Availability>> Function(
+    String id,
+    DateRange window,
+  )
+  _onAvailability;
 
   final calls = <ListCall>[];
   int facetsCalls = 0;
   final detailCalls = <String>[];
+  final availabilityCalls = <({String id, DateRange window})>[];
+
+  @override
+  TaskEither<AppFailure, Availability> availability(
+    String listingId,
+    DateRange window,
+  ) {
+    availabilityCalls.add((id: listingId, window: window));
+    return TaskEither(() => _onAvailability(listingId, window));
+  }
 
   @override
   TaskEither<AppFailure, Listing> detail(String id) {
@@ -162,8 +197,9 @@ class BrowseHarness {
   final signOuts = SignOutCounter();
   late final GoRouter router;
 
-  ProviderContainer container(WidgetTester tester) =>
-      ProviderScope.containerOf(tester.element(find.byType(BrowseScreen)));
+  ProviderContainer container(WidgetTester tester) => ProviderScope.containerOf(
+    tester.element(find.byType(BrowseScreen, skipOffstage: false)),
+  );
 
   Future<void> pump(
     WidgetTester tester, {
@@ -197,6 +233,7 @@ class BrowseHarness {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          clockProvider.overrideWithValue(() => fixedToday),
           listingsRepositoryProvider.overrideWithValue(repository),
           if (saveAction != null)
             listingSaveActionProvider.overrideWithValue(saveAction!),

@@ -585,5 +585,47 @@
       "index": { "type": "int" },
       "total": { "type": "int" }
     }
+  },
+
+  "availabilityTitle": "Availability",
+  "@availabilityTitle": { "description": "Heading of the availability calendar on a listing." },
+
+  "availabilityPrevious": "Previous month",
+  "@availabilityPrevious": { "description": "Tooltip and accessibility label of the button that shows the previous month." },
+
+  "availabilityNext": "Next month",
+  "@availabilityNext": { "description": "Tooltip and accessibility label of the button that shows the next month." },
+
+  "availabilityLegendAvailable": "Available",
+  "@availabilityLegendAvailable": { "description": "Legend entry for a day that is free." },
+
+  "availabilityLegendTaken": "Taken",
+  "@availabilityLegendTaken": { "description": "Legend entry for a day that is booked or blocked. A guest is not told which." },
+
+  "availabilityLegendYourDates": "Your dates",
+  "@availabilityLegendYourDates": { "description": "Legend entry for the nights of the stay the guest searched for." },
+
+  "availabilityDayAvailable": "{date}, available",
+  "@availabilityDayAvailable": {
+    "description": "Screen reader label of a free day in the calendar.",
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "availabilityDayTaken": "{date}, taken",
+  "@availabilityDayTaken": {
+    "description": "Screen reader label of a taken day in the calendar.",
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "availabilityDayPast": "{date}, in the past",
+  "@availabilityDayPast": {
+    "description": "Screen reader label of a day that has already gone.",
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "availabilityDayInStay": "{label}, in your dates",
+  "@availabilityDayInStay": {
+    "description": "Added to a day's screen reader label when it is one of the searched nights.",
+    "placeholders": { "label": { "type": "String" } }
   }
 }

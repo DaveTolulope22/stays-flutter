@@ -452,4 +452,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String detailPhoto(int index, int total) {
     return 'Photo $index of $total';
   }
+
+  @override
+  String get availabilityTitle => 'Availability';
+
+  @override
+  String get availabilityPrevious => 'Previous month';
+
+  @override
+  String get availabilityNext => 'Next month';
+
+  @override
+  String get availabilityLegendAvailable => 'Available';
+
+  @override
+  String get availabilityLegendTaken => 'Taken';
+
+  @override
+  String get availabilityLegendYourDates => 'Your dates';
+
+  @override
+  String availabilityDayAvailable(String date) {
+    return '$date, available';
+  }
+
+  @override
+  String availabilityDayTaken(String date) {
+    return '$date, taken';
+  }
+
+  @override
+  String availabilityDayPast(String date) {
+    return '$date, in the past';
+  }
+
+  @override
+  String availabilityDayInStay(String label) {
+    return '$label, in your dates';
+  }
 }

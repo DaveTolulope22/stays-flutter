@@ -456,3 +456,35 @@ API sends the country as an ISO code.
 **Rejected:** Passing the listing from the card (a second code path, and nothing
 to pass for a link), and a full-screen route above the tab bar (a root
 navigator route just to hide a bar).
+
+## 023. Availability calendar: a generic widget, one month per request, an injected clock
+
+**Context:** A guest needs to see which days of a listing are taken, and whether
+a stay they searched for is free. Nothing in the app may depend on the day the
+tests happen to run.
+
+**Decision:**
+- `MonthCalendar` lives in `design_system` and knows nothing about bookings. The
+  caller says how each day looks (plain, muted, or marked, plus an optional
+  outline) and what a screen reader says about it. It holds no copy: names come
+  from the platform, words are passed in.
+- Colour is never the only cue. A taken day is filled AND its number is struck
+  through, and the legend draws its samples with the same widget, so it shows the
+  same strike-through. The searched stay is an outline, which sits on top of any
+  style.
+- One month per request, a family keyed by listing and month (far below the API's
+  366 nights). The current month asks from today, not from the 1st, so the request
+  does not depend on how the API treats a past date; past days are muted and never
+  shown as taken. Ranges are half-open, as everywhere.
+- The calendar opens on the month of the searched check-in, clamped to the months
+  it can show (this month to twelve months ahead). Booked and blocked days look the
+  same to a guest.
+- "Today" comes from `clockProvider`, which gives a FUNCTION, not a date. A
+  `keepAlive` provider holding a `LocalDate` would keep yesterday after midnight;
+  a function reads the device date at each call, and tests override it with a
+  fixed date. Nothing else in `lib/` reads the real date.
+
+**Rejected:** A second "blocked" style in this phase (the host calendar adds it
+in Phase 7, when it is needed), caching months across navigation (one small
+request is cheaper than the bookkeeping), and a provider holding a fixed
+`LocalDate`.

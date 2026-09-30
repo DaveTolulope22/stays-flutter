@@ -115,5 +115,16 @@
   "detailAmenities": "Ausstattung",
   "detailPrice": "Preis",
   "detailCleaningFee": "Reinigungsgebühr {price}, einmalig pro Aufenthalt",
-  "detailPhoto": "Foto {index} von {total}"
+  "detailPhoto": "Foto {index} von {total}",
+
+  "availabilityTitle": "Verfügbarkeit",
+  "availabilityPrevious": "Vorheriger Monat",
+  "availabilityNext": "Nächster Monat",
+  "availabilityLegendAvailable": "Verfügbar",
+  "availabilityLegendTaken": "Belegt",
+  "availabilityLegendYourDates": "Ihre Reisedaten",
+  "availabilityDayAvailable": "{date}, verfügbar",
+  "availabilityDayTaken": "{date}, belegt",
+  "availabilityDayPast": "{date}, vergangen",
+  "availabilityDayInStay": "{label}, in Ihren Reisedaten"
 }
