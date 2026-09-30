@@ -488,3 +488,33 @@ tests happen to run.
 in Phase 7, when it is needed), caching months across navigation (one small
 request is cheaper than the bookkeeping), and a provider holding a fixed
 `LocalDate`.
+
+## 024. Saved listings: one keepAlive list per signed-in user, updated before the request
+
+**Context:** The save buttons on every card, the save button on the listing page
+and the Saved screen all show the same fact: is this listing saved? They must
+agree, and a tap must feel instant even on a slow connection.
+
+**Decision:**
+- One notifier, `Favourites`, holds the list and everything reads it. It is
+  `keepAlive` (session lifetime, not app lifetime): it watches the signed-in
+  user's id, so signing out, or in as someone else, rebuilds it from scratch and
+  one account never sees another's list. Signed out, it is empty and asks the API
+  nothing.
+- A toggle changes the list first and sends the request after. On failure only
+  that listing is put back (the same position for an unsave), never a copy of the
+  whole old list, so a slow failure cannot undo a toggle of another listing made
+  meanwhile. The failure is returned to the button, which shows our own message.
+- A second tap on a listing whose request is still out is ignored, so two
+  requests for one listing can never cross. Nothing happens until the list has
+  loaded.
+- The API treats "add twice" and "remove what is not there" as success, so a
+  repeat after a rollback is safe.
+- Nothing creates the notifier unless something reads it. On a tenant with
+  favourites off, and for a host, nothing does (Phase 6.2 and 6.4 prove it).
+
+**Rejected:** An auto-dispose list (it would be dropped and fetched again
+whenever no card is on screen, and a toggle still in flight could lose its
+rollback), a per-card provider family (each heart would be its own request and
+could disagree with the Saved screen), and restoring a snapshot of the whole list
+on failure (undoes unrelated changes).
