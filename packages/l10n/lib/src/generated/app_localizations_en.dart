@@ -490,4 +490,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String availabilityDayInStay(String label) {
     return '$label, in your dates';
   }
+
+  @override
+  String get saveListing => 'Save';
+
+  @override
+  String get unsaveListing => 'Remove from saved';
 }

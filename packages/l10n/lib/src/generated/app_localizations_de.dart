@@ -495,4 +495,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String availabilityDayInStay(String label) {
     return '$label, in Ihren Reisedaten';
   }
+
+  @override
+  String get saveListing => 'Merken';
+
+  @override
+  String get unsaveListing => 'Aus Merkliste entfernen';
 }

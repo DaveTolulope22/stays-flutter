@@ -627,5 +627,15 @@
   "@availabilityDayInStay": {
     "description": "Added to a day's screen reader label when it is one of the searched nights.",
     "placeholders": { "label": { "type": "String" } }
+  },
+
+  "saveListing": "Save",
+  "@saveListing": {
+    "description": "Tooltip and accessibility label of the heart that saves a listing."
+  },
+
+  "unsaveListing": "Remove from saved",
+  "@unsaveListing": {
+    "description": "Tooltip and accessibility label of the heart on a listing that is already saved."
   }
 }

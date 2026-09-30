@@ -68,13 +68,10 @@ class Favourites extends _$Favourites {
     // The user changed while the request was out: this list is not theirs.
     if (!ref.mounted) return const None();
 
-    return result.fold(
-      (failure) {
-        _undo(listing, wasSaved: wasSaved, index: index);
-        return Some(failure);
-      },
-      (_) => const None(),
-    );
+    return result.fold((failure) {
+      _undo(listing, wasSaved: wasSaved, index: index);
+      return Some(failure);
+    }, (_) => const None());
   }
 
   void _undo(Listing listing, {required bool wasSaved, required int index}) {

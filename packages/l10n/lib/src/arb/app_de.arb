@@ -126,5 +126,7 @@
   "availabilityDayAvailable": "{date}, verfügbar",
   "availabilityDayTaken": "{date}, belegt",
   "availabilityDayPast": "{date}, vergangen",
-  "availabilityDayInStay": "{label}, in Ihren Reisedaten"
+  "availabilityDayInStay": "{label}, in Ihren Reisedaten",
+  "saveListing": "Merken",
+  "unsaveListing": "Aus Merkliste entfernen"
 }

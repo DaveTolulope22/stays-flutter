@@ -54,9 +54,9 @@ void main() {
         (_) => errorBody(401, 'error.unauthorized'),
       );
 
-      final failure = (await repositoryWith(adapter).list().run())
-          .getLeft()
-          .toNullable();
+      final failure = (await repositoryWith(
+        adapter,
+      ).list().run()).getLeft().toNullable();
 
       expect(failure, isA<UnauthorizedFailure>());
       expect(failure!.messageCode, 'error.unauthorized');

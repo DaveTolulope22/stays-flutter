@@ -828,6 +828,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{label}, in your dates'**
   String availabilityDayInStay(String label);
+
+  /// Tooltip and accessibility label of the heart that saves a listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveListing;
+
+  /// Tooltip and accessibility label of the heart on a listing that is already saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from saved'**
+  String get unsaveListing;
 }
 
 class _AppLocalizationsDelegate

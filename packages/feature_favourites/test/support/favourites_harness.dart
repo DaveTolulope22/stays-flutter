@@ -65,9 +65,9 @@ Session sessionOf(String userId, {UserRole role = UserRole.client}) => Session(
 
 /// The repository answers for one test: what the list holds, and whether the
 /// writes succeed.
-void stubList(MockFavouritesRepository repository, List<String> ids) => when(
-  repository.list,
-).thenReturn(TaskEither.right([for (final id in ids) listingOf(id)]));
+void stubList(MockFavouritesRepository repository, List<String> ids) =>
+    when(repository.list)
+        .thenReturn(TaskEither.right([for (final id in ids) listingOf(id)]));
 
 void stubWritesSucceed(MockFavouritesRepository repository) {
   when(() => repository.add(any())).thenReturn(TaskEither.right(unit));

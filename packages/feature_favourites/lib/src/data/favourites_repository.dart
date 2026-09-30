@@ -17,17 +17,18 @@ class FavouritesRepository {
 
   /// Everything the signed-in user saved. Not paginated. A row of another
   /// tenant becomes a [TenantMismatchFailure] and nothing is handed on.
-  TaskEither<AppFailure, List<Listing>> list() => apiCall(() async {
-    final response = await dio.get<List<dynamic>>('/favourites');
-    return [
-      for (final row in response.data!)
-        Listing.fromJson(row as Map<String, dynamic>),
-    ];
-  }).flatMap(
-    (listings) => listings.every((listing) => listing.tenantId == tenant)
-        ? TaskEither.right(listings)
-        : TaskEither.left(const TenantMismatchFailure()),
-  );
+  TaskEither<AppFailure, List<Listing>> list() =>
+      apiCall(() async {
+        final response = await dio.get<List<dynamic>>('/favourites');
+        return [
+          for (final row in response.data!)
+            Listing.fromJson(row as Map<String, dynamic>),
+        ];
+      }).flatMap(
+        (listings) => listings.every((listing) => listing.tenantId == tenant)
+            ? TaskEither.right(listings)
+            : TaskEither.left(const TenantMismatchFailure()),
+      );
 
   TaskEither<AppFailure, Unit> add(String listingId) => apiCall(() async {
     await dio.post<void>('/favourites', data: {'listingId': listingId});

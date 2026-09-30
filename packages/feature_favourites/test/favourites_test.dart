@@ -49,9 +49,7 @@ void main() {
     });
 
     test('a failure is an error state, and is not retried by itself', () async {
-      when(
-        repository.list,
-      ).thenReturn(TaskEither.left(const NetworkFailure()));
+      when(repository.list).thenReturn(TaskEither.left(const NetworkFailure()));
       container.listen(favouritesProvider, (_, _) {});
 
       await expectLater(
@@ -80,9 +78,7 @@ void main() {
 
     test('another account gets its own list, fetched again', () async {
       await load(['a']);
-      when(repository.list).thenReturn(
-        TaskEither.right([listingOf('z')]),
-      );
+      when(repository.list).thenReturn(TaskEither.right([listingOf('z')]));
 
       session.switchTo(sessionOf('u2'));
       await container.read(favouritesProvider.future);
@@ -96,9 +92,8 @@ void main() {
     test('saving shows at once, before the request answers', () async {
       await load(['a']);
       final answer = Completer<Either<AppFailure, Unit>>();
-      when(
-        () => repository.add('b'),
-      ).thenReturn(TaskEither(() => answer.future));
+      when(() => repository.add('b'))
+          .thenReturn(TaskEither(() => answer.future));
 
       final done = notifier().toggle(listingOf('b'));
 
@@ -121,9 +116,8 @@ void main() {
 
     test('a failed save is rolled back and the failure is returned', () async {
       await load(['a']);
-      when(
-        () => repository.add('b'),
-      ).thenReturn(TaskEither.left(const NetworkFailure()));
+      when(() => repository.add('b'))
+          .thenReturn(TaskEither.left(const NetworkFailure()));
 
       final result = await notifier().toggle(listingOf('b'));
 
@@ -133,9 +127,8 @@ void main() {
 
     test('a failed unsave is put back in the same place', () async {
       await load(['a', 'b', 'c']);
-      when(
-        () => repository.remove('b'),
-      ).thenReturn(TaskEither.left(const ServerFailure(statusCode: 500)));
+      when(() => repository.remove('b'))
+          .thenReturn(TaskEither.left(const ServerFailure(statusCode: 500)));
 
       final result = await notifier().toggle(listingOf('b'));
 
@@ -146,9 +139,8 @@ void main() {
     test('a rollback does not undo a change made meanwhile', () async {
       await load(['a']);
       final slowFailure = Completer<Either<AppFailure, Unit>>();
-      when(
-        () => repository.add('b'),
-      ).thenReturn(TaskEither(() => slowFailure.future));
+      when(() => repository.add('b'))
+          .thenReturn(TaskEither(() => slowFailure.future));
       when(() => repository.add('c')).thenReturn(TaskEither.right(unit));
 
       final first = notifier().toggle(listingOf('b'));
@@ -161,23 +153,25 @@ void main() {
       expect(savedIds(), ['c', 'a']);
     });
 
-    test('a second tap on the same listing while it is pending is ignored', () async {
-      await load(['a']);
-      final answer = Completer<Either<AppFailure, Unit>>();
-      when(
-        () => repository.add('b'),
-      ).thenReturn(TaskEither(() => answer.future));
+    test(
+      'a second tap on the same listing while it is pending is ignored',
+      () async {
+        await load(['a']);
+        final answer = Completer<Either<AppFailure, Unit>>();
+        when(() => repository.add('b'))
+            .thenReturn(TaskEither(() => answer.future));
 
-      final first = notifier().toggle(listingOf('b'));
-      final second = await notifier().toggle(listingOf('b'));
-      answer.complete(right(unit));
-      await first;
+        final first = notifier().toggle(listingOf('b'));
+        final second = await notifier().toggle(listingOf('b'));
+        answer.complete(right(unit));
+        await first;
 
-      expect(second, const None());
-      verify(() => repository.add('b')).called(1);
-      verifyNever(() => repository.remove(any()));
-      expect(savedIds(), ['b', 'a']);
-    });
+        expect(second, const None());
+        verify(() => repository.add('b')).called(1);
+        verifyNever(() => repository.remove(any()));
+        expect(savedIds(), ['b', 'a']);
+      },
+    );
 
     test('does nothing until the list has loaded', () async {
       final loading = Completer<Either<AppFailure, List<Listing>>>();
