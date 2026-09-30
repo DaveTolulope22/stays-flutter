@@ -290,6 +290,18 @@ abstract class AppLocalizations {
   /// **'Privacy policy'**
   String get authPrivacyPolicy;
 
+  /// Button that ends the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOut;
+
+  /// Shown to a host whose tenant has the host panel switched off.
+  ///
+  /// In en, this message translates to:
+  /// **'The host area is not available right now.'**
+  String get hostUnavailable;
+
   /// Message shown when the terms or privacy page cannot be opened.
   ///
   /// In en, this message translates to:

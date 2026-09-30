@@ -12,6 +12,8 @@ final authModule = FeatureModule(
   id: 'auth',
   area: AccessArea.none,
   basePath: AuthPaths.base,
+  // `/auth` itself has no page; a signed-out user lands on sign-in.
+  initialLocation: AuthPaths.signIn,
   routes: [
     GoRoute(
       path: AuthPaths.signIn,

@@ -306,3 +306,49 @@ asserts that every top-level route lives under the base path, and
 but the rule lives in a different package from the routes it protects, so a
 new host route added outside the prefix would silently be reachable by a
 client, and the two places would have to be kept in sync by hand.
+
+## 015. The router: modules from flags, one shell per area
+
+**Context:** The app has guest and host sides, tabs, and features that a tenant
+can switch off. Access must be decided on the device before a screen builds.
+
+**Decision:**
+
+- The module list is built from the tenant's flags only (`modulesFor`). One
+  `GoRouter` is created once, when the config is loaded and the session is
+  resolved. Its `redirect` calls the pure `resolveRedirect(modules,
+  capabilities, location)`, and `refreshListenable` fires when the
+  capabilities change, so signing in or out moves the user without any screen
+  navigating.
+- The router is held back until the stored session has been verified. While it
+  is being checked the boot spinner shows, and if it cannot be verified the
+  boot error with Retry shows (ADR 013). A signed-in user therefore never sees
+  the sign-in screen flash.
+- Tab modules are grouped by area, and each area gets its own
+  `StatefulShellRoute` with a branch per tab. The bottom bar appears only when
+  the area has two or more tabs, so a guest on a tenant with favourites off has
+  one tab and no bar.
+- A host on a tenant with the host panel off is sent to a shell-owned "host
+  area not available" module that is registered instead of the host area. It
+  belongs to the host side, so it never falls through to browsing.
+- Until the real screens exist, `/browse` and `/host` are placeholders that
+  show who is signed in, and they keep the final paths.
+
+**Rejected:**
+
+- One shell holding every tab and hiding the ones a user may not use: the bar
+  would need index bookkeeping, and a hidden branch still exists.
+- Building the router before the session is known and redirecting once it is:
+  it shows the sign-in screen to a signed-in user for a moment.
+
+## 016. Kotlin incremental compilation is off
+
+**Context:** On this Windows machine the Android build failed in
+`:url_launcher_android:compileDebugKotlin` with "Could not close incremental
+caches" once that plugin was added. The pub cache with the plugin's sources is
+on a different drive from the project.
+
+**Decision:** `kotlin.incremental=false` in `android/gradle.properties`. The app
+has almost no Kotlin of its own, so a full compile of the plugins costs
+nothing, and the build is reliable. Switching the Kotlin compiler to run in
+the Gradle process did not help.

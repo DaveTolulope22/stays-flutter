@@ -117,5 +117,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPrivacyPolicy => 'Privacy policy';
 
   @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get hostUnavailable => 'The host area is not available right now.';
+
+  @override
   String get authLinkOpenFailed => 'The link could not be opened.';
 }

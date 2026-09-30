@@ -33,5 +33,7 @@
   "authTermsIntro": "Mit der Erstellung eines Kontos stimmen Sie Folgendem zu:",
   "authTermsOfUse": "Nutzungsbedingungen",
   "authPrivacyPolicy": "Datenschutzerklärung",
+  "signOut": "Abmelden",
+  "hostUnavailable": "Der Gastgeberbereich ist derzeit nicht verfügbar.",
   "authLinkOpenFailed": "Der Link konnte nicht geöffnet werden."
 }

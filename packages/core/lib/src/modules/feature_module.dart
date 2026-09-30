@@ -28,13 +28,19 @@ class FeatureModule {
     required this.routes,
     this.tab,
     this.requires,
-  }) : assert(
+    String? initialLocation,
+  }) : initialLocation = initialLocation ?? basePath,
+       assert(
          basePath.startsWith('/') && basePath.length > 1,
          'basePath must start with "/" and name a section, got "$basePath".',
        ),
        assert(
          _routesUnder(routes, basePath),
          'Every top-level route of module "$id" must live under "$basePath".',
+       ),
+       assert(
+         _isUnder(initialLocation ?? basePath, basePath),
+         'The initialLocation of module "$id" must live under "$basePath".',
        );
 
   /// Unique across the app. Used for tab keys and diagnostics.
@@ -46,6 +52,11 @@ class FeatureModule {
 
   /// Every route of this module lives at or under this path.
   final String basePath;
+
+  /// Where a user lands when the app sends them to this module. It defaults to
+  /// [basePath]; a module whose base path has no page of its own (`/auth`)
+  /// names its front page here.
+  final String initialLocation;
 
   final List<RouteBase> routes;
 
@@ -69,11 +80,13 @@ class FeatureModule {
         path.startsWith(basePath.endsWith('/') ? basePath : '$basePath/');
   }
 
+  static bool _isUnder(String path, String basePath) =>
+      path == basePath || path.startsWith('$basePath/');
+
   static bool _routesUnder(List<RouteBase> routes, String basePath) {
     for (final route in routes) {
       if (route is! GoRoute) continue;
-      final path = route.path;
-      if (path != basePath && !path.startsWith('$basePath/')) return false;
+      if (!_isUnder(route.path, basePath)) return false;
     }
     return true;
   }

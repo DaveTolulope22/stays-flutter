@@ -11,6 +11,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:stays_app/src/app.dart';
 import 'package:stays_app/src/boot/boot_app.dart';
 
+import 'support/shell_harness.dart'
+    show FakeSessionController, SessionScript, clientSession;
+
 class _MockRepository extends Mock implements TenantConfigRepository {}
 
 // Made-up tenant: the shell has no tenant names, and neither do its tests.
@@ -85,6 +88,10 @@ void main() {
             ),
           ),
           tenantConfigRepositoryProvider.overrideWithValue(repository),
+          // Signed in as a client, so the tenant's own app is what shows.
+          sessionControllerProvider.overrideWith(
+            () => FakeSessionController(SessionScript(initial: clientSession)),
+          ),
         ],
         child: const StaysApp(),
       ),

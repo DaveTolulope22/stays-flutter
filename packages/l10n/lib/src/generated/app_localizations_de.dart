@@ -121,5 +121,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authPrivacyPolicy => 'Datenschutzerklärung';
 
   @override
+  String get signOut => 'Abmelden';
+
+  @override
+  String get hostUnavailable =>
+      'Der Gastgeberbereich ist derzeit nicht verfügbar.';
+
+  @override
   String get authLinkOpenFailed => 'Der Link konnte nicht geöffnet werden.';
 }

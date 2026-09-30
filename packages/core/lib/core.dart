@@ -9,6 +9,7 @@ export 'src/dates/local_date_converter.dart';
 export 'src/failures/api_error_mapper.dart';
 export 'src/failures/app_failure.dart';
 export 'src/modules/feature_module.dart';
+export 'src/modules/route_guard.dart';
 export 'src/network/api_call.dart';
 export 'src/network/auth_hooks_provider.dart';
 export 'src/network/auth_interceptor.dart';
