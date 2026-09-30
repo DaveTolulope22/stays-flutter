@@ -18,28 +18,40 @@ enum CalendarDayStyle {
   /// A day that is set apart: a filled cell AND a strike-through on the number.
   /// Colour is never the only cue, so it reads without telling shades apart.
   marked,
+
+  /// A day that is set apart more lightly than [marked]: the same strike-through
+  /// on the number, but no filled cell. So the two can be told apart without
+  /// relying on colour.
+  struck,
 }
 
-/// How one day looks: its [style], and whether it carries an outline (a
-/// highlight that can sit on top of any style, such as "part of your stay").
+/// How one day looks: its [style], whether it carries an outline (a highlight
+/// that can sit on top of any style, such as "part of your stay"), and whether
+/// it can be tapped.
+///
+/// [tappable] only matters when the calendar was given an `onDayTap`; a day
+/// that is not tappable ignores taps either way.
 @immutable
 class CalendarDayAppearance {
   const CalendarDayAppearance({
     this.style = CalendarDayStyle.plain,
     this.outlined = false,
+    this.tappable = false,
   });
 
   final CalendarDayStyle style;
   final bool outlined;
+  final bool tappable;
 
   @override
   bool operator ==(Object other) =>
       other is CalendarDayAppearance &&
       other.style == style &&
-      other.outlined == outlined;
+      other.outlined == outlined &&
+      other.tappable == tappable;
 
   @override
-  int get hashCode => Object.hash(style, outlined);
+  int get hashCode => Object.hash(style, outlined, tappable);
 }
 
 /// One month as a grid of days. It knows nothing about bookings: the caller says
@@ -51,6 +63,10 @@ class CalendarDayAppearance {
 /// change it, and a null one disables its button. While [status] is set (a
 /// spinner, an error) it takes the place of the grid, in a box as tall as the
 /// tallest month, so the layout does not jump.
+///
+/// A day is a button only if the caller gave an [onDayTap] AND that day's
+/// appearance is `tappable`; it then reports the date and is announced as a
+/// button. The calendar never decides which days may be tapped.
 class MonthCalendar extends StatelessWidget {
   const MonthCalendar({
     required this.month,
@@ -60,6 +76,7 @@ class MonthCalendar extends StatelessWidget {
     required this.nextTooltip,
     this.onPrevious,
     this.onNext,
+    this.onDayTap,
     this.status,
     super.key,
   });
@@ -75,6 +92,7 @@ class MonthCalendar extends StatelessWidget {
   final String nextTooltip;
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
+  final ValueChanged<LocalDate>? onDayTap;
   final Widget? status;
 
   @override
@@ -121,6 +139,7 @@ class MonthCalendar extends StatelessWidget {
             firstDayOfWeek: material.firstDayOfWeekIndex,
             appearance: appearance,
             label: label,
+            onDayTap: onDayTap,
           ),
       ],
     );
@@ -164,6 +183,7 @@ class _Grid extends StatelessWidget {
     required this.firstDayOfWeek,
     required this.appearance,
     required this.label,
+    required this.onDayTap,
   });
 
   final LocalDate month;
@@ -173,6 +193,7 @@ class _Grid extends StatelessWidget {
   final int firstDayOfWeek;
   final CalendarDayAppearance Function(LocalDate date) appearance;
   final String Function(LocalDate date, CalendarDayAppearance appearance) label;
+  final ValueChanged<LocalDate>? onDayTap;
 
   @override
   Widget build(BuildContext context) {
@@ -192,12 +213,21 @@ class _Grid extends StatelessWidget {
       }
       final date = LocalDate(month.year, month.month, day);
       final look = appearance(date);
+      final onTap = look.tappable ? onDayTap : null;
       return SizedBox(
         height: AppSizes.calendarCell,
         child: Semantics(
           label: label(date, look),
+          button: onTap != null,
+          onTap: onTap == null ? null : () => onTap(date),
           excludeSemantics: true,
-          child: _DayBox(day: day, appearance: look),
+          child: onTap == null
+              ? _DayBox(day: day, appearance: look)
+              : InkWell(
+                  borderRadius: AppRadius.mediumAll,
+                  onTap: () => onTap(date),
+                  child: _DayBox(day: day, appearance: look),
+                ),
         ),
       );
     }
@@ -228,13 +258,14 @@ class _DayBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final style = appearance.style;
-    final marked = style == CalendarDayStyle.marked;
+    final filled = style == CalendarDayStyle.marked;
+    final struck = filled || style == CalendarDayStyle.struck;
 
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xs),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: marked ? colors.borderPrimary : null,
+          color: filled ? colors.borderPrimary : null,
           borderRadius: AppRadius.mediumAll,
           border: appearance.outlined
               ? Border.all(
@@ -248,7 +279,7 @@ class _DayBox extends StatelessWidget {
             day.toString(),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: style == CalendarDayStyle.muted ? colors.textMuted : null,
-              decoration: marked ? TextDecoration.lineThrough : null,
+              decoration: struck ? TextDecoration.lineThrough : null,
             ),
           ),
         ),

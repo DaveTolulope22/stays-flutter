@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
-import '../availability/calendar_months.dart';
 import '../state/listing_availability_provider.dart';
 import '../state/listing_filter_controller.dart';
 
@@ -66,7 +65,10 @@ class _AvailabilitySectionState extends ConsumerState<AvailabilitySection> {
         .formatFullDate(DateTime(date.year, date.month, date.day));
     final base = switch (look.style) {
       CalendarDayStyle.muted => l10n.availabilityDayPast(day),
-      CalendarDayStyle.marked => l10n.availabilityDayTaken(day),
+      // A guest's calendar only draws `marked` (see `_appearance`), but the
+      // switch must cover every style: a day set apart at all is taken.
+      CalendarDayStyle.marked ||
+      CalendarDayStyle.struck => l10n.availabilityDayTaken(day),
       CalendarDayStyle.plain => l10n.availabilityDayAvailable(day),
     };
     return look.outlined ? l10n.availabilityDayInStay(base) : base;

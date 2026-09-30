@@ -832,5 +832,41 @@
   "propertyTypeTownhouse": "Townhouse",
   "@propertyTypeTownhouse": {
     "description": "Property type: townhouse."
+  },
+
+  "hostCalendarLegendBooked": "Booked",
+  "@hostCalendarLegendBooked": { "description": "Legend entry on the host's calendar for a day a guest has booked." },
+
+  "hostCalendarLegendBlocked": "Blocked",
+  "@hostCalendarLegendBlocked": { "description": "Legend entry on the host's calendar for a day the host closed by hand." },
+
+  "hostCalendarHint": "Tap a free day to block it. Tap a blocked day to open it again.",
+  "@hostCalendarHint": { "description": "Instruction under the host's calendar when blocking days is available." },
+
+  "hostCalendarReadOnly": "Blocking days is switched off, so this calendar is view only.",
+  "@hostCalendarReadOnly": { "description": "Shown on the host's calendar when the tenant has turned blocking days off." },
+
+  "hostCalendarDayFreeTap": "{date}, available. Tap to block.",
+  "@hostCalendarDayFreeTap": {
+    "description": "Screen reader label of a free day the host can block.",
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "hostCalendarDayBlockedTap": "{date}, blocked. Tap to unblock.",
+  "@hostCalendarDayBlockedTap": {
+    "description": "Screen reader label of a day the host blocked and can open again.",
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "hostCalendarDayBlocked": "{date}, blocked",
+  "@hostCalendarDayBlocked": {
+    "description": "Screen reader label of a blocked day on a view-only calendar.",
+    "placeholders": { "date": { "type": "String" } }
+  },
+
+  "hostCalendarDayBooked": "{date}, booked",
+  "@hostCalendarDayBooked": {
+    "description": "Screen reader label of a day a guest has booked. It cannot be blocked.",
+    "placeholders": { "date": { "type": "String" } }
   }
 }

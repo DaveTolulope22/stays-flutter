@@ -611,4 +611,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertyTypeTownhouse => 'Townhouse';
+
+  @override
+  String get hostCalendarLegendBooked => 'Booked';
+
+  @override
+  String get hostCalendarLegendBlocked => 'Blocked';
+
+  @override
+  String get hostCalendarHint =>
+      'Tap a free day to block it. Tap a blocked day to open it again.';
+
+  @override
+  String get hostCalendarReadOnly =>
+      'Blocking days is switched off, so this calendar is view only.';
+
+  @override
+  String hostCalendarDayFreeTap(String date) {
+    return '$date, available. Tap to block.';
+  }
+
+  @override
+  String hostCalendarDayBlockedTap(String date) {
+    return '$date, blocked. Tap to unblock.';
+  }
+
+  @override
+  String hostCalendarDayBlocked(String date) {
+    return '$date, blocked';
+  }
+
+  @override
+  String hostCalendarDayBooked(String date) {
+    return '$date, booked';
+  }
 }

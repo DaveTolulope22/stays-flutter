@@ -2,8 +2,6 @@ import 'package:core/core.dart';
 import 'package:listings/listings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../availability/calendar_months.dart';
-
 part 'listing_availability_provider.g.dart';
 
 /// The taken days of ONE month of a listing. A family keyed by the listing and

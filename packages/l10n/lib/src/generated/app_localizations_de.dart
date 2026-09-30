@@ -616,4 +616,38 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get propertyTypeTownhouse => 'Stadthaus';
+
+  @override
+  String get hostCalendarLegendBooked => 'Gebucht';
+
+  @override
+  String get hostCalendarLegendBlocked => 'Gesperrt';
+
+  @override
+  String get hostCalendarHint =>
+      'Tippen Sie auf einen freien Tag, um ihn zu sperren. Tippen Sie auf einen gesperrten Tag, um ihn wieder freizugeben.';
+
+  @override
+  String get hostCalendarReadOnly =>
+      'Das Sperren von Tagen ist deaktiviert, dieser Kalender dient nur der Ansicht.';
+
+  @override
+  String hostCalendarDayFreeTap(String date) {
+    return '$date, verfügbar. Zum Sperren tippen.';
+  }
+
+  @override
+  String hostCalendarDayBlockedTap(String date) {
+    return '$date, gesperrt. Zum Freigeben tippen.';
+  }
+
+  @override
+  String hostCalendarDayBlocked(String date) {
+    return '$date, gesperrt';
+  }
+
+  @override
+  String hostCalendarDayBooked(String date) {
+    return '$date, gebucht';
+  }
 }

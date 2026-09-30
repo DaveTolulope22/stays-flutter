@@ -653,3 +653,57 @@ amenities found in `/listings/facets` (a host could not add one nobody has yet,
 and the form would need a second request to open), and fetching the listing by id
 on the edit screen (the API has no host-side single-listing endpoint, and the
 public one is another tenant-checked call for data we already hold).
+
+## 030. The host calendar: booked days are fixed, blocks are optimistic, rules live in the notifier
+
+**Context:** A host closes single days on a listing's calendar. The API has one
+call per day, and I verified with curl (API_OBSERVATIONS row 5) that it LETS a
+host block a day that is already booked. It reports such a day as `booked`, so
+availability alone cannot show the host's own blocks. The `blockedDays` flag can
+turn blocking off while the rest of the host area stays.
+
+**Decision:**
+- **Two sources, two providers.** `bookedDays(listingId, month)` is one small
+  availability request per month (every reason except `blocked`, including a
+  reason we do not know). `HostBlockedDays(listingId)` holds the listing's whole
+  set of blocked days, loaded once, because that endpoint is not paginated and
+  lists everything. Moving between months only reads from it.
+- **Booked wins.** A day that is booked is drawn as booked and is not tappable,
+  even if the host also blocked it, as the API reports it. The app never offers
+  to block a booked day, and the toggle refuses it before any request, so the
+  rule does not depend on the API.
+- **The rules live in the notifier, not the screen.** `toggle(date)` does
+  nothing, and sends nothing, when blocking is off, the day is before today, the
+  day is booked or its month has not loaded (we do not know), the days are not
+  loaded, or a request for that day is still out. Today itself can be blocked.
+  The screen also makes those days untappable, so the rule is enforced twice and
+  each layer is tested alone.
+- **Optimistic, undone per day.** A tap changes the day at once and sends the
+  request. If it fails, only that day goes back and the failure is returned for
+  a message in our own words. A snapshot of the whole set is never restored, so a
+  day changed meanwhile stays changed. Both API calls are idempotent, so trying
+  again after a rollback is safe.
+- **Read only when the flag is off.** The calendar still loads and shows booked
+  and blocked days, but has no tap callback and says why. The flag removes the
+  ability to change, not the ability to see.
+- **How it looks.** Booked: filled cell and struck number (as the guest's taken
+  days). Blocked: struck number on a plain cell. Colour is never the only cue,
+  the legend names all three, and every day has a screen reader label that also
+  says what a tap will do.
+- **`MonthCalendar` stays generic.** It gained an optional `onDayTap`, a
+  `tappable` flag per day and one style named by its look (`struck`). It still
+  does not know what a booking is. The month helpers moved from `feature_browse`
+  to `core`, because two features now need them and features cannot depend on
+  each other.
+- **Range.** From the current month to a year ahead, like the guest's calendar.
+
+**Consequence, stated honestly:** a day the host blocked and that was later
+booked shows as booked and cannot be unblocked in the app until the booking is
+cancelled, because the booked rule wins. It is harmless (the day is occupied
+anyway) and it comes back as blocked if the booking is cancelled.
+
+**Rejected:** A notifier per listing AND month (navigating away would lose or
+refetch the blocks and duplicate the state), relying on the API to refuse a
+booked day (verified: it does not), restoring a saved copy of the set on
+failure, a confirmation dialog on every tap (blocking is cheap and reversible),
+and telling blocked from booked by colour alone.

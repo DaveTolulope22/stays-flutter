@@ -164,5 +164,13 @@
   "propertyTypeStudio": "Studio",
   "propertyTypeLoft": "Loft",
   "propertyTypeCabin": "Hütte",
-  "propertyTypeTownhouse": "Stadthaus"
+  "propertyTypeTownhouse": "Stadthaus",
+  "hostCalendarLegendBooked": "Gebucht",
+  "hostCalendarLegendBlocked": "Gesperrt",
+  "hostCalendarHint": "Tippen Sie auf einen freien Tag, um ihn zu sperren. Tippen Sie auf einen gesperrten Tag, um ihn wieder freizugeben.",
+  "hostCalendarReadOnly": "Das Sperren von Tagen ist deaktiviert, dieser Kalender dient nur der Ansicht.",
+  "hostCalendarDayFreeTap": "{date}, verfügbar. Zum Sperren tippen.",
+  "hostCalendarDayBlockedTap": "{date}, gesperrt. Zum Freigeben tippen.",
+  "hostCalendarDayBlocked": "{date}, gesperrt",
+  "hostCalendarDayBooked": "{date}, gebucht"
 }

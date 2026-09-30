@@ -3,6 +3,7 @@ library;
 
 export 'src/access/capabilities.dart';
 export 'src/access/capabilities_provider.dart';
+export 'src/dates/calendar_months.dart';
 export 'src/dates/clock.dart';
 export 'src/dates/date_range.dart';
 export 'src/dates/local_date.dart';

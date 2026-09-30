@@ -18,6 +18,7 @@ Future<void> _pump(
   CalendarDayAppearance Function(LocalDate)? appearance,
   VoidCallback? onPrevious,
   VoidCallback? onNext,
+  ValueChanged<LocalDate>? onDayTap,
   Widget? status,
   Locale locale = const Locale('en'),
   Brightness brightness = Brightness.light,
@@ -42,6 +43,7 @@ Future<void> _pump(
             nextTooltip: 'On a month',
             onPrevious: onPrevious,
             onNext: onNext,
+            onDayTap: onDayTap,
             status: status,
           ),
         ),
@@ -190,6 +192,20 @@ void main() {
       expect(boxOf(tester, '14').color, isNotNull);
     });
 
+    testWidgets('a struck day is struck through but NOT filled', (
+      tester,
+    ) async {
+      await _pump(
+        tester,
+        appearance: (date) => date.day == 18
+            ? const CalendarDayAppearance(style: CalendarDayStyle.struck)
+            : const CalendarDayAppearance(),
+      );
+
+      expect(styleOf(tester, '18')?.decoration, TextDecoration.lineThrough);
+      expect(boxOf(tester, '18').color, isNull);
+    });
+
     testWidgets('a plain day has neither cue', (tester) async {
       await _pump(tester, appearance: byDay);
 
@@ -244,6 +260,79 @@ void main() {
 
       expect(tester.takeException(), isNull);
       expect(styleOf(tester, '14')?.decoration, TextDecoration.lineThrough);
+    });
+  });
+
+  group('taps', () {
+    CalendarDayAppearance onlyTheFifth(LocalDate date) =>
+        CalendarDayAppearance(tappable: date.day == 5);
+
+    testWidgets('a tappable day reports its date', (tester) async {
+      final tapped = <LocalDate>[];
+      await _pump(tester, appearance: onlyTheFifth, onDayTap: tapped.add);
+
+      await tester.tap(find.text('5'));
+
+      expect(tapped, [LocalDate(2027, 2, 5)]);
+    });
+
+    testWidgets('a day that is not tappable ignores a tap', (tester) async {
+      final tapped = <LocalDate>[];
+      await _pump(tester, appearance: onlyTheFifth, onDayTap: tapped.add);
+
+      await tester.tap(find.text('6'));
+
+      expect(tapped, isEmpty);
+    });
+
+    testWidgets(
+      'without an onDayTap nothing is tappable, whatever a day says',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await _pump(tester, appearance: onlyTheFifth);
+
+        await tester.tap(find.text('5'));
+
+        final node = tester.getSemantics(find.bySemanticsLabel('D5:plain'));
+        expect(node.flagsCollection.isButton, isFalse);
+        handle.dispose();
+      },
+    );
+
+    testWidgets('a tappable day is announced as a button, the others are not', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await _pump(tester, appearance: onlyTheFifth, onDayTap: (_) {});
+
+      expect(
+        tester
+            .getSemantics(find.bySemanticsLabel('D5:plain'))
+            .flagsCollection
+            .isButton,
+        isTrue,
+      );
+      expect(
+        tester
+            .getSemantics(find.bySemanticsLabel('D6:plain'))
+            .flagsCollection
+            .isButton,
+        isFalse,
+      );
+      handle.dispose();
+    });
+
+    testWidgets('a tappable cell is at least a comfortable tap target', (
+      tester,
+    ) async {
+      await _pump(tester, appearance: onlyTheFifth, onDayTap: (_) {});
+
+      final size = tester.getSize(
+        find.ancestor(of: find.text('5'), matching: find.byType(InkWell)),
+      );
+
+      expect(size.height, greaterThanOrEqualTo(AppSizes.minTapTarget));
+      expect(size.width, greaterThanOrEqualTo(AppSizes.minTapTarget));
     });
   });
 
@@ -357,6 +446,17 @@ void main() {
       expect(
         const CalendarDayAppearance(),
         isNot(const CalendarDayAppearance(outlined: true)),
+      );
+    });
+
+    test('whether a day is tappable is part of its value', () {
+      expect(
+        const CalendarDayAppearance(tappable: true),
+        const CalendarDayAppearance(tappable: true),
+      );
+      expect(
+        const CalendarDayAppearance(tappable: true),
+        isNot(const CalendarDayAppearance()),
       );
     });
   });

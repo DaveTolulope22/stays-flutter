@@ -1,4 +1,5 @@
-import 'package:core/core.dart';
+import 'date_range.dart';
+import 'local_date.dart';
 
 /// How many months ahead of the current one the calendar can go. Twelve covers
 /// the longest stay the date filter allows.

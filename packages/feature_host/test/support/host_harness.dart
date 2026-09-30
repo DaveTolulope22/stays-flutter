@@ -76,21 +76,41 @@ CursorPage<Listing> pageOf(
 typedef ListResult = Either<AppFailure, CursorPage<Listing>>;
 
 typedef UpdateResult = Either<AppFailure, Listing>;
+typedef BlockedDaysResult = Either<AppFailure, List<BlockedDay>>;
+typedef DayWriteResult = Either<AppFailure, Unit>;
 
-/// Answers the host's listings (and an edit) from callbacks and records what it
-/// was asked. No network.
+/// The date every calendar test runs on: a Sunday in the middle of March 2026.
+/// Nothing in these tests reads the real date, so they cannot break at a month
+/// boundary or at midnight.
+final fixedToday = LocalDate(2026, 3, 15);
+
+/// Answers the host's listings, an edit, and the blocked days from callbacks and
+/// records what it was asked. No network. Anything not scripted succeeds with an
+/// empty or unchanged answer.
 class ScriptedHostRepository extends HostRepository {
   ScriptedHostRepository(
     this._onListings, {
     Future<UpdateResult> Function(String id, ListingPatch patch)? onUpdate,
+    Future<BlockedDaysResult> Function(String id)? onBlockedDays,
+    Future<DayWriteResult> Function(String id, LocalDate date)? onBlock,
+    Future<DayWriteResult> Function(String id, LocalDate date)? onUnblock,
   }) : _onUpdate = onUpdate ?? ((id, patch) async => right(listingOf(id))),
+       _onBlockedDays = onBlockedDays ?? ((id) async => right(const [])),
+       _onBlock = onBlock ?? ((id, date) async => right(unit)),
+       _onUnblock = onUnblock ?? ((id, date) async => right(unit)),
        super(dio: Dio(), tenant: testTenant);
 
   final Future<ListResult> Function(String? cursor) _onListings;
   final Future<UpdateResult> Function(String id, ListingPatch patch) _onUpdate;
+  final Future<BlockedDaysResult> Function(String id) _onBlockedDays;
+  final Future<DayWriteResult> Function(String id, LocalDate date) _onBlock;
+  final Future<DayWriteResult> Function(String id, LocalDate date) _onUnblock;
 
   final cursors = <String?>[];
   final updates = <({String id, ListingPatch patch})>[];
+  final blockedDaysCalls = <String>[];
+  final blocks = <({String id, LocalDate date})>[];
+  final unblocks = <({String id, LocalDate date})>[];
 
   @override
   TaskEither<AppFailure, CursorPage<Listing>> listings({
@@ -105,6 +125,69 @@ class ScriptedHostRepository extends HostRepository {
   TaskEither<AppFailure, Listing> update(String listingId, ListingPatch patch) {
     updates.add((id: listingId, patch: patch));
     return TaskEither(() => _onUpdate(listingId, patch));
+  }
+
+  @override
+  TaskEither<AppFailure, List<BlockedDay>> blockedDays(String listingId) {
+    blockedDaysCalls.add(listingId);
+    return TaskEither(() => _onBlockedDays(listingId));
+  }
+
+  @override
+  TaskEither<AppFailure, Unit> block(String listingId, LocalDate date) {
+    blocks.add((id: listingId, date: date));
+    return TaskEither(() => _onBlock(listingId, date));
+  }
+
+  @override
+  TaskEither<AppFailure, Unit> unblock(String listingId, LocalDate date) {
+    unblocks.add((id: listingId, date: date));
+    return TaskEither(() => _onUnblock(listingId, date));
+  }
+}
+
+BlockedDay blockedOn(String date, {String listingId = 'l1'}) =>
+    BlockedDay(listingId: listingId, date: LocalDate.parse(date));
+
+UnavailableDay takenOn(String date, UnavailableReason reason) =>
+    UnavailableDay(date: LocalDate.parse(date), reason: reason);
+
+typedef AvailabilityResult = Either<AppFailure, Availability>;
+
+/// Answers the availability of a window from a callback and records the windows
+/// it was asked for. No network.
+class ScriptedAvailabilityRepository extends ListingsRepository {
+  ScriptedAvailabilityRepository(this._onAvailability)
+    : super(dio: Dio(), tenant: testTenant);
+
+  /// Every window taken from [taken], answered as the API does: free days absent.
+  factory ScriptedAvailabilityRepository.taking(List<UnavailableDay> taken) =>
+      ScriptedAvailabilityRepository(
+        (id, window) async => right(
+          Availability(
+            listingId: id,
+            from: window.start,
+            to: window.end,
+            unavailable: [
+              for (final day in taken)
+                if (window.contains(day.date)) day,
+            ],
+          ),
+        ),
+      );
+
+  final Future<AvailabilityResult> Function(String id, DateRange window)
+  _onAvailability;
+
+  final windows = <DateRange>[];
+
+  @override
+  TaskEither<AppFailure, Availability> availability(
+    String listingId,
+    DateRange window,
+  ) {
+    windows.add(window);
+    return TaskEither(() => _onAvailability(listingId, window));
   }
 }
 

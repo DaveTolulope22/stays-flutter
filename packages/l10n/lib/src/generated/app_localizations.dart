@@ -1056,6 +1056,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Townhouse'**
   String get propertyTypeTownhouse;
+
+  /// Legend entry on the host's calendar for a day a guest has booked.
+  ///
+  /// In en, this message translates to:
+  /// **'Booked'**
+  String get hostCalendarLegendBooked;
+
+  /// Legend entry on the host's calendar for a day the host closed by hand.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get hostCalendarLegendBlocked;
+
+  /// Instruction under the host's calendar when blocking days is available.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a free day to block it. Tap a blocked day to open it again.'**
+  String get hostCalendarHint;
+
+  /// Shown on the host's calendar when the tenant has turned blocking days off.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocking days is switched off, so this calendar is view only.'**
+  String get hostCalendarReadOnly;
+
+  /// Screen reader label of a free day the host can block.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, available. Tap to block.'**
+  String hostCalendarDayFreeTap(String date);
+
+  /// Screen reader label of a day the host blocked and can open again.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, blocked. Tap to unblock.'**
+  String hostCalendarDayBlockedTap(String date);
+
+  /// Screen reader label of a blocked day on a view-only calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, blocked'**
+  String hostCalendarDayBlocked(String date);
+
+  /// Screen reader label of a day a guest has booked. It cannot be blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, booked'**
+  String hostCalendarDayBooked(String date);
 }
 
 class _AppLocalizationsDelegate

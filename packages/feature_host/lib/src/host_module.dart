@@ -5,6 +5,7 @@ import 'package:l10n/l10n.dart';
 
 import 'host_paths.dart';
 import 'screens/edit_listing_screen.dart';
+import 'screens/host_calendar_screen.dart';
 import 'screens/host_placeholder_screen.dart';
 import 'screens/my_listings_screen.dart';
 
@@ -35,7 +36,7 @@ final hostModule = FeatureModule(
         GoRoute(
           path: HostPaths.calendarRoute,
           builder: (context, state) =>
-              HostPlaceholderScreen(title: context.l10n.hostActionCalendar),
+              HostCalendarScreen(listingId: state.pathParameters['id']!),
         ),
         GoRoute(
           path: HostPaths.bookingsRoute,
