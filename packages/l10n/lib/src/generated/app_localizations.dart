@@ -505,11 +505,179 @@ abstract class AppLocalizations {
   /// **'Clear filters'**
   String get browseClearFilters;
 
-  /// Tooltip and accessibility label of the button that opens the filter sheet.
+  /// Tooltip and accessibility label of the button that opens the filter sheet, and the sheet's title.
   ///
   /// In en, this message translates to:
   /// **'Filters'**
   String get browseFilters;
+
+  /// Button in the filter sheet that resets the choices made so far.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get filterClear;
+
+  /// Button in the filter sheet that applies the choices and closes it.
+  ///
+  /// In en, this message translates to:
+  /// **'Show results'**
+  String get filterShowResults;
+
+  /// Heading of the city choice in the filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get filterCity;
+
+  /// City choice that applies no city filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Any city'**
+  String get filterCityAny;
+
+  /// Heading of the guest count in the filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests'**
+  String get filterGuests;
+
+  /// Tooltip and accessibility label of the minus button of the guest stepper.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer guests'**
+  String get filterGuestsDecrease;
+
+  /// Tooltip and accessibility label of the plus button of the guest stepper.
+  ///
+  /// In en, this message translates to:
+  /// **'More guests'**
+  String get filterGuestsIncrease;
+
+  /// Accessibility label of the current value of the guest stepper.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 guest} other{{count} guests}}'**
+  String filterGuestsCount(int count);
+
+  /// Active-filter chip: listings that sleep at least this many guests.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}+ guests'**
+  String filterGuestsAtLeast(int count);
+
+  /// Heading of the price range in the filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per night'**
+  String get filterPrice;
+
+  /// A price range. Both prices are already formatted with the currency.
+  ///
+  /// In en, this message translates to:
+  /// **'{min} – {max}'**
+  String filterPriceRange(String min, String max);
+
+  /// Active-filter chip when only a lowest price is set.
+  ///
+  /// In en, this message translates to:
+  /// **'From {price}'**
+  String filterPriceFrom(String price);
+
+  /// Active-filter chip when only a highest price is set.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to {price}'**
+  String filterPriceUpTo(String price);
+
+  /// Heading of the date range in the filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get filterDates;
+
+  /// Date button label when no dates are chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Any dates'**
+  String get filterDatesAny;
+
+  /// The chosen stay: first night, check-out day and the number of nights.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end} · {nights, plural, one{1 night} other{{nights} nights}}'**
+  String filterDatesRange(String start, String end, int nights);
+
+  /// Tooltip and accessibility label of the button that removes the chosen dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear dates'**
+  String get filterDatesClear;
+
+  /// Title of the date range picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Select dates'**
+  String get filterDatesHelp;
+
+  /// Confirm button of the date range picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get filterDatesSave;
+
+  /// Label of the start date field in the date range picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in'**
+  String get filterCheckIn;
+
+  /// Label of the end date field in the date range picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-out'**
+  String get filterCheckOut;
+
+  /// Shown when the chosen dates have zero nights.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-out must be after check-in.'**
+  String get filterDatesTooShort;
+
+  /// Heading of the sort choice in the filter sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get filterSort;
+
+  /// Sort option.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get filterSortNewest;
+
+  /// Sort option.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: low to high'**
+  String get filterSortPriceLowToHigh;
+
+  /// Sort option.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: high to low'**
+  String get filterSortPriceHighToLow;
+
+  /// Sort option, offered only when reviews are visible.
+  ///
+  /// In en, this message translates to:
+  /// **'Top rated'**
+  String get filterSortRating;
+
+  /// Tooltip and accessibility label of the delete button on an active-filter chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove filter'**
+  String get filterRemove;
 }
 
 class _AppLocalizationsDelegate

@@ -22,7 +22,14 @@ void main() {
   }
 
   double scrollOffset(WidgetTester tester) => tester
-      .state<ScrollableState>(find.byType(Scrollable).first)
+      .state<ScrollableState>(
+        find
+            .descendant(
+              of: find.byType(ListView),
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      )
       .position
       .pixels;
 
@@ -128,7 +135,10 @@ void main() {
 
       expect(find.text(en.browseEmptyFiltered), findsOneWidget);
 
-      await tester.tap(find.text(en.browseClearFilters));
+      // The chips row offers it too; this is the empty state's own button.
+      await tester.tap(
+        find.widgetWithText(FilledButton, en.browseClearFilters),
+      );
       await tester.pumpAndSettle();
 
       expect(cards(), findsNWidgets(2));

@@ -265,4 +265,112 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get browseFilters => 'Filter';
+
+  @override
+  String get filterClear => 'Zurücksetzen';
+
+  @override
+  String get filterShowResults => 'Ergebnisse anzeigen';
+
+  @override
+  String get filterCity => 'Stadt';
+
+  @override
+  String get filterCityAny => 'Alle Städte';
+
+  @override
+  String get filterGuests => 'Gäste';
+
+  @override
+  String get filterGuestsDecrease => 'Weniger Gäste';
+
+  @override
+  String get filterGuestsIncrease => 'Mehr Gäste';
+
+  @override
+  String filterGuestsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Gäste',
+      one: '1 Gast',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String filterGuestsAtLeast(int count) {
+    return '$count+ Gäste';
+  }
+
+  @override
+  String get filterPrice => 'Preis pro Nacht';
+
+  @override
+  String filterPriceRange(String min, String max) {
+    return '$min – $max';
+  }
+
+  @override
+  String filterPriceFrom(String price) {
+    return 'Ab $price';
+  }
+
+  @override
+  String filterPriceUpTo(String price) {
+    return 'Bis $price';
+  }
+
+  @override
+  String get filterDates => 'Reisedaten';
+
+  @override
+  String get filterDatesAny => 'Beliebige Daten';
+
+  @override
+  String filterDatesRange(String start, String end, int nights) {
+    String _temp0 = intl.Intl.pluralLogic(
+      nights,
+      locale: localeName,
+      other: '$nights Nächte',
+      one: '1 Nacht',
+    );
+    return '$start – $end · $_temp0';
+  }
+
+  @override
+  String get filterDatesClear => 'Daten entfernen';
+
+  @override
+  String get filterDatesHelp => 'Reisedaten wählen';
+
+  @override
+  String get filterDatesSave => 'Fertig';
+
+  @override
+  String get filterCheckIn => 'Anreise';
+
+  @override
+  String get filterCheckOut => 'Abreise';
+
+  @override
+  String get filterDatesTooShort => 'Die Abreise muss nach der Anreise liegen.';
+
+  @override
+  String get filterSort => 'Sortieren nach';
+
+  @override
+  String get filterSortNewest => 'Neueste';
+
+  @override
+  String get filterSortPriceLowToHigh => 'Preis: aufsteigend';
+
+  @override
+  String get filterSortPriceHighToLow => 'Preis: absteigend';
+
+  @override
+  String get filterSortRating => 'Beste Bewertung';
+
+  @override
+  String get filterRemove => 'Filter entfernen';
 }

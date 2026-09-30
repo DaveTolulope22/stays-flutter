@@ -7,7 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 import 'package:listings/listings.dart';
 
+import '../filter/active_filter_chips.dart';
+import '../filter/filter_sheet.dart';
 import '../state/browse_listings.dart';
+import '../state/listing_facets_provider.dart';
 import '../state/listing_filter_controller.dart';
 
 /// The guest's list of stays: cards, infinite scroll, pull to refresh, and a
@@ -73,15 +76,17 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
     final filter = ref.watch(listingFilterControllerProvider);
     final listings = ref.watch(browseListingsProvider(filter));
     final title = ref.watch(tenantConfigProvider).value?.name ?? '';
+    // Fetches the facets as browsing starts, so the sheet opens with its options
+    // ready, and keeps them (an auto-dispose provider) while this screen lives.
+    ref.listen(listingFacetsProvider, (previous, next) {});
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: [
-          // Enabled by the filter sheet (next step).
           IconButton(
             tooltip: l10n.browseFilters,
-            onPressed: null,
+            onPressed: () => showFilterSheet(context),
             icon: Badge(
               isLabelVisible: filter.activeCount > 0,
               label: Text(filter.activeCount.toString()),
@@ -96,27 +101,37 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> {
           ),
         ],
       ),
-      body: listings.when(
-        loading: () => LoadingView(semanticsLabel: l10n.loading),
-        error: (error, _) => ErrorView(
-          message: error is AppFailure
-              ? failureMessage(error, l10n)
-              : l10n.errorGeneric,
-          action: ViewAction(
-            label: l10n.retry,
-            onPressed: () => ref.invalidate(browseListingsProvider(filter)),
+      // The chips stay above every state, so someone with no results can still
+      // remove the filter that caused it.
+      body: Column(
+        children: [
+          ActiveFilterChips(filter: filter),
+          Expanded(
+            child: listings.when(
+              loading: () => LoadingView(semanticsLabel: l10n.loading),
+              error: (error, _) => ErrorView(
+                message: error is AppFailure
+                    ? failureMessage(error, l10n)
+                    : l10n.errorGeneric,
+                action: ViewAction(
+                  label: l10n.retry,
+                  onPressed: () =>
+                      ref.invalidate(browseListingsProvider(filter)),
+                ),
+              ),
+              data: (paged) {
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => _loadMoreIfNearEnd(),
+                );
+                if (paged.items.isEmpty) return _empty(l10n, filter);
+                return RefreshIndicator(
+                  onRefresh: () => _refresh(filter),
+                  child: _list(paged, filter),
+                );
+              },
+            ),
           ),
-        ),
-        data: (paged) {
-          WidgetsBinding.instance.addPostFrameCallback(
-            (_) => _loadMoreIfNearEnd(),
-          );
-          if (paged.items.isEmpty) return _empty(l10n, filter);
-          return RefreshIndicator(
-            onRefresh: () => _refresh(filter),
-            child: _list(paged, filter),
-          );
-        },
+        ],
       ),
     );
   }

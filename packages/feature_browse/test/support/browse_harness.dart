@@ -56,14 +56,38 @@ CursorPage<Listing> pageOf(
   nextCursor: next,
 );
 
-/// Answers list requests from a callback and records every one. No network.
+/// What the filter sheet is built from in tests: the bounds are the ones the
+/// alpine tenant really has (51 to 694 CHF).
+ListingFacets facetsFixture() => const ListingFacets(
+  cities: ['Davos', 'Grindelwald', 'Zermatt'],
+  propertyTypes: ['chalet'],
+  amenities: ['wifi'],
+  priceMin: 51,
+  priceMax: 694,
+  maxGuests: 16,
+  currency: 'CHF',
+);
+
+/// Answers list and facets requests from callbacks and records them. No network.
 class ScriptedRepository extends ListingsRepository {
-  ScriptedRepository(this._onList) : super(dio: Dio(), tenant: 'acme');
+  ScriptedRepository(
+    this._onList, {
+    Future<Either<AppFailure, ListingFacets>> Function()? onFacets,
+  }) : _onFacets = onFacets ?? (() async => right(facetsFixture())),
+       super(dio: Dio(), tenant: 'acme');
 
   final Future<ListResult> Function(ListingFilter filter, String? cursor)
   _onList;
+  final Future<Either<AppFailure, ListingFacets>> Function() _onFacets;
 
   final calls = <ListCall>[];
+  int facetsCalls = 0;
+
+  @override
+  TaskEither<AppFailure, ListingFacets> facets() {
+    facetsCalls++;
+    return TaskEither(_onFacets);
+  }
 
   @override
   TaskEither<AppFailure, CursorPage<Listing>> list(
@@ -110,9 +134,10 @@ TenantConfig testConfig() => TenantConfig(
 /// The browse screen inside a real router, so opening a page on top of it and
 /// coming back behaves as it does in the app.
 class BrowseHarness {
-  BrowseHarness(this.repository);
+  BrowseHarness(this.repository, {this.canSeeReviews = true});
 
   final ScriptedRepository repository;
+  final bool canSeeReviews;
   final signOuts = SignOutCounter();
   late final GoRouter router;
 
@@ -150,7 +175,7 @@ class BrowseHarness {
         overrides: [
           listingsRepositoryProvider.overrideWithValue(repository),
           capabilitiesProvider.overrideWithValue(
-            const Capabilities(area: AccessArea.guest, canSeeReviews: true),
+            Capabilities(area: AccessArea.guest, canSeeReviews: canSeeReviews),
           ),
           tenantConfigProvider.overrideWith((ref) => testConfig()),
           sessionControllerProvider.overrideWith(

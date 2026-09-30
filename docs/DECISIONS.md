@@ -410,3 +410,28 @@ copies of the same function.
 config, the session, and every notifier that loads from the API. Failing once
 and showing our own message with a Retry button is the behaviour the brief's
 error handling asks for.
+
+## 021. Filter sheet: city chips, a stepped price scale, draft applied once
+
+**Context:** The sheet is built from `/listings/facets`. Both tenants have 8
+cities with short names, and prices that run 51 to 694 CHF and 50 to 765 EUR.
+
+**Decision:**
+- Cities are choice chips ("Any city" plus one per city). Eight short names wrap
+  onto about three lines, every option is visible without a tap, and the sheet
+  scrolls. With dozens of cities a dropdown or a searchable list would replace
+  them; the facets would not change.
+- The price slider works on positions, not on prices. `PriceScale` makes the
+  two exact facet bounds the end positions and every whole multiple of a step
+  (10 for wide ranges, finer for narrow ones) the positions between them, so a
+  price like 137.42 can never appear and the cheapest and dearest listing are
+  still reachable. An end resting on its bound sends nothing, so moving one end
+  sends one bound.
+- The sheet edits a draft and applies it once ("Show results"); closing it any
+  other way discards the draft.
+- One guest is no filter (every listing sleeps at least one). Dates are sent as
+  `checkIn` and the picked check-out day, and a zero-night pick is refused.
+
+**Rejected:** A plain `RangeSlider` over the bounds with a division count
+(fractional values, or the bounds not reachable), and a segmented button for
+sort (four options do not fit in German).

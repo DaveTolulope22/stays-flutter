@@ -337,6 +337,185 @@
 
   "browseFilters": "Filters",
   "@browseFilters": {
-    "description": "Tooltip and accessibility label of the button that opens the filter sheet."
+    "description": "Tooltip and accessibility label of the button that opens the filter sheet, and the sheet's title."
+  },
+
+  "filterClear": "Clear",
+  "@filterClear": {
+    "description": "Button in the filter sheet that resets the choices made so far."
+  },
+
+  "filterShowResults": "Show results",
+  "@filterShowResults": {
+    "description": "Button in the filter sheet that applies the choices and closes it."
+  },
+
+  "filterCity": "City",
+  "@filterCity": {
+    "description": "Heading of the city choice in the filter sheet."
+  },
+
+  "filterCityAny": "Any city",
+  "@filterCityAny": {
+    "description": "City choice that applies no city filter."
+  },
+
+  "filterGuests": "Guests",
+  "@filterGuests": {
+    "description": "Heading of the guest count in the filter sheet."
+  },
+
+  "filterGuestsDecrease": "Fewer guests",
+  "@filterGuestsDecrease": {
+    "description": "Tooltip and accessibility label of the minus button of the guest stepper."
+  },
+
+  "filterGuestsIncrease": "More guests",
+  "@filterGuestsIncrease": {
+    "description": "Tooltip and accessibility label of the plus button of the guest stepper."
+  },
+
+  "filterGuestsCount": "{count, plural, one{1 guest} other{{count} guests}}",
+  "@filterGuestsCount": {
+    "description": "Accessibility label of the current value of the guest stepper.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterGuestsAtLeast": "{count}+ guests",
+  "@filterGuestsAtLeast": {
+    "description": "Active-filter chip: listings that sleep at least this many guests.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterPrice": "Price per night",
+  "@filterPrice": {
+    "description": "Heading of the price range in the filter sheet."
+  },
+
+  "filterPriceRange": "{min} – {max}",
+  "@filterPriceRange": {
+    "description": "A price range. Both prices are already formatted with the currency.",
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+
+  "filterPriceFrom": "From {price}",
+  "@filterPriceFrom": {
+    "description": "Active-filter chip when only a lowest price is set.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+
+  "filterPriceUpTo": "Up to {price}",
+  "@filterPriceUpTo": {
+    "description": "Active-filter chip when only a highest price is set.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+
+  "filterDates": "Dates",
+  "@filterDates": {
+    "description": "Heading of the date range in the filter sheet."
+  },
+
+  "filterDatesAny": "Any dates",
+  "@filterDatesAny": {
+    "description": "Date button label when no dates are chosen."
+  },
+
+  "filterDatesRange": "{start} – {end} · {nights, plural, one{1 night} other{{nights} nights}}",
+  "@filterDatesRange": {
+    "description": "The chosen stay: first night, check-out day and the number of nights.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "nights": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterDatesClear": "Clear dates",
+  "@filterDatesClear": {
+    "description": "Tooltip and accessibility label of the button that removes the chosen dates."
+  },
+
+  "filterDatesHelp": "Select dates",
+  "@filterDatesHelp": {
+    "description": "Title of the date range picker."
+  },
+
+  "filterDatesSave": "Done",
+  "@filterDatesSave": {
+    "description": "Confirm button of the date range picker."
+  },
+
+  "filterCheckIn": "Check-in",
+  "@filterCheckIn": {
+    "description": "Label of the start date field in the date range picker."
+  },
+
+  "filterCheckOut": "Check-out",
+  "@filterCheckOut": {
+    "description": "Label of the end date field in the date range picker."
+  },
+
+  "filterDatesTooShort": "Check-out must be after check-in.",
+  "@filterDatesTooShort": {
+    "description": "Shown when the chosen dates have zero nights."
+  },
+
+  "filterSort": "Sort by",
+  "@filterSort": {
+    "description": "Heading of the sort choice in the filter sheet."
+  },
+
+  "filterSortNewest": "Newest",
+  "@filterSortNewest": {
+    "description": "Sort option."
+  },
+
+  "filterSortPriceLowToHigh": "Price: low to high",
+  "@filterSortPriceLowToHigh": {
+    "description": "Sort option."
+  },
+
+  "filterSortPriceHighToLow": "Price: high to low",
+  "@filterSortPriceHighToLow": {
+    "description": "Sort option."
+  },
+
+  "filterSortRating": "Top rated",
+  "@filterSortRating": {
+    "description": "Sort option, offered only when reviews are visible."
+  },
+
+  "filterRemove": "Remove filter",
+  "@filterRemove": {
+    "description": "Tooltip and accessibility label of the delete button on an active-filter chip."
   }
 }
