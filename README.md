@@ -1,8 +1,7 @@
 # Stays
 
 A white-label Flutter app for short-term rentals. One codebase builds two
-tenant flavors, `alpine` (Alpine Stays, CHF) and `riviera` (Riviera Rentals,
-EUR). Each tenant has its own name, colours, currency, feature flags, launcher
+tenant flavors, `alpine` (Alpine Stays) and `riviera` (Riviera Rentals). Each tenant has its own name, colours, currency, feature flags, launcher
 icon and application id, all taken from the API's runtime config rather than
 from the code. A **client** browses, filters, views availability and saves
 listings. A **host** manages their own listings, blocks days and reads
@@ -101,7 +100,7 @@ with separate storage.
 
 Debug builds allow cleartext HTTP only to `127.0.0.1`, `localhost` and
 `10.0.2.2`. Release builds allow none ([ADR 011](docs/DECISIONS.md)). Listing
-photos are remote (`picsum.photos`), so they need internet access.
+photos are remote (`picsum.photos`)
 
 ## Checks
 
