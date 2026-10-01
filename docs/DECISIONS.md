@@ -787,3 +787,42 @@ the generated class).
 **Rejected:** A custom analyzer or lint plugin. It gives editor squiggles, but it
 is another package and another API, and plugin setup is already delicate on this
 toolchain (ADR 008). A plain test is readable in an interview and runs anywhere.
+
+## 033. The native splash is fixed per flavor at build time
+
+**Context:** Between tapping the launcher icon and the first Flutter frame, Android
+shows a splash that the platform draws itself. Each tenant should show its own
+mark and background there, not a white screen or the Flutter logo.
+
+**Decision:**
+- **Build-time, like the launcher icon (ADR 011).** The splash exists before the
+  Flutter engine runs, so the runtime config (which holds the tenant colours) has
+  not been fetched and cannot be read. Its colours and image are therefore fixed
+  per flavor in `flutter_native_splash-<flavor>.yaml`, and the generated
+  resources live in `android/app/src/<flavor>/res` next to that flavor's
+  launcher icons. `main` is untouched, so one flavor can never pick up the
+  other's splash.
+- **Background = the tenant's `surface-primary`, light and dark.** The in-app
+  boot screen paints the same token once the config arrives, so the native
+  splash hands over to Flutter with no colour change. After that, everything
+  follows the runtime theme as before. The values were read from the tenants'
+  runtime config when the files were written, so if a tenant changed that token
+  the splash would need regenerating, and the splash never decides anything else.
+- **The image is the flavor's icon from `handoff/assets`, redrawn once** as a
+  rounded square at about half the canvas, on a transparent 1024 px canvas,
+  committed as `apps/stays_app/splash/splash_<flavor>.png`. The sources are
+  opaque full-bleed squares, and Android 12 and newer crop the splash icon to a
+  circle, which would cut the artwork. The padding keeps it inside the circle.
+  The same image serves pre-12 and 12+, light and dark.
+- **Both paths are configured.** Android 12+ ignores the classic settings and
+  uses the `android_12` block, so it has its own colours and image.
+- **`flutter_native_splash` is a pinned dev dependency** of `stays_app`
+  (unlike the launcher-icon tool, it resolves next to Melos 8), and the output is
+  committed. Regenerate with `dart run flutter_native_splash:create --flavor
+  alpine` (and `riviera`) from `apps/stays_app`.
+- iOS and web are out of scope (CLAUDE.md), so they are turned off.
+
+**Rejected:** Reading the colours at runtime for the splash (impossible, it is
+shown before the app runs). One shared splash for both flavors (the point is that
+each tenant has its own). Using the full-bleed icon unchanged (cropped to a circle
+on Android 12+).

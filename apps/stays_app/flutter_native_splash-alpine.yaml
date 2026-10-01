@@ -1,0 +1,22 @@
+# Native splash for the alpine flavor. Build-time on purpose: it is drawn by
+# Android before Flutter starts, so the runtime config cannot exist yet (ADR 033).
+# The colours are the tenant's `surface-primary` (light and dark), so the hand
+# over to the in-app boot screen, which uses the same token, shows no flash.
+#
+# Regenerate from apps/stays_app:
+#   dart run flutter_native_splash:create --flavor alpine
+flutter_native_splash:
+  color: "#ffffff"
+  color_dark: "#0d1b12"
+  image: splash/splash_alpine.png
+  image_dark: splash/splash_alpine.png
+  android: true
+  ios: false
+  web: false
+  android_gravity: center
+  # Android 12 and newer ignore the settings above and use this block.
+  android_12:
+    color: "#ffffff"
+    color_dark: "#0d1b12"
+    image: splash/splash_alpine.png
+    image_dark: splash/splash_alpine.png

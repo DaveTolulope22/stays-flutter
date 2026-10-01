@@ -1,0 +1,19 @@
+# Native splash for the riviera flavor. See flutter_native_splash-alpine.yaml
+# for why the values are fixed at build time (ADR 033).
+#
+# Regenerate from apps/stays_app:
+#   dart run flutter_native_splash:create --flavor riviera
+flutter_native_splash:
+  color: "#ffffff"
+  color_dark: "#0b1726"
+  image: splash/splash_riviera.png
+  image_dark: splash/splash_riviera.png
+  android: true
+  ios: false
+  web: false
+  android_gravity: center
+  android_12:
+    color: "#ffffff"
+    color_dark: "#0b1726"
+    image: splash/splash_riviera.png
+    image_dark: splash/splash_riviera.png
