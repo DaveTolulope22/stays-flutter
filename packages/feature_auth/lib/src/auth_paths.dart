@@ -3,5 +3,9 @@
 abstract final class AuthPaths {
   static const base = '/auth';
   static const signIn = '/auth/sign-in';
-  static const register = '/auth/register';
+
+  /// Register is a child of sign-in, so opening it always leaves sign-in
+  /// underneath and a system back has something to return to.
+  static const registerSegment = 'register';
+  static const register = '$signIn/$registerSegment';
 }

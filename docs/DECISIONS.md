@@ -885,3 +885,32 @@ for this scope the screen is clearer without them.
 **Rejected:** Keeping the links but hiding them (dead code and unused copy, and
 the dependency would still ship). Removing the two fields from the model (the
 parsed model would then differ from the contract).
+
+## 036. Register is a child route of sign-in, so the system back works
+
+**Context:** Register was a sibling of sign-in and sign-in opened it with
+`context.go`, which replaces the whole stack. Register was then the only page, so
+the Android back button and the edge swipe had nothing to pop and closed the app.
+Only the on-screen arrow worked, because it called `go` back to sign-in.
+
+**Decision:**
+- **Register is nested under sign-in** (`/auth/sign-in/register`). Whatever way it
+  is reached (a tap, a redirect, a deep link), go_router builds the stack
+  `[sign-in, register]`, so a pop always has somewhere to go. Typed text on the
+  sign-in form survives the round trip, because that page stays alive underneath.
+- **The arrow and "Already have an account?" call `pop`**, so all three ways back
+  do the same thing. Nothing uses `PopScope`, so nothing blocks the system back.
+- **Sign-in is the root of the stack,** so back there is not handled and Android
+  closes the app, which is what a user expects from the first screen.
+- **Predictive back is on.** The manifest sets `enableOnBackInvokedCallback`
+  (Android 13 and newer need it to opt in), and the shared theme uses
+  `PredictiveBackPageTransitionsBuilder` for Android, so dragging the back gesture
+  previews the screen underneath. It applies to every pushed screen, not only
+  register. On older Android versions the normal transition is used.
+- Tests use `AuthPaths.register` instead of a path string, so a move like this one
+  cannot leave a stale literal behind.
+
+**Rejected:** Keeping register a sibling and opening it with `push` (it works from
+the button, but a direct arrival such as a redirect would still have nothing to
+pop). Catching the back event with `PopScope` and calling `go` (it fights the
+platform instead of fixing the stack).

@@ -60,6 +60,53 @@ void main() {
     expect(find.text(en.authGoToRegister), findsOneWidget);
   });
 
+  group('the system back (button or edge swipe)', () {
+    // `handlePopRoute` is what the engine calls for both of them.
+    Future<bool> systemBack(WidgetTester tester) async {
+      final handled = await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      return handled;
+    }
+
+    testWidgets('returns from register to sign-in', (tester) async {
+      await harness.pump(tester);
+      await tester.tap(find.text(en.authGoToRegister));
+      await tester.pumpAndSettle();
+      expect(find.text(en.authRegisterSubtitle), findsOneWidget);
+
+      await systemBack(tester);
+
+      expect(find.text(en.authWelcomeTitle), findsOneWidget);
+      expect(find.text(en.authRegisterSubtitle), findsNothing);
+    });
+
+    testWidgets('works when register was opened directly, too', (tester) async {
+      await pumpRegister(tester);
+
+      await systemBack(tester);
+
+      expect(find.text(en.authWelcomeTitle), findsOneWidget);
+    });
+
+    testWidgets('keeps what was typed on sign-in', (tester) async {
+      await harness.pump(tester);
+      await tester.enterText(field(en.authEmail), 'nia@acme.example');
+      await tester.tap(find.text(en.authGoToRegister));
+      await tester.pumpAndSettle();
+
+      await systemBack(tester);
+
+      expect(find.text('nia@acme.example'), findsOneWidget);
+    });
+
+    testWidgets('from sign-in there is nothing left to pop', (tester) async {
+      await harness.pump(tester);
+
+      // Not handled: the platform then closes the app, which is right here.
+      expect(await systemBack(tester), isFalse);
+    });
+  });
+
   group('validation mirrors the server rules', () {
     testWidgets('an empty form shows four required errors', (tester) async {
       await pumpRegister(tester);

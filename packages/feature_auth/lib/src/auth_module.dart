@@ -18,10 +18,12 @@ final authModule = FeatureModule(
     GoRoute(
       path: AuthPaths.signIn,
       builder: (context, state) => const SignInScreen(),
-    ),
-    GoRoute(
-      path: AuthPaths.register,
-      builder: (context, state) => const RegisterScreen(),
+      routes: [
+        GoRoute(
+          path: AuthPaths.registerSegment,
+          builder: (context, state) => const RegisterScreen(),
+        ),
+      ],
     ),
   ],
 );

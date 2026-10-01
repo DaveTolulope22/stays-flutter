@@ -52,7 +52,7 @@ void main() {
     testWidgets('can open registration and come back', (tester) async {
       await ShellHarness().pump(tester);
 
-      await go(tester, '/auth/register');
+      await go(tester, AuthPaths.register);
       expect(field(en.authFirstName), findsOneWidget);
 
       await tester.tap(find.text(en.authGoToSignIn));
@@ -87,10 +87,10 @@ void main() {
     ) async {
       await ShellHarness(session: clientSession).pump(tester);
 
-      await go(tester, '/auth/sign-in');
+      await go(tester, AuthPaths.signIn);
       expect(guestHome(), findsOneWidget);
 
-      await go(tester, '/auth/register');
+      await go(tester, AuthPaths.register);
       expect(guestHome(), findsOneWidget);
     });
 
@@ -123,7 +123,7 @@ void main() {
     testWidgets('cannot open sign-in while signed in', (tester) async {
       await ShellHarness(session: hostSession).pump(tester);
 
-      await go(tester, '/auth/sign-in');
+      await go(tester, AuthPaths.signIn);
 
       expect(hostHome(), findsOneWidget);
     });
@@ -219,7 +219,7 @@ void main() {
       final harness = ShellHarness();
       harness.script.signInResult = clientSession;
       await harness.pump(tester);
-      await go(tester, '/auth/register');
+      await go(tester, AuthPaths.register);
 
       await tester.enterText(field(en.authFirstName), 'Gia');
       await tester.enterText(field(en.authLastName), 'Guest');

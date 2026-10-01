@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
-import '../auth_paths.dart';
 import '../validation/auth_validation.dart';
 import '../widgets/auth_widgets.dart';
 import 'register_submission.dart';
@@ -70,8 +69,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         title: l10n.authRegister,
         subtitle: l10n.authRegisterSubtitle,
         backTooltip: l10n.authBackToSignIn,
-        // Register is reached with `go`, so there is nothing to pop.
-        onBack: () => context.go(AuthPaths.signIn),
+        // The arrow does what the system back does: pop back to sign-in.
+        onBack: context.pop,
       ),
       child: Form(
         key: _formKey,
@@ -130,9 +129,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               const SizedBox(height: AppSpacing.s),
               TextButton(
-                onPressed: isLoading
-                    ? null
-                    : () => context.go(AuthPaths.signIn),
+                onPressed: isLoading ? null : context.pop,
                 child: Text(l10n.authGoToSignIn),
               ),
             ],

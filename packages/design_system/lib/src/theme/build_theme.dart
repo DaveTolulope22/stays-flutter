@@ -58,6 +58,13 @@ ThemeData _themeFrom(AppColors colors, Brightness brightness) {
     scaffoldBackgroundColor: colors.surfacePrimary,
     dividerColor: colors.borderPrimary,
     iconTheme: IconThemeData(color: colors.iconAction),
+    // Shows the previous screen while the back gesture is dragged. It needs
+    // `enableOnBackInvokedCallback` in the Android manifest to take effect.
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+      },
+    ),
     extensions: [colors],
   );
 }
