@@ -2,14 +2,16 @@
 
 The brief says: "If you think an endpoint is missing or wrong, work around it
 and tell us at the interview." This file records each one, what the app does
-about it, and what I would propose. Items marked (verify) are confirmed against
-the running API during the build.
+about it, and what I would propose. Rows 5, 11 and 12 are marked (verified):
+I confirmed them with curl against the running API. The others come from
+reading `openapi.yaml` and `contracts.dart`. Row numbers are cited by
+`docs/DECISIONS.md`, so they are stable.
 
 | # | Observation | Workaround in the app | What I would propose |
 |---|---|---|---|
 | 1 | `GET /listings` is public, but the brief describes browsing as what a signed-in client sees. | The app requires sign-in before browsing. | Decide product-wise whether browsing is public; the API already allows it. |
 | 2 | Feature flags are not enforced server side (`/favourites` answers on riviera). | The app never registers a disabled feature, and a test proves no request is made. | Enforce flags on the server too, so a buggy or modified client cannot use a disabled feature. |
-| 3 | Blocking a range of days needs one request per day, no batch endpoint. | Requests are idempotent, so the app retries safely and reports partial failure. | `POST /blocked-days` accepting a list or a range. |
+| 3 | Blocking a range of days needs one request per day, no batch endpoint. | The calendar blocks or unblocks one day per tap. Both calls are idempotent, so a failed tap is rolled back for that day only and can be repeated safely (ADR 030). | `POST /blocked-days` accepting a list or a range. |
 | 4 | Availability reports a day that is both booked and blocked as `booked`, so it cannot show which days the host blocked under a booking. | The host calendar merges availability with `GET /blocked-days`. | Return both reasons, or a `blocked` flag per day. |
 | 5 | The API ALLOWS blocking a day that is already booked. (verified with curl on alpine, listing `lst_00003`, confirmed booking 2027-05-26 to 2027-06-01): `POST /blocked-days` for 2027-05-26 answered 201 and the day then appeared in `GET /blocked-days`. Availability still reported it as `booked` (booked wins over blocked, see row 4), and listed 26 to 31 May as booked with 1 June absent, which also confirms check-out is exclusive. `DELETE` answered 204. | The UI never offers it: the calendar treats a booked day as not tappable, and the toggle refuses a booked day before any request is made, so the rule does not depend on the API. | Reject it server side with 409 and a specific messageCode, so a buggy or modified client cannot create a block under a booking (which would silently turn into an unexpected closed day if the booking is later cancelled). |
 | 6 | `GET /favourites` is not paginated. | Loaded in one call. | Paginate it like the other lists once lists grow. |

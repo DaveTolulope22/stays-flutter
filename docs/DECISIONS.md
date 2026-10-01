@@ -1,7 +1,24 @@
 # Decisions
 
 Short records of the choices that shaped this codebase. Each one: the context,
-what was decided, and what was rejected. Later phases append to this file.
+what was decided, and what was rejected. The numbers are stable: code comments,
+the CI workflow and the README cite them.
+
+## Index
+
+The nine to read first are in **bold**.
+
+| Theme | ADRs |
+|---|---|
+| Architecture and boundaries | **001** package boundaries, 002 `Capabilities` in `core`, 014 a module declares its guard, 025 the Saved screen is told where a listing opens, 028 one paged list widget |
+| Access, flags and routing | **003** flags decide what exists, role decides where you may go, 004 401 handling, **015** the router, **026** the favourites flag, applied twice and tested |
+| Tenancy, theme and copy | **005** tenant isolation, 006 theme from tokens, 033 native splash per flavor |
+| Data, state and failures | 012 failure and networking foundation, **013** session restore fails closed, 019 browse list state, 020 `noAutomaticRetry`, 024 saved listings |
+| Browse | 007 filter scope, 017 listing images, 021 filter sheet, 022 listing screen, 023 availability calendar |
+| Host | 027 one tab with nested routes, **029** editing as a diff, **030** the host calendar, 031 the bookings screen |
+| Quality gates | **032** the brief's rules are tests, 034 CI |
+| Tooling and repo | 008 tooling, 009 dependency versions, 010 repository conventions, 011 Android flavors and icons, 016 Kotlin incremental compilation |
+| UX details | 018 guest sign-out, 035 terms and privacy not shown, 036 register is a child of sign-in |
 
 ## 001. Package boundaries: mechanisms in shared, decisions in features
 
@@ -139,8 +156,8 @@ range. The API also supports property type, free-text search and amenities.
 
 **Decision:** Build the four, plus sort, with every control's options and
 bounds read from `/listings/facets` (the two tenants price in different
-currencies). Property type, search and amenities are extras, taken on only if
-time is left. The date range is sent as `checkIn` (inclusive) and `checkOut`
+currencies). Property type, search and amenities are not built (see the
+README's "left out" list). The date range is sent as `checkIn` (inclusive) and `checkOut`
 (exclusive), and the picker labels the end date as check-out.
 
 **Rejected:** Building every filter the API offers, which trades depth for
@@ -331,8 +348,9 @@ can switch off. Access must be decided on the device before a screen builds.
 - A host on a tenant with the host panel off is sent to a shell-owned "host
   area not available" module that is registered instead of the host area. It
   belongs to the host side, so it never falls through to browsing.
-- Until the real screens exist, `/browse` and `/host` are placeholders that
-  show who is signed in, and they keep the final paths.
+- Each feature owns its paths (`AuthPaths`, `BrowsePaths`, `FavouritesPaths`,
+  `HostPaths`). The shell only holds the path of its own "host area not
+  available" module, so no feature path is duplicated in the router.
 
 **Rejected:**
 
@@ -484,8 +502,8 @@ tests happen to run.
   a function reads the device date at each call, and tests override it with a
   fixed date. Nothing else in `lib/` reads the real date.
 
-**Rejected:** A second "blocked" style in this phase (the host calendar adds it
-in Phase 7, when it is needed), caching months across navigation (one small
+**Rejected:** A second "blocked" style here (the host calendar added it later,
+see ADR 030), caching months across navigation (one small
 request is cheaper than the bookkeeping), and a provider holding a fixed
 `LocalDate`.
 
@@ -511,7 +529,7 @@ agree, and a tap must feel instant even on a slow connection.
 - The API treats "add twice" and "remove what is not there" as success, so a
   repeat after a rollback is safe.
 - Nothing creates the notifier unless something reads it. On a tenant with
-  favourites off, and for a host, nothing does (Phase 6.2 and 6.4 prove it).
+  favourites off, and for a host, nothing does (`save_button_test.dart` and `favourites_flag_test.dart` prove it).
 
 **Rejected:** An auto-dispose list (it would be dropped and fetched again
 whenever no card is on screen, and a toggle still in flight could lose its
@@ -763,7 +781,7 @@ of the suite and in CI.
   `lib/src/` fails as well. A package with no rule fails, so new packages must be
   classified.
 - **Literal guard.** It scans `stays_app`, `listings`, every `feature_*` and the
-  `design_system` widgets (decision D), skipping only `design_system`'s
+  `design_system` widgets (its own widgets are held to the same rules), skipping only `design_system`'s
   `src/tokens/` and `src/theme/`, where the values are allowed to live. It fails
   with `path:line  rule  snippet` on `Colors.`, `Color(...)`, `0x` and `'#hex'`
   colours, a number inside `EdgeInsets`, `SizedBox`, `BorderRadius` or `Radius`
