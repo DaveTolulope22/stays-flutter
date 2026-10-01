@@ -292,7 +292,6 @@ Full table with workarounds and proposals in
   feature ([ADR 035](docs/DECISIONS.md)).
 - **Creating or cancelling bookings, and image caching.** Not in the brief
   ([ADR 017](docs/DECISIONS.md) for images).
-- **Screenshots.** Not included.
 
 ## Decisions
 
@@ -301,10 +300,13 @@ code, each with its context, the decision, and what was rejected.
 
 ## How I used AI
 
-I designed the architecture and the rules (package boundaries, the
-identity/permission split, the tenant isolation layers, the flag behaviour, the
-failure model) and wrote them down before implementation started. I used Claude
-Code to implement them one small step at a time, with each step checked by
-codegen, analyze and tests. I reviewed every diff and made every commit myself.
-The instruction file and working notes I gave the tool are kept out of the
-repository because they are working notes, not part of the submission.
+The brief invites using the tools you normally use, so I worked the way I do day
+to day. I used an AI assistant to help draft the architecture and the rules
+(package boundaries, the identity and permission split, the tenant isolation
+layers, the flag behaviour, the failure model) before any code was written, and I
+made the decisions at every open point, recorded in docs/DECISIONS.md. I then used
+Claude Code to implement the plan one small step at a time, each step checked by
+codegen, analyze and tests. I tested each phase on a physical device, reviewed the
+changes and made every commit myself. The instruction files and working notes are
+kept out of the repository because they are working notes, not part of the
+submission.
