@@ -34,12 +34,8 @@
   "authErrorRequired": "Dieses Feld ist erforderlich.",
   "authErrorEmailInvalid": "Geben Sie eine gültige E-Mail-Adresse ein.",
   "authErrorPasswordTooShort": "Verwenden Sie mindestens {min} Zeichen.",
-  "authTermsIntro": "Mit der Erstellung eines Kontos stimmen Sie Folgendem zu:",
-  "authTermsOfUse": "Nutzungsbedingungen",
-  "authPrivacyPolicy": "Datenschutzerklärung",
   "signOut": "Abmelden",
   "hostUnavailable": "Der Gastgeberbereich ist derzeit nicht verfügbar.",
-  "authLinkOpenFailed": "Der Link konnte nicht geöffnet werden.",
 
   "listingNew": "Neu",
   "listingPricePerNight": "{price} / Nacht",

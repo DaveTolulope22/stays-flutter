@@ -123,24 +123,11 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get authTermsIntro =>
-      'Mit der Erstellung eines Kontos stimmen Sie Folgendem zu:';
-
-  @override
-  String get authTermsOfUse => 'Nutzungsbedingungen';
-
-  @override
-  String get authPrivacyPolicy => 'Datenschutzerklärung';
-
-  @override
   String get signOut => 'Abmelden';
 
   @override
   String get hostUnavailable =>
       'Der Gastgeberbereich ist derzeit nicht verfügbar.';
-
-  @override
-  String get authLinkOpenFailed => 'Der Link konnte nicht geöffnet werden.';
 
   @override
   String get listingNew => 'Neu';

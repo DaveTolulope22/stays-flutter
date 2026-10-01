@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:feature_auth/feature_auth.dart';
@@ -28,22 +26,6 @@ Session testSession() => const Session(
     firstName: 'Gia',
     lastName: 'Guest',
   ),
-);
-
-TenantConfig testConfig({
-  String terms = 'https://acme.example/terms',
-  String privacy = 'https://acme.example/privacy',
-}) => TenantConfig(
-  slug: 'acme',
-  name: 'Acme',
-  currency: 'EUR',
-  locales: const ['en', 'de'],
-  defaultLocale: 'en',
-  supportEmail: 'support@acme.example',
-  termsOfUseUrl: terms,
-  privacyPolicyUrl: privacy,
-  flags: const TenantFlags(),
-  theme: const TenantTheme(),
 );
 
 /// What the forms sent, and what the test wants the session to answer. It is a
@@ -94,14 +76,7 @@ class FakeSessionController extends SessionController {
 }
 
 class AuthHarness {
-  AuthHarness({TenantConfig? config}) : config = config ?? testConfig();
-
   final SessionScript session = SessionScript();
-  final TenantConfig config;
-
-  /// What the URL opener answers. Every attempt is recorded in [attempts].
-  bool openerResult = true;
-  final attempts = <Uri>[];
 
   Future<void> pump(
     WidgetTester tester, {
@@ -109,7 +84,6 @@ class AuthHarness {
     Locale locale = const Locale('en'),
     Size size = const Size(400, 900),
     double textScale = 1,
-    bool configLoaded = true,
   }) async {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
@@ -127,15 +101,6 @@ class AuthHarness {
           sessionControllerProvider.overrideWith(
             () => FakeSessionController(session),
           ),
-          tenantConfigProvider.overrideWith(
-            (ref) => configLoaded
-                ? Future.value(config)
-                : Completer<TenantConfig>().future,
-          ),
-          urlOpenerProvider.overrideWithValue((uri) async {
-            attempts.add(uri);
-            return openerResult;
-          }),
         ],
         child: MaterialApp.router(
           routerConfig: router,

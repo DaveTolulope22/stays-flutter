@@ -1,4 +1,3 @@
-import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
 import '../auth_paths.dart';
-import '../url_opener.dart';
 import '../validation/auth_validation.dart';
 import '../widgets/auth_widgets.dart';
 import 'register_submission.dart';
@@ -121,8 +119,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 onFieldSubmitted: (_) => isLoading ? null : _submit(),
               ),
               const SizedBox(height: AppSpacing.m),
-              const _LegalLinks(),
-              const SizedBox(height: AppSpacing.m),
               if (failure != null) ...[
                 FormFailureBanner(failure: failure),
                 const SizedBox(height: AppSpacing.m),
@@ -144,52 +140,5 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         ),
       ),
     );
-  }
-}
-
-/// The tenant's terms and privacy pages, from the runtime config.
-class _LegalLinks extends ConsumerWidget {
-  const _LegalLinks();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final config = ref.watch(tenantConfigProvider).value;
-    if (config == null) return const SizedBox.shrink();
-    final l10n = context.l10n;
-
-    return Column(
-      children: [
-        Text(l10n.authTermsIntro, textAlign: TextAlign.center),
-        Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () => _open(context, ref, config.termsOfUseUrl),
-              child: Text(l10n.authTermsOfUse),
-            ),
-            TextButton(
-              onPressed: () => _open(context, ref, config.privacyPolicyUrl),
-              child: Text(l10n.authPrivacyPolicy),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Future<void> _open(BuildContext context, WidgetRef ref, String url) async {
-    final messenger = ScaffoldMessenger.of(context);
-    final message = context.l10n.authLinkOpenFailed;
-    final uri = _webAddress(url);
-    final opened = uri != null && await ref.read(urlOpenerProvider)(uri);
-    if (!opened) messenger.showSnackBar(SnackBar(content: Text(message)));
-  }
-
-  /// Only real web pages. The address comes from a server, so anything else
-  /// (a `tel:` or a custom app scheme) is refused rather than launched.
-  static Uri? _webAddress(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri == null || uri.host.isEmpty) return null;
-    return (uri.scheme == 'https' || uri.scheme == 'http') ? uri : null;
   }
 }

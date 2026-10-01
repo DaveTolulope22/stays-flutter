@@ -171,21 +171,6 @@
     }
   },
 
-  "authTermsIntro": "By creating an account you agree to:",
-  "@authTermsIntro": {
-    "description": "Line above the terms and privacy links on the registration screen."
-  },
-
-  "authTermsOfUse": "Terms of use",
-  "@authTermsOfUse": {
-    "description": "Link to the tenant's terms of use."
-  },
-
-  "authPrivacyPolicy": "Privacy policy",
-  "@authPrivacyPolicy": {
-    "description": "Link to the tenant's privacy policy."
-  },
-
   "signOut": "Sign out",
   "@signOut": {
     "description": "Button that ends the session."
@@ -194,11 +179,6 @@
   "hostUnavailable": "The host area is not available right now.",
   "@hostUnavailable": {
     "description": "Shown to a host whose tenant has the host panel switched off."
-  },
-
-  "authLinkOpenFailed": "The link could not be opened.",
-  "@authLinkOpenFailed": {
-    "description": "Message shown when the terms or privacy page cannot be opened."
   },
 
   "listingNew": "New",

@@ -296,24 +296,6 @@ abstract class AppLocalizations {
   /// **'Use at least {min} characters.'**
   String authErrorPasswordTooShort(int min);
 
-  /// Line above the terms and privacy links on the registration screen.
-  ///
-  /// In en, this message translates to:
-  /// **'By creating an account you agree to:'**
-  String get authTermsIntro;
-
-  /// Link to the tenant's terms of use.
-  ///
-  /// In en, this message translates to:
-  /// **'Terms of use'**
-  String get authTermsOfUse;
-
-  /// Link to the tenant's privacy policy.
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy policy'**
-  String get authPrivacyPolicy;
-
   /// Button that ends the session.
   ///
   /// In en, this message translates to:
@@ -325,12 +307,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The host area is not available right now.'**
   String get hostUnavailable;
-
-  /// Message shown when the terms or privacy page cannot be opened.
-  ///
-  /// In en, this message translates to:
-  /// **'The link could not be opened.'**
-  String get authLinkOpenFailed;
 
   /// Badge on a listing that has no reviews yet (instead of a zero rating).
   ///

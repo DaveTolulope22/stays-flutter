@@ -826,3 +826,62 @@ mark and background there, not a white screen or the Flutter logo.
 shown before the app runs). One shared splash for both flavors (the point is that
 each tenant has its own). Using the full-bleed icon unchanged (cropped to a circle
 on Android 12+).
+
+## 034. CI runs the same checks as the local gate, on every push and pull request
+
+**Context:** CLAUDE.md asks for `gen`, `analyze` and `test` to be green before
+every commit, and ADR 008 commits the generated code. Both promises are only
+worth something if a machine other than mine checks them.
+
+**Decision:** One GitHub Actions job (`.github/workflows/ci.yml`) on an Ubuntu
+runner, run on pushes to `main`, on pull requests and by hand.
+- **Same toolchain.** Flutter 3.47.5, as in the README. `flutter pub get
+  --enforce-lockfile` fails if `pubspec.lock` does not match the pubspecs, so CI
+  builds what was committed, not a fresh resolution.
+- **Order, cheapest and most decisive first.** Format check, then code
+  generation, then the stale-code check, then analyze, then tests. Formatting
+  fails in seconds. The stale check has to come straight after generation,
+  before anything else touches the tree.
+- **Stale generated code.** After `gen` and `gen:l10n`, `git status
+  --porcelain` must be empty. A changed or new file means a source changed
+  without its generated output being committed.
+- **Tests with coverage** run the whole suite, including the architecture and
+  literal-guard tests (ADR 032), so the brief's rules are enforced on every
+  push. The `lcov.info` files are uploaded as an artifact. There is no
+  threshold: a percentage target invites tests that execute code without
+  asserting anything.
+- **Melos from the lockfile.** Commands run as `dart run melos ...` from the
+  root dev dependency, so CI and my machine use the same Melos version without a
+  second place to pin it.
+- **Small blast radius.** `permissions: contents: read`, a 30 minute timeout, and
+  `cancel-in-progress` so a newer push replaces an older run.
+- **Ubuntu only.** The brief allows one platform, the tests are pure Dart and
+  widget tests, and no APK is built in CI.
+
+**Rejected:** `dart pub global activate melos` in the workflow (a second
+version pin that can drift from `pubspec.lock`). A coverage threshold (see
+above). Building an APK in CI (slow, needs the Android toolchain, and proves
+nothing the tests do not).
+
+## 035. Terms and privacy URLs are parsed but not shown
+
+**Context:** The tenant config carries `termsOfUseUrl` and `privacyPolicyUrl`. The
+register screen first showed them as two links under the form. They were removed:
+for this scope the screen is clearer without them.
+
+**Decision:**
+- **The two fields stay in `TenantConfig`.** The API sends them, so the model
+  still parses them, and the tests that decode a config still check them. Dropping
+  them would make the model disagree with the contract for no gain.
+- **Nothing in the app shows or opens them.** The register screen has no legal
+  text, no links and no "link could not be opened" message. The `url_launcher`
+  dependency, the URL opener provider and the four ARB strings that only those
+  used are deleted, so no dead code or unused copy is left behind.
+- **Where they would go in a full app:** an About or Settings screen, next to the
+  support email, opened with the same kind of injected opener and the same rule
+  that only `http` and `https` addresses are launched (the address comes from a
+  server).
+
+**Rejected:** Keeping the links but hiding them (dead code and unused copy, and
+the dependency would still ship). Removing the two fields from the model (the
+parsed model would then differ from the contract).

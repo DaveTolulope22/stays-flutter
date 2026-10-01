@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Lets the run be started by hand from the Actions tab.
+  workflow_dispatch:
+
+# A newer push to the same branch makes the older run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      # The same Flutter as the README and CLAUDE.md (3.47.5 / Dart 3.13.4).
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.5
+          cache: true
+
+      # One pub workspace: this resolves every package, and Melos itself comes
+      # from the committed lockfile. --enforce-lockfile fails if pubspec.lock
+      # is out of date, so CI builds exactly what was committed.
+      - name: Install dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Check formatting
+        run: dart run melos run format:check
+
+      - name: Generate code (build_runner and l10n)
+        run: |
+          dart run melos run gen --no-select
+          dart run melos run gen:l10n --no-select
+
+      # Generated files are committed (ADR 008), so regenerating must change
+      # nothing. Anything tracked that changed, or any new file, means someone
+      # edited a source and forgot to commit the generated output.
+      - name: Fail if generated code is stale
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Generated code is stale. Run 'dart run melos run gen' and 'dart run melos run gen:l10n' and commit the result."
+            git status --short
+            git --no-pager diff --stat
+            exit 1
+          fi
+
+      - name: Analyze
+        run: dart run melos run analyze --no-select
+
+      # Includes the architecture and literal-guard tests (ADR 032).
+      - name: Test with coverage
+        run: dart run melos run test --no-select
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: "**/coverage/lcov.info"
+          if-no-files-found: error

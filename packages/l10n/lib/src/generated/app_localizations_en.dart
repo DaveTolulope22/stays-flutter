@@ -120,22 +120,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get authTermsIntro => 'By creating an account you agree to:';
-
-  @override
-  String get authTermsOfUse => 'Terms of use';
-
-  @override
-  String get authPrivacyPolicy => 'Privacy policy';
-
-  @override
   String get signOut => 'Sign out';
 
   @override
   String get hostUnavailable => 'The host area is not available right now.';
-
-  @override
-  String get authLinkOpenFailed => 'The link could not be opened.';
 
   @override
   String get listingNew => 'New';

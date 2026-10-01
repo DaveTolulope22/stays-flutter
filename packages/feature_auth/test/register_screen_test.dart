@@ -29,25 +29,15 @@ void main() {
   Future<void> pumpRegister(
     WidgetTester tester, {
     Locale locale = const Locale('en'),
-    bool configLoaded = true,
-  }) => harness.pump(
-    tester,
-    location: AuthPaths.register,
-    locale: locale,
-    configLoaded: configLoaded,
-  );
+  }) => harness.pump(tester, location: AuthPaths.register, locale: locale);
 
-  testWidgets('shows the four fields, the legal links and a sign-in link', (
-    tester,
-  ) async {
+  testWidgets('shows the four fields and a sign-in link', (tester) async {
     await pumpRegister(tester);
 
     expect(field(en.authFirstName), findsOneWidget);
     expect(field(en.authLastName), findsOneWidget);
     expect(field(en.authEmail), findsOneWidget);
     expect(field(en.authPassword), findsOneWidget);
-    expect(find.text(en.authTermsOfUse), findsOneWidget);
-    expect(find.text(en.authPrivacyPolicy), findsOneWidget);
     expect(find.text(en.authGoToSignIn), findsOneWidget);
   });
 
@@ -240,71 +230,6 @@ void main() {
 
       expect(find.text(en.errorRequestFailed), findsOneWidget);
       expect(find.textContaining('error.mystery'), findsNothing);
-    });
-  });
-
-  group('terms and privacy links', () {
-    testWidgets('open the tenant\'s own pages from the config', (tester) async {
-      await pumpRegister(tester);
-
-      await tester.tap(find.text(en.authTermsOfUse));
-      await tester.pump();
-      await tester.tap(find.text(en.authPrivacyPolicy));
-      await tester.pump();
-
-      expect(harness.attempts, [
-        Uri.parse('https://acme.example/terms'),
-        Uri.parse('https://acme.example/privacy'),
-      ]);
-    });
-
-    testWidgets('a link that cannot be opened says so', (tester) async {
-      harness.openerResult = false;
-      await pumpRegister(tester);
-
-      await tester.tap(find.text(en.authTermsOfUse));
-      await tester.pumpAndSettle();
-
-      expect(find.text(en.authLinkOpenFailed), findsOneWidget);
-    });
-
-    testWidgets('an address that is not a web page is never launched', (
-      tester,
-    ) async {
-      harness = AuthHarness(
-        config: testConfig(terms: 'tel:+123456789', privacy: 'javascript:x()'),
-      );
-      await pumpRegister(tester);
-
-      await tester.tap(find.text(en.authTermsOfUse));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(en.authPrivacyPolicy));
-      await tester.pumpAndSettle();
-
-      expect(harness.attempts, isEmpty);
-      expect(find.text(en.authLinkOpenFailed), findsOneWidget);
-    });
-
-    testWidgets('a malformed address is refused too', (tester) async {
-      harness = AuthHarness(config: testConfig(terms: 'not a url at all'));
-      await pumpRegister(tester);
-
-      await tester.tap(find.text(en.authTermsOfUse));
-      await tester.pumpAndSettle();
-
-      expect(harness.attempts, isEmpty);
-    });
-
-    testWidgets('are hidden until the config has loaded', (tester) async {
-      await harness.pump(
-        tester,
-        location: AuthPaths.register,
-        configLoaded: false,
-      );
-
-      expect(find.text(en.authTermsOfUse), findsNothing);
-      expect(find.text(en.authPrivacyPolicy), findsNothing);
-      expect(field(en.authFirstName), findsOneWidget);
     });
   });
 
